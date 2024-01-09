@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/ui/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -13,9 +14,13 @@ const config: Config = {
       },
       colors: {
         'greengray': '#E6E6E6',
+        'primarycol': '#00AF50',
+        'secondarycol': '#FEC000',
+        'accentcol': '#411C32',
+        'footergray': '#878787'
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-animate')  ],
 }
 export default config

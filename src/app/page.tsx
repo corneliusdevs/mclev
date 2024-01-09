@@ -1,10 +1,13 @@
-import Construction from '@/components/construction'
-import Image from 'next/image'
+import MaxwidthWrapper from "@/components/MaxwidthWrapper";
+import Construction from "@/components/construction";
+import Navbar from "@/components/navbar/Navbar";
 
 export default function Home() {
   return (
     <main className="">
-     <Construction />
+      <MaxwidthWrapper>
+        <Construction />
+      </MaxwidthWrapper>
     </main>
-  )
+  );
 }
