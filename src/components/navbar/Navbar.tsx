@@ -62,10 +62,11 @@ const Navbar: FC<NavbarProps> = () => {
               setOpenNavbar(v =>!v)
             }}
           >
+            
             {
               openNavbar? <X/> : <AlignJustify/>
             }
-            
+
           </div>
         </div>
 
