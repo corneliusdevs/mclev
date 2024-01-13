@@ -8,8 +8,8 @@ import Footer from "@/components/footer/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "mclev cleaning services",
-  description: "best cleaning services",
+  title: "McLev cleaning company: Always Here To Help, We Know You Are Busy",
+  description: "We know you are busy, We are here to take care of your home, restaurant, office, event centre and community. We offer a wide range of cleaning services from commercial toclient in London and South East London.",
 };
 
 export default function RootLayout({
