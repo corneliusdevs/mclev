@@ -26,7 +26,7 @@ const config = {
         primarycol: "#00AF50",
         secondarycol:"#FEC000",
         greengray: "#E6E6E6",
-        textwhitecol:"",
+        textwhitecol:"rgb(255 255 255 / 0.75)",
         accentcol:"#572541",
         footergray: "#878787",
         input: "hsl(var(--input))",

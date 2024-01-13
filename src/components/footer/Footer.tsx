@@ -96,21 +96,21 @@ const Footer = () => {
             </div>
 
             {/* social media links and icons */}
-            <div className="flex font-bolder mt-8 text-secondarycol mb-4 ">
-              <div className="bg-white mr-2 p-[1.5px] rounded-sm flex justify-center items-center w-6 h-6">
-                <Facebook className="w-4 h-4" />
+            <div className="flex font-bolder mt-8 text-secondarycol mb-4">
+              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer transition-all duration-200 hover:text-textwhitecol hover:bg-secondarycol" title="Facebook">
+                <Facebook className="w-6 h-6" />
               </div>
-              <div className="bg-white mr-2 p-[1.5px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer" title="Twitter">
-                <FontAwesomeIcon icon={faXTwitter} className="w-4 h-4" />
+              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Twitter">
+                <FontAwesomeIcon icon={faXTwitter} className="w-6 h-6" />
               </div>
-              <div className="bg-white mr-2 p-[1.5px] rounded-sm flex justify-center items-center w-6 h-6">
+              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Youtube">
                 <Youtube className="w-4 h-4" />
               </div>
-              <div className="bg-white mr-2 p-[1.5px] rounded-sm w-6 h-6 flex justify-center items-center">
-                <FontAwesomeIcon icon={faPinterestP} className="w-4 h-4" />
+              <div className="bg-white mr-2 p-[2px] rounded-sm w-6 h-6 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Pinterest">
+                <FontAwesomeIcon icon={faPinterestP} className="w-6 h-6" />
               </div>
-              <div className="bg-white mr-2 p-[1.5px] rounded-sm flex justify-center items-center w-6 h-6">
-                <Mail className="w-4 h-4" />
+              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Mail">
+                <Mail className="w-6 h-6" />
               </div>
             </div>
             <br />
