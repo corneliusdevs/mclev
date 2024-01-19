@@ -1,13 +1,14 @@
 import HomeHero from "@/components/HomeHero";
-import MaxwidthWrapper from "@/components/MaxwidthWrapper";
-import Construction from "@/components/construction";
-import Navbar from "@/components/navbar/Navbar";
+import Homecontent from "@/components/Homecontent";
+import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
+
 
 export default function Home() {
   return (
     <main className="">
       <MaxwidthWrapper>
         <HomeHero />
+        <Homecontent />
       </MaxwidthWrapper>
     </main>
   );

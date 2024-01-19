@@ -22,6 +22,10 @@ const config = {
         'construction' : "url('/assets/construc.jpg')",
         'home-hero': "url('/assets/home/cleaning11.jpg')",
       },
+      screens: {
+        "smd": "400px",
+        "lgmd": "450px",
+      },
       colors: {
         border: "hsl(var(--border))",
         primarycol: "#00AF50",

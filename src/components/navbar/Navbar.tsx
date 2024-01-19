@@ -3,7 +3,7 @@
 import React,{ FC, useState } from "react";
 import Image from "next/image";
 import { AlignJustify, AlignRight, X } from "lucide-react";
-import MaxwidthWrapper from "../MaxwidthWrapper";
+import MaxwidthWrapper from "../Max_Min_widthWrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
