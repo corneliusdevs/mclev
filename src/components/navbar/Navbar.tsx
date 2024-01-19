@@ -72,7 +72,7 @@ const Navbar: FC<NavbarProps> = () => {
 
         {/* Mobile device Menu Items */}
         {/* Use framer motion to control navbar animation */}
-        { openNavbar && (<div className="bg-white/70  transition-all duration-[2000]">
+        { openNavbar && <div className="bg-white/70  transition-all duration-[2000]">
           {navbarItems.map((item, index) => {
             return <div key={item.text + index} className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
               <Link href={`/${item.link}`}>
@@ -80,7 +80,7 @@ const Navbar: FC<NavbarProps> = () => {
               </Link>
               </div>;
           })}
-        </div>)}
+        </div>}
       </MaxwidthWrapper>
     </nav>
   );

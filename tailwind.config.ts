@@ -20,6 +20,7 @@ const config = {
     extend: {
       backgroundImage: {
         'construction' : "url('/assets/construc.jpg')",
+        'home-hero': "url('/assets/home/cleaning11.jpg')",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -29,6 +30,7 @@ const config = {
         textwhitecol:"rgb(255 255 255 / 0.75)",
         accentcol:"#572541",
         footergray: "#878787",
+        homeheroGradient: "#FBFBFB",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
