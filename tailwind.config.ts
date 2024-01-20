@@ -20,9 +20,10 @@ const config = {
     extend: {
       backgroundImage: {
         'construction' : "url('/assets/construc.jpg')",
-        'home-hero': "url('/assets/home/cleaning11.jpg')",
+        'home-hero': "url('/assets/home/cleaning13.jpeg')",
       },
       screens: {
+        "xsm":"300px",
         "smd": "400px",
         "lgmd": "450px",
       },
@@ -34,6 +35,7 @@ const config = {
         textwhitecol:"rgb(255 255 255 / 0.75)",
         accentcol:"#572541",
         footergray: "#878787",
+        homegray: "#F7F7F7",
         homeheroGradient: "#FBFBFB",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
