@@ -7,7 +7,7 @@ const HomeImageGallery = () => {
       <div className="grid grid-cols-2 xsm:gap-x-[10%] p-2">
         {homeImageGalleryPayload.map((imageInfo, index) => {
           return (
-            <div className="border-b-[1px] py-4">
+            <div className="border-b-[1px] py-4" key={imageInfo.text + index + "parent div"}>
               <ImageCard
                 key={imageInfo.text + index}
                 src={`/assets/home/${imageInfo.url}`}
