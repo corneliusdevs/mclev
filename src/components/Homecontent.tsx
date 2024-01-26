@@ -116,7 +116,7 @@ const Homecontent = () => {
       {/* Cant find service youre looking for section */}
       <div className="bg-homegray flex flex-col items-center py-4">
         <span className="text-center text-slate-600">
-          Can't find a service that you are looking for?
+          Can&apos;t find a service that you are looking for?
         </span>
         <div className="flex justify-center mb-2">
           <HomeheroButton
@@ -148,42 +148,47 @@ const Homecontent = () => {
             Here are a few more reasons to call us right now:
           </div>
           <IconText
+           key={Date.now.toString() + 7}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
+           key={Date.now.toString() + 6}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
+           key={Date.now.toString() + 5}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
+           key={Date.now.toString() + 4}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
+           key={Date.now.toString() + 3}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
-          <IconText
+          <IconText key={Date.now.toString() + 1}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
-          <IconText
+          <IconText  key={Date.now.toString() + 2}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
@@ -205,25 +210,25 @@ const Homecontent = () => {
         <CarouselWithArrows
           items={[
             <TestimonialCard
+            key={Date.now.toString() + 122}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={5}
-              review="Customer's review goes here. Its a really long review that takes so
-          long to type."
+              review={"Customer's review goes here. Its a really long review that takes long to type."}
             />,
             <TestimonialCard
+            key={Date.now.toString() + 11}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={3}
-              review="Customer's review goes here. Its a really long review that takes so
-          long to type."
+              review={"Customer's review goes here. Its a really long review that takes long to type."}
             />,
             <TestimonialCard
+            key={Date.now.toString() + 12}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={4}
-              review="Customer's review goes here. Its a really long review that takes so
-          long to type."
+              review={"Customer's review goes here. Its a really long review that takes long to type."}
             />,
           ]}
         />
@@ -249,6 +254,7 @@ const Homecontent = () => {
           {/* book now and request a quote buttons */}
           <div className="flex flex-col items-center justify-center py-6 bg-[#F4F4F4]">
             <HomeheroButton
+             key={Date.now.toString() + 13}
               text={"BOOK NOW"}
               variant={"outline"}
               className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-black/75 hover:text-black/75
@@ -256,6 +262,7 @@ const Homecontent = () => {
               size={"default"}
             />
             <HomeheroButton
+             key={Date.now.toString() + 14}
               text={"REQUEST A QUOTE"}
               variant={"outline"}
               className="mt-4 bg-transparent text-accentcol rounded-none hover:bg-transparent border-accentcol hover:border-2 hover:tracking-wider hover:text-accentcol transition-all"

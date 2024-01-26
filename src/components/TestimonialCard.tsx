@@ -74,7 +74,7 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
         <CardFooter>
           <div className="scroll h-[57px] box-border border-l-[1px] border-black px-1.5 text-[13px] ml-2 -mt-2 text-black/75">
             <span className="block text-black/75 font-[600] ">Response from the Owner</span>
-            Customer's review goes here. Its a really long review that takes so
+            Customer&apos;s review goes here. Its a really long review that takes so
             long to type.
           </div>
         </CardFooter>

@@ -159,7 +159,7 @@ const Footer = () => {
           </div>
           {/* customer's first section */}
           <div className="text-secondarycol pt-8 pb-4">
-            <span>Customer's first</span>
+            <span>Customer&apos;s first</span>
           </div>
           <p className="text-white text-smallCustom font-thin pb-8">
             We at McLev Cleaning provide high-quality cleaning services to
