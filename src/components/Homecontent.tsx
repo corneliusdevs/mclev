@@ -2,8 +2,11 @@ import { phoneNumber } from "@/helpers/siteInfo";
 import HomeImageGallery from "./HomeImageGalery";
 import HomeheroButton from "./ui/HomeheroButton";
 import ImageCard from "./ImageCard";
-import CarouselComponent from "./Carousel";
+import CarouselComponent, { CarouselWithArrows } from "./Carousel";
 import { happyCustomersImages } from "@/helpers/homeImages";
+import IconText from "./IconText";
+import { Check } from "lucide-react";
+import TestimonialCard from "./TestimonialCard";
 
 const Homecontent = () => {
   return (
@@ -94,8 +97,171 @@ const Homecontent = () => {
         <div className="text-slate-500 text-xl text-center">
           Our Happy Clients
         </div>
-        <div className="flex justify-center">
-          <CarouselComponent images={[...happyCustomersImages, ...happyCustomersImages]} />
+        <div className="flex justify-center mt-2">
+          <CarouselComponent
+            images={[...happyCustomersImages, ...happyCustomersImages]}
+          />
+        </div>
+        {/* All clients button */}
+        <div className="flex justify-center mb-2">
+          <HomeheroButton
+            text={"ALL CLIENTS"}
+            variant={"outline"}
+            className="mt-4 rounded-none hover:bg-footergray hover:text-white border-black/75 text-black/75"
+            size={"default"}
+          />
+        </div>
+      </div>
+
+      {/* Cant find service youre looking for section */}
+      <div className="bg-homegray flex flex-col items-center py-4">
+        <span className="text-center text-slate-600">
+          Can't find a service that you are looking for?
+        </span>
+        <div className="flex justify-center mb-2">
+          <HomeheroButton
+            text={"REQUEST A QUOTE"}
+            variant={"outline"}
+            className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-black/75 hover:text-black/75"
+            size={"default"}
+          />
+        </div>
+      </div>
+
+      {/* why choose mcLev section */}
+      <div className="bg-homemidshadegray">
+        <article className="py-4 px-6">
+          <div className="text-slate-500 text-xl">
+            Why Choose McLev Cleaning Company?
+          </div>
+          <p className="mt-3 text-black/85 text-sm leading-6">
+            We take pride in creating spotless environments that improve the
+            quality of life of and work of our clients. <br />
+            We know you are busy, we are here to take care of your home,
+            restaurant office, event centre and community. We offer a wide range
+            of cleaning services from domestic to commercial to clients in
+            London and South East London.
+          </p>
+        </article>
+        <article className="py-4 px-6">
+          <div className="text-black/95 text-md mb-2">
+            Here are a few more reasons to call us right now:
+          </div>
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+          <IconText
+            icon={<Check size={15} strokeWidth={4} />}
+            text="Lorem ipsum dolor sit amet dolor dolor sit"
+            textStyle="text-sm leading-6 font-[450]"
+            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+          />
+        </article>
+      </div>
+      {/* What our customers say about us */}
+      <div className="py-4 px-3">
+        <div className="text-md text-slate-500 mb-2 text-center">
+          What our customers say about us{" "}
+        </div>
+        <CarouselWithArrows
+          items={[
+            <TestimonialCard
+              title={"Josh M."}
+              subtitle={"2 days ago"}
+              rating={5}
+              review="Customer's review goes here. Its a really long review that takes so
+          long to type."
+            />,
+            <TestimonialCard
+              title={"Josh M."}
+              subtitle={"2 days ago"}
+              rating={3}
+              review="Customer's review goes here. Its a really long review that takes so
+          long to type."
+            />,
+            <TestimonialCard
+              title={"Josh M."}
+              subtitle={"2 days ago"}
+              rating={4}
+              review="Customer's review goes here. Its a really long review that takes so
+          long to type."
+            />,
+          ]}
+        />
+      </div>
+
+      {/* How to get in touch section */}
+      <div>
+        <div className="bg-[#F4F4F4]">
+          <article className="py-4 px-6">
+            <div className="text-footergray text-xl text-center">
+              How to Get in Touch
+            </div>
+            <p className="mt-3 text-black/85 text-sm leading-6 text-center">
+              Book a service with <b>McLev Cleaning Company</b> on{" "}
+              <span className="text-secondarycol">{phoneNumber}</span>. You can
+              call us <b>24/7</b> now. We will be more than happy to provide you
+              with all the information you need about our services. Don’t
+              hesitate to take advantage competitive rates! We cover all major
+              London areas and no job is too big or too small for us.
+            </p>
+          </article>
+
+          {/* book now and request a quote buttons */}
+          <div className="flex flex-col items-center justify-center py-6 bg-[#F4F4F4]">
+            <HomeheroButton
+              text={"BOOK NOW"}
+              variant={"outline"}
+              className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-black/75 hover:text-black/75
+              transition-all"
+              size={"default"}
+            />
+            <HomeheroButton
+              text={"REQUEST A QUOTE"}
+              variant={"outline"}
+              className="mt-4 bg-transparent text-accentcol rounded-none hover:bg-transparent border-accentcol hover:border-2 hover:tracking-wider hover:text-accentcol transition-all"
+              size={"default"}
+            />
+          </div>
         </div>
       </div>
     </section>

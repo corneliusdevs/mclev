@@ -43,9 +43,9 @@ const Navbar: FC<NavbarProps> = () => {
   const current_Path = usePathname()
 
   return (
-    <nav className="sticky h-14 top-0 z-40 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full">
+    <nav className="sticky h-14 top-0 z-40 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full border-b-[0.1px] border-slate-200">
       <MaxwidthWrapper>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center ">
           {/* logo */}
           <div className="">
             <Image

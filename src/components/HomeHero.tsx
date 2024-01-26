@@ -4,7 +4,7 @@ import HomeheroButton from "./ui/HomeheroButton";
 const HomeHero = () => {
   return (
     <div className="w-full overflow-hidden">
-      <section className="bg-home-hero h-[380px] bg-[top_right_70%] bg-no-repeat relative w-[full] md:bg-cover smd:bg-cover">
+      <section className="bg-home-hero h-[380px] -bg-[right_bottom_30%] bg-cover bg-no-repeat relative w-[full] md:bg-cover smd:bg-cover">
         <div
           id="first-homehero-overlay"
           className="bg-homeheroGradient abolute top-0 -mt-[80px] -ml-[40px] w-[62%] h-[115%] rotate-[14deg] opacity-95 md:w-[60%] md:h-[125%] md:-mt-[120px]"

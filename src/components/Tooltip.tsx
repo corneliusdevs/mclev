@@ -8,20 +8,24 @@ import {
 import { FC } from "react"
 
 interface TooltipComponentProps{
-
+  childComponent: React.ReactNode
+  info: string
 }
 
-export const TooltipComponent:FC<TooltipComponentProps> =()=> {
+const TooltipComponent:FC<TooltipComponentProps> =(props)=> {
   return (
     <TooltipProvider>
-      <Tooltip>
+      <Tooltip >
         <TooltipTrigger asChild>
           {/* <Button variant="outline">Hover</Button> */}
+          {props.childComponent}
         </TooltipTrigger>
-        <TooltipContent>
-          <p>Add to library</p>
+        <TooltipContent className="bg-black/65 delay-0">
+          {props.info}
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )
 }
+
+export default TooltipComponent

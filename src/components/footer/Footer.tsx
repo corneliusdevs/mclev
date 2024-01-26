@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChevronRight, Facebook, Mail, Youtube } from "lucide-react";
 import React from "react";
 import { faPinterestP, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { phoneNumber, webEmail } from "@/helpers/siteInfo";
+import TooltipComponent from "../Tooltip";
 
 const usefulLinks = [
   "Home",
@@ -78,49 +80,102 @@ const Footer = () => {
         </div>
 
         {/* address */}
-        <div>
+        <div className="w-[96%]">
           <div>
             <h5 className="text-secondarycol pt-8 pb-4">
               McLev Cleaning Company
             </h5>
           </div>
-          <div>
+          <div className="">
             <div className="text-textwhitecol">
               Address <br />
               Lorem Ipsum, Dolor sit amet.
             </div>
             <div className="text-textwhitecol">
-              <span className="text-secondarycol">Phone: 000 0000 0000 </span>
+              <span className="text-secondarycol">Phone: {phoneNumber} </span>
               {/* this is the email address */}
-              office@mclevcleaning.ng.com
+              <span className="block break-words">{webEmail}</span>
             </div>
 
             {/* social media links and icons */}
             <div className="flex font-bolder mt-8 text-secondarycol mb-4">
-              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer transition-all duration-200 hover:text-textwhitecol hover:bg-secondarycol" title="Facebook">
-                <Facebook className="w-6 h-6" />
-              </div>
-              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Twitter">
-                <FontAwesomeIcon icon={faXTwitter} className="w-6 h-6" />
-              </div>
-              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Youtube">
-                <Youtube className="w-4 h-4" />
-              </div>
-              <div className="bg-white mr-2 p-[2px] rounded-sm w-6 h-6 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Pinterest">
-                <FontAwesomeIcon icon={faPinterestP} className="w-6 h-6" />
-              </div>
-              <div className="bg-white mr-2 p-[2px] rounded-sm flex justify-center items-center w-6 h-6 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol" title="Mail">
-                <Mail className="w-6 h-6" />
-              </div>
+              <TooltipComponent
+                childComponent={
+                  <div className="bg-white mr-2 p-[2px] rounded-md flex justify-center items-center w-8 h-8  hover:cursor-pointer transition-all duration-200 hover:text-textwhitecol hover:bg-secondarycol">
+                    <Facebook className="" size={20} />
+                  </div>
+                }
+                info="facebook"
+              />
+
+              <TooltipComponent
+                childComponent={
+                  <div className="bg-white mr-2 p-[2px] rounded-md flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol transform-[1.2]">
+                    <FontAwesomeIcon
+                      icon={faXTwitter}
+                      className="w-[18px] h-[18px]"
+                    />
+                  </div>
+                }
+                info="Twitter"
+              />
+
+              <TooltipComponent
+                childComponent={
+                  <div className="bg-white mr-2 p-[2px] rounded-md flex justify-center items-center w-8 h-8  hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
+                    <Youtube className="" size={20} />
+                  </div>
+                }
+                info="Youtube"
+              />
+
+              <TooltipComponent
+                info="Pinterest"
+                childComponent={
+                  <div
+                    className="bg-white mr-2 p-[2px] rounded-md w-8 h-8 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
+                    title="Pinterest"
+                  >
+                    <FontAwesomeIcon
+                      icon={faPinterestP}
+                      className="w-[18px] h-[18px]"
+                    />
+                  </div>
+                }
+              />
+
+              <TooltipComponent
+                info="email"
+                childComponent={
+                  <div
+                    className="bg-white mr-2 p-[2px] rounded-md flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
+                    title="Mail"
+                  >
+                    <Mail className="" size={20} />
+                  </div>
+                }
+              />
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
           </div>
-
-
+          {/* customer's first section */}
+          <div className="text-secondarycol pt-8 pb-4">
+            <span>Customer's first</span>
+          </div>
+          <p className="text-white text-smallCustom font-thin pb-8">
+            We at McLev Cleaning provide high-quality cleaning services to
+            residents and business owners in London. <br />
+            Our local cleaners are vetted and insured, trained to deal with any
+            task – from carpet or domestic cleaning to end of tenancy cleaning.{" "}
+            <br />
+            Our simple booking process allows you to get a cleaner fast and
+            easy. Emergency booking and same day cleaning now available
+          </p>
         </div>
+      </div>
+      {/* copyright */}
+      <div className="bg-white text-black/75 text-center font-smallCustom font-thin py-4 flex justify-center items-center">
+      &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk | All Rights Reserved |
+        Terms & Conditions | Privacy Policy
       </div>
     </footer>
   );
