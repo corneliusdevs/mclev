@@ -9,7 +9,7 @@ const ChatTool = () => {
       {/* <MessageCircleMore className="transform scale-[1.2]"/> */}
       
       
-      <FontAwesomeIcon  icon={faMessage} className="transform scale-[0.6]" />
+      <FontAwesomeIcon  icon={faMessage} className="transform scale-[1.7]" />
 
     </div>
   );
