@@ -134,7 +134,6 @@ const Footer = () => {
                 childComponent={
                   <div
                     className="bg-white mr-2 p-[2px] rounded-md w-8 h-8 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
-                    title="Pinterest"
                   >
                     <FontAwesomeIcon
                       icon={faPinterestP}
@@ -149,7 +148,7 @@ const Footer = () => {
                 childComponent={
                   <div
                     className="bg-white mr-2 p-[2px] rounded-md flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
-                    title="Mail"
+                    
                   >
                     <Mail className="" size={20} />
                   </div>
