@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useRef, useState } from "react";
 import ChatUi from "./ChatUi";
 import { Send } from "lucide-react";
 import InputElement from "@/components/Input";
@@ -13,7 +13,7 @@ type ChatType = {
   author: "client" | "admin";
 };
 
-const ChatDialog = () => {
+const UserChatDialog = () => {
   const [chats, setChatState] = useState<ChatType[]>([
     {
       message: "Hi, im looking to make enquiries",
@@ -58,20 +58,24 @@ const ChatDialog = () => {
     author: "admin",
   });
 
+
   const chatMessagesRef = useRef<HTMLDivElement>(null);
 
-    // scroll the messages div tothe bottom automatically when user sends a reply
-    useEffect(()=>{
-      if (chatMessagesRef.current) {
-          chatMessagesRef.current.scrollTop =
-            chatMessagesRef.current.scrollHeight;
-        }
-    }, [chats])
+  // scroll the messages div tothe bottom automatically when user sends a reply
+  useEffect(()=>{
+    if (chatMessagesRef.current) {
+        chatMessagesRef.current.scrollTop =
+          chatMessagesRef.current.scrollHeight;
+      }
+  }, [chats])
 
   return (
-    <section className="bg-homegray w-full">
+    <section className="bg-homegray w-full h-full">
       {/* main chat */}
-      <div ref={chatMessagesRef} className="bg-homegray w-full h-[70vh] overflow-y-scroll p-6">
+      <div
+        className="bg-homegray max-w-full h-[80%] overflow-y-scroll p-6"
+        ref={chatMessagesRef}
+      >
         {chats.map((chat) => {
           return (
             <>
@@ -119,6 +123,8 @@ const ChatDialog = () => {
               });
               return [...prevState, reply];
             });
+
+            
           }}
         >
           <Send />
@@ -128,4 +134,4 @@ const ChatDialog = () => {
   );
 };
 
-export default ChatDialog;
+export default UserChatDialog;
