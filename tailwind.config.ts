@@ -40,7 +40,8 @@ const config = {
       },
       colors: {
         border: "hsl(var(--border))",
-        primarycol: "#00AF50",
+        primarycol: "rgb(8 46 27)",
+        // primarycol: "#00AF50",
         secondarycol:"#FEC000",
         greengray: "#E6E6E6",
         lightsecondarycol: "rgb(255 235 171)",
