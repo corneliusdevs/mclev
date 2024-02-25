@@ -33,7 +33,7 @@ const Navbar: FC<NavbarProps> = () => {
     },
     {
       text: "Book Now",
-      link: "book-now",
+      link: "book-a-cleaner",
     },
   ];
 
@@ -44,7 +44,7 @@ const Navbar: FC<NavbarProps> = () => {
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
       return (
-        <nav className="sticky h-14 top-0 z-40 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full border-b-[0.1px] border-slate-200">
+        <nav className="sticky h-14 top-0 z-50 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full border-b-[0.1px] border-slate-200">
           <MaxwidthWrapper>
             <div className="flex justify-between items-center ">
               {/* logo */}
@@ -71,7 +71,7 @@ const Navbar: FC<NavbarProps> = () => {
             {/* Mobile device Menu Items */}
             {/* Use framer motion to control navbar animation */}
             {openNavbar && (
-              <div className="bg-white/70  transition-all duration-[2000]">
+              <div className="bg-white/70  transition-all duration-[2000] z-100">
                 {navbarItems.map((item, index) => {
                   return (
                     <div

@@ -6,14 +6,18 @@ import { VariantProps } from "class-variance-authority"
  interface HomeheroButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-   text: string
+   text: string;
+   icon?: React.ReactNode
 }
 
-const HomeheroButton: FC<HomeheroButtonProps> = ({variant, size, className, text})=>{
+const HomeheroButton: FC<HomeheroButtonProps> = ({variant, size, className, text, ...props})=>{
     return(
         <div>
-          <button className={cn(buttonVariants({ variant, size, className }))}>
+          <button className={cn(buttonVariants({ variant, size, className }))}
+          {...props}
+          >
                {text}
+               {props.icon && props.icon}
           </button>
         </div>
     )

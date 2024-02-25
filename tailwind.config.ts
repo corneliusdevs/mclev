@@ -30,7 +30,8 @@ const config = {
     extend: {
       backgroundImage: {
         'construction' : "url('/assets/construc.jpg')",
-        'home-hero': "url('/assets/home/cleaning13.jpeg')",
+        // 'home-hero': "url('/assets/home/cleaning13.jpeg')",
+        'home-hero': "url('/assets/mclev_uniform.jpg')",
       },
       screens: {
         "xsm":"300px",
@@ -42,8 +43,11 @@ const config = {
         primarycol: "#00AF50",
         secondarycol:"#FEC000",
         greengray: "#E6E6E6",
+        lightsecondarycol: "rgb(255 235 171)",
         textwhitecol:"rgb(255 255 255 / 0.75)",
         accentcol:"#572541",
+        // greenaccentcol: "#033D24",
+        greenaccentcol: "rgb(8 46 27)",
         footergray: "#878787",
         homegray: "#F7F7F7",
         homemidshadegray: "#E8E9ED",

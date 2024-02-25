@@ -1,10 +1,12 @@
+import BookACleaner from "@/components/book-a-cleaner/BookACleaner"
 
 
 const BooknowPage = ()=>{
     return(
      <main>
+      {/* choose a service section */}
        <div>
-         I am the book now page
+         <BookACleaner />
        </div>
      </main>
     )
