@@ -11,11 +11,10 @@ const AdminDashboard = () => {
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(false);
   return (
     <main className="">
-      <Navbar />
        {/* {
         isAdminLoggedIn ?  AdminDashboardUi() : <AdminLogin />
        } */}
-       <AdminDashboardUi />
+       <AdminLogin />
     </main>
   );
 };

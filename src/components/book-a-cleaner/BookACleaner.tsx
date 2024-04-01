@@ -7,6 +7,7 @@ import { servicesToSelect, servicesToSelectLookup } from "@/helpers/servicesToSe
 import AlertDialogComponent from "../AlertDialogComponent";
 import { Loader2 } from "lucide-react";
 import ServiceDetail from "../ServiceDetail";
+import PersonalDetailsForm from "./PersonalDetailsForm";
 
 const BookACleaner = () => {
   // const section = ["choose a service", "details", "personal information"]
@@ -15,6 +16,11 @@ const BookACleaner = () => {
   >("choose a service");
 
   const [selectedService, setSelectedService] = useState<string>("");
+
+  // store the selected answered question and its answers
+  const [serviceDetailsQuestionsAndAnswers, setServiceDetailsQuestionsAndAnswers] = useState([]);
+
+
   
   let currentSectionUi = <div></div>;
   
@@ -44,18 +50,24 @@ const BookACleaner = () => {
 
     else if(sectionUiToGenerate === "details"){
       
-       currentSectionUi = <ServiceDetail serviceName={servicesToSelectLookup[selectedService]}/>
+       currentSectionUi = <ServiceDetail serviceName={servicesToSelectLookup[selectedService]} onSelected={setServiceDetailsQuestionsAndAnswers}/>
     }
+    
+    else if(sectionUiToGenerate === "personal information"){
+      
+      currentSectionUi = <PersonalDetailsForm />
+   }
 
   }
 ;
 
+  // GENERATE THE CURRENT SECTION
   currentSectionUiGenerator(currentSection)
-  const validateInput = () => {
-    if (currentSection === "choose a service") {
-      setSelectedService("details");
-    }
-  };
+  // const validateInput = () => {
+  //   if (currentSection === "choose a service") {
+  //     setSelectedService("details");
+  //   }
+  // };
 
   return (
     <div>
@@ -106,7 +118,11 @@ const BookACleaner = () => {
               </div>
             }
             onClick={()=>{
-              setCurrentSection("details")
+              if(currentSection === "choose a service"){
+                setCurrentSection("details")
+            }else if(currentSection === "details"){
+              setCurrentSection("personal information") 
+            }
             }}
           />
         ) : (
@@ -120,10 +136,12 @@ const BookACleaner = () => {
             buttonSize={"default"}
             buttonText={"Next"}
             buttonVariant={"outline"}
-            actionButtonClassName={"bg-red-700"}
+            actionButtonClassName={"bg-red-600 hover:bg-red-700"}
           />
         )}
 
+
+           {/* PREVIOUS BUTTON LOGIC */}
         {
           currentSection !== "choose a service" && <HomeheroButton
           text={"Previous"}

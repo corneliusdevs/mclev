@@ -1,3 +1,5 @@
+
+
 import { FC } from "react";
 import ServiceQuestionaire from "./book-a-cleaner/ServiceQuestionaire";
 import {
@@ -11,35 +13,35 @@ import {
 
 interface ServiceDetailProps {
   serviceName: string;
+  onSelected?: Function; //  a higher order function to be executed when an option is selected by the user. This function must supply the state or store as an argument of type Array. confused? implement a setState function of this signature setState(prevStateArray => return current state)
+  // This can be your setState function. It will call your setState or store manager function with the selected question and answer
+  // use this to store the selected question and answer
 }
-const ServiceDetail: FC<ServiceDetailProps> = ({ serviceName }) => {
+const ServiceDetail: FC<ServiceDetailProps> = ({ serviceName, onSelected }) => {
+ 
   const serviceQuestionaireGenerator = () => {
-    let ui = <ServiceQuestionaire info={antiviralServiceQuestionaire} />;
+    let ui = onSelected?  <ServiceQuestionaire info={antiviralServiceQuestionaire} onSelected = {onSelected}/> : <ServiceQuestionaire info={antiviralServiceQuestionaire} /> ;
 
     switch (serviceName) {
       case "Antiviral Sanitisation":
-        ui = <ServiceQuestionaire info={antiviralServiceQuestionaire} />;
+        ui = onSelected?  <ServiceQuestionaire info={antiviralServiceQuestionaire} onSelected = {onSelected}/> : <ServiceQuestionaire info={antiviralServiceQuestionaire} />;
         break;
 
       case "End Of Tenancy Cleaning":
-        ui = <ServiceQuestionaire info={endofTenancyCleaningQuestionaire} />;
+        ui = onSelected? <ServiceQuestionaire info={endofTenancyCleaningQuestionaire} onSelected = {onSelected}/>: <ServiceQuestionaire info={endofTenancyCleaningQuestionaire} />;
         break;
 
       case "Oven Cleaning":
-        ui = <ServiceQuestionaire info={ovencleaningServiceQuestionaire} />;
+        ui = onSelected? <ServiceQuestionaire info={ovencleaningServiceQuestionaire} onSelected={onSelected} /> : <ServiceQuestionaire info={ovencleaningServiceQuestionaire} onSelected={onSelected}/>;
         break;
       case "Carpet / Rug Cleaning":
-        ui = (
-          <ServiceQuestionaire info={carpetOrRugCleaningServiceQuestionaire} />
-        );
+        ui =  onSelected? <ServiceQuestionaire info={carpetOrRugCleaningServiceQuestionaire}  onSelected={onSelected}/> : <ServiceQuestionaire info={carpetOrRugCleaningServiceQuestionaire} />;
         break;
       case "Window Cleaning":
-        ui = <ServiceQuestionaire info={windowCleaningServiceQuestionaire} />;
+        ui = onSelected? <ServiceQuestionaire info={windowCleaningServiceQuestionaire} onSelected={onSelected}/> : <ServiceQuestionaire info={windowCleaningServiceQuestionaire} />;
         break;
       case "Uphostery Cleaning":
-        ui = (
-          <ServiceQuestionaire info={uphosteryCleaningServiceQuestionaire} />
-        );
+        ui = onSelected? <ServiceQuestionaire info={uphosteryCleaningServiceQuestionaire} onSelected={onSelected} />: <ServiceQuestionaire info={uphosteryCleaningServiceQuestionaire} />;
         break;
 
       default:

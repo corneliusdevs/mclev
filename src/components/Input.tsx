@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, forwardRef } from "react";
 import { Input } from "./ui/input";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -6,7 +6,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string
 }
 
-const InputElement: FC<InputProps> = ({ className, placeholder, ...props }) => {
+const InputElement = forwardRef<HTMLInputElement,  InputProps>(({ className, placeholder, ...props }, ref) => {
 
   return (
     <div>
@@ -16,6 +16,6 @@ const InputElement: FC<InputProps> = ({ className, placeholder, ...props }) => {
       />
     </div>
   );
-};
+});
 
 export default InputElement;

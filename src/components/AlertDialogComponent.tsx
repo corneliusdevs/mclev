@@ -9,9 +9,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { FC } from "react";
-import HomeheroButton from "./ui/HomeheroButton";
 import { Button } from "./ui/button";
+import { FC, RefObject, forwardRef } from "react";
+
 
 type AlertDialogComponentProps = {
   description: string;
@@ -30,9 +30,10 @@ type AlertDialogComponentProps = {
   cancelButtonClassName?: string;
   actionButtonClassName?: string;
   actionText: string;
+  customButton?: React.ReactNode 
 };
 
-const AlertDialogComponent = ({
+const AlertDialogComponent:FC<AlertDialogComponentProps> =({
   description,
   buttonText,
   buttonSize,
@@ -43,17 +44,25 @@ const AlertDialogComponent = ({
   actionText,
   cancelButtonClassName,
   actionButtonClassName,
-}: AlertDialogComponentProps) => {
+  ...props
+}) => {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild className="">
-        <Button
+    <AlertDialog >
+      <AlertDialogTrigger asChild className="" 
+      // ref={props.ref} 
+      >
+        {
+           
+            props.customButton ?  
+          props.customButton : <Button
           variant={buttonVariant}
           className={buttonClassname}
           size={buttonSize}
         >
           {buttonText}
         </Button>
+        }
+        
       </AlertDialogTrigger>
       <AlertDialogContent className="">
         <AlertDialogHeader>
@@ -67,6 +76,6 @@ const AlertDialogComponent = ({
       </AlertDialogContent>
     </AlertDialog>
   );
-};
+  };
 
 export default AlertDialogComponent;

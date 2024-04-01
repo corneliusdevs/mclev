@@ -1,18 +1,38 @@
 "use client";
 
 import { ServiceQuestionaireOptions } from "@/helpers/servicesToSelect";
+import { updateSelectedOptions } from "@/helpers/updateSelectedOptions";
 import { Check, Ticket } from "lucide-react";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface ServiceImgQuestionaireWithLongCaptionProps {
   option: ServiceQuestionaireOptions;
+  saveSelectedOption: Dispatch<SetStateAction<string[]>>;
 }
 
 const ServiceImgQuestionaireWithLongCaption: FC<
   ServiceImgQuestionaireWithLongCaptionProps
-> = ({ option }) => {
+> = ({ option, saveSelectedOption}) => {
   const [isSelected, setIsSelected] = useState(false);
+
+    // keep track of if this is the first time component mounts
+    const firstTimeComponentIsMounted = useRef(true);
+ 
+    // update the selectedAnswers state when the isSelected state changes after component has mounted
+    useEffect(()=>{
+      if(firstTimeComponentIsMounted.current === true){  
+        firstTimeComponentIsMounted.current = false
+      }else{
+        // update answers only if this is not  the first time the component is being mounted
+        if(isSelected){
+          // updateSelectedOptions(saveSelectedOption, option.caption, true)
+        }else{
+          // updateSelectedOptions(saveSelectedOption, option.caption, false)
+        }
+      }
+  
+    }, [isSelected])
 
   return (
     <div className="relative w-full">
