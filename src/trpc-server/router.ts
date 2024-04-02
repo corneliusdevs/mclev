@@ -121,7 +121,12 @@ export const appRouter = router({
         postcode: z.string(),
         prefferedDate: z.string(),
         prefferedTime: z.string(),
-        additionalNotes: z.string()
+        additionalNotes: z.string(),
+        selectedService: z.string(),
+        bookingInfo: z.array(z.object({
+          question: z.string(),
+          answers: z.array(z.string())
+        }))
       });
       const result = schema.safeParse(v);
       if (!result.success) {
@@ -150,8 +155,8 @@ export const appRouter = router({
       const result: TBooking[] = await bookingsModel.aggregate([
         {
           $project: {
-            username: 1,
-            password: 1,
+            name: 1,
+            email: 1,
             _id: {
               $toString: "$_id",
             },

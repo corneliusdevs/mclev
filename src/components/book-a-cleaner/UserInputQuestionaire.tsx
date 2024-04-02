@@ -53,6 +53,8 @@ const [userInput, setUserInput] = useState<string>("")
        
       {...props}
       value={userInput}
+      min={1}
+      max={1000}
       onChange={(e)=>{
         setUserInput(e.target.value)
         console.log("user input is ", e.target.value)

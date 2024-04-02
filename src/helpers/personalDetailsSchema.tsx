@@ -11,7 +11,7 @@ export const personalDetailsSchema = z.object({
   name: z.string().min(3, { message: 'Name should be at least 3 characters long' }),
   phoneNumber: z.string().regex(phoneNumberRegex, { message: 'Invalid phone number'}),
   email: z.string().email({message: 'Please enter a valid email address' }),
-  postcode: z.string().regex(ukAndEuropePostalCodeRegex, { message: 'Seems like the code entered is incorrect, please try another format'}),
+  postcode: z.string().regex(ukAndEuropePostalCodeRegex, { message: 'Seems like the Postal code entered is incorrect, please try another format'}),
   prefferedDate: 
   z.string().regex(dateRegex, "Date should be in DD-MM or DD-MM-YY format." ),
   // prefferedTime: z.string().optional(),

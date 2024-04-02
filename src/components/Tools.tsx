@@ -15,7 +15,7 @@ const Tools: FC = (): React.ReactNode => {
     console.log(currentRoute);
     if (currentRoute && currentRoute !== "/admin-dashboard") {
       return (
-        <div className="flex fixed bottom-0 w-full justify-between py-2 z-40 mb-1 px-2">
+        <div className="flex fixed bottom-0 py-2 z-40 mb-1 px-2">
           <PhoneTool />
           <FeedbackTool />
           <ChatTool handleChatDialogState={setIsChatDialogOpen} chatDialogState={isChatDialogOpen}/>

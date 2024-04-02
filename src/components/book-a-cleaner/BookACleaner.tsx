@@ -181,7 +181,20 @@ const BookACleaner = () => {
           />
         );
     } else if (sectionUiToGenerate === "personal information") {
-      currentSectionUi = <PersonalDetailsForm />;
+      currentSectionUi = (
+        <PersonalDetailsForm
+          bookingInfo={
+            selectedAnswers.length !== 0
+              ? selectedAnswers
+              : persistedValidatedAnswersRef.current
+          }
+          selectedService={
+            selectedService !== ""
+              ? selectedService
+              : persistedSelectedServiceRef.current
+          }
+        />
+      );
     }
   };
 
@@ -234,21 +247,20 @@ const BookACleaner = () => {
             title={error.message.title}
             actionText={"OK"}
             buttonClassname={
-              "mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+              "mt-4 bg-transparent px-8 text-secondarycol rounded-sm border-2 hover:bg-secondarycol border-secondarycol hover:tracking-wider hover:text-white transition-all"
             }
             buttonSize={"default"}
             buttonText={"Next"}
             buttonVariant={"outline"}
             actionButtonClassName={"bg-red-600 hover:bg-red-700"}
           />
-        ) : // error.message.title === "Unanswered Question"
-        currentSection === "details" && error.detailsValidated === false ? (
+        ) : currentSection === "details" && error.detailsValidated === false ? (
           <AlertDialogComponent
             description={error.message.description}
             title={error.message.title}
             actionText={"OK"}
             buttonClassname={
-              "mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+              "mt-4 bg-transparent px-8 text-secondarycol rounded-sm border-2 hover:bg-secondarycol border-secondarycol hover:tracking-wider hover:text-white transition-all transition-all"
             }
             buttonSize={"default"}
             buttonText={"Next"}
@@ -259,7 +271,9 @@ const BookACleaner = () => {
           <HomeheroButton
             text={"Next"}
             variant={"outline"}
-            className="mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+            className={`${
+              currentSection === "personal information" && "hidden"
+            } bg-transparent px-8 text-secondarycol rounded-sm border-2 hover:bg-secondarycol border-secondarycol hover:tracking-wider hover:text-white transition-all`}
             size={"default"}
             // LOADER FOR WHEN API CALL IS MADE
             icon={
@@ -288,7 +302,9 @@ const BookACleaner = () => {
           <HomeheroButton
             text={"Previous"}
             variant={"outline"}
-            className="mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+            className={`${
+              currentSection === "personal information" ? "mt-[-50px]" : "mt-4 "
+            } bg-transparent px-8 text-secondarycol rounded-sm border-2 hover:bg-secondarycol border-secondarycol hover:tracking-wider hover:text-white transition-all`}
             size={"default"}
             // LOADER FOR WHEN API CALL IS MADE
             icon={

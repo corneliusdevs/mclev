@@ -24,7 +24,7 @@ type AlertDialogComponentProps = {
     | "ghost"
     | "link";
   buttonClassname: string;
-  title: string;
+  title: string | undefined;
   buttonSize: "default" | "sm" | "lg" | "icon" | null | undefined;
   cancelText?: string;
   cancelButtonClassName?: string;

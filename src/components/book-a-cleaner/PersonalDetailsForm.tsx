@@ -12,9 +12,17 @@ import {
 } from "@/helpers/personalDetailsSchema";
 import TextSelectQuestionaire from "./TextSelectQuestionaire";
 import AlertDialogComponent from "../AlertDialogComponent";
-import { Booking } from "@/db/models/bookings-model";
+import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 
-const PersonalDetailsForm: FC = (props): React.ReactNode => {
+interface PersonalDetailsFormProps {
+  bookingInfo?: SelectedOptionWithAnswers[];
+  selectedService?: string;
+}
+
+const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
+  bookingInfo,
+  selectedService,
+}): React.ReactNode => {
   const {
     register,
     handleSubmit,
@@ -53,33 +61,44 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
       ...info,
       selectedTime,
       additionalNotes,
+      bookingInfo,
+      selectedService
     });
 
+    console.log("this is booking info ", bookingInfo)
+
     // send the request to the api
-    mutate(
-      {
-        ...info,
-        prefferedTime: selectedTime,
-        additionalNotes,
-      },
-      {
-        onSuccess: (data) => {
-          console.log("submit success ", data);
-          setHttpStatus(data.httpStatus);
-          // router.push("/admin-dashboard");
+    if (
+      typeof selectedService !== "undefined" &&
+      typeof bookingInfo !== "undefined"
+    ) {
+      mutate(
+        {
+          ...info,
+          prefferedTime: selectedTime,
+          additionalNotes,
+          selectedService,
+          bookingInfo,
         },
-        onError: (error) => {
-          setHttpStatus(error.data?.httpStatus);
-          console.log("error creating booking ", error);
-        },
-      }
-    );
+        {
+          onSuccess: (data) => {
+            console.log("submit success ", data);
+            setHttpStatus(data.httpStatus);
+            // router.push("/admin-dashboard");
+          },
+          onError: (error) => {
+            setHttpStatus(error.data?.httpStatus);
+            console.log("error creating booking ", error);
+          },
+        }
+      );
+    }
   };
 
   return (
     <main className="bg-white">
       <div className="flex justify-center items-center min-w-[100%] bg-primarycol/20">
-        <div className="flex flex-col w-full bg-white p-4 py-6 pb-4">
+        <div className="flex flex-col w-full bg-white p-4 py-6">
           {/* PERSONAL DETAILS FORM */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {errors.name && (
@@ -200,7 +219,9 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
             <div className={`flex justify-center p-4 mt-2`}>
               <AlertDialogComponent
                 title={
-                  selectedTime === ""
+                  typeof Object.values(errors)[0]?.message !== "undefined"
+                    ? Object.values(errors)[0].message
+                    : selectedTime === ""
                     ? "Please select a preferred time"
                     : isLoading === true
                     ? "Processing..."
@@ -223,14 +244,13 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
                   <AdminButton
                     type="submit"
                     text="Submit"
-                    className="bg-primarycol px-8 transform hover:scale-90"
+                    className="bg-secondarycol px-8 transform hover:scale-90"
                     onClick={() => {
                       console.log("form state errors ", errors);
                     }}
                   />
                 }
               />
-              
             </div>
           </form>
         </div>

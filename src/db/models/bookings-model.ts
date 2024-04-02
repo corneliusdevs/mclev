@@ -1,3 +1,4 @@
+import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 import mongoose, { model, Schema } from "mongoose";
 import { string } from "zod";
 
@@ -9,6 +10,8 @@ export interface Booking {
   prefferedDate: string;
   prefferedTime: string;
   additionalNotes?: string;
+  selectedService: string;
+  bookingInfo: SelectedOptionWithAnswers[]
 }
 
 export interface MongoUser extends Booking, mongoose.Document {}
@@ -43,6 +46,17 @@ const BookingSchema = new mongoose.Schema<Booking>({
   prefferedTime: {
     type: String,
     required: true,
+  },
+  selectedService:{
+    type: String,
+    required: true,
+  },
+  bookingInfo:{
+    type: [{
+      question: String,
+      answers: [String]
+    }],
+    required: true
   },
   additionalNotes:{
     type: String,
