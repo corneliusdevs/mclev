@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils"
-import { FC } from "react"
+import { FC, forwardRef } from "react"
 import { VariantProps } from "class-variance-authority"
 import { buttonVariants } from "@/components/ui/button";
 
@@ -10,7 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
    icon?: React.ReactNode,
 }
 
-const AdminButton: FC<AdminButtonProps> = ({variant, size, className, text, ...props})=>{
+const AdminButton: FC<AdminButtonProps> = forwardRef(({variant, size, className, text, ...props}, ref)=>{
     return(
         <div>
           <button className={cn(buttonVariants({ variant, size, className }))}
@@ -21,6 +21,6 @@ const AdminButton: FC<AdminButtonProps> = ({variant, size, className, text, ...p
           </button>
         </div>
     )
-}
+})
 
 export default AdminButton

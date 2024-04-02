@@ -10,7 +10,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { FC, RefObject, forwardRef } from "react";
+import { FC } from "react";
 
 
 type AlertDialogComponentProps = {
@@ -49,7 +49,6 @@ const AlertDialogComponent:FC<AlertDialogComponentProps> =({
   return (
     <AlertDialog >
       <AlertDialogTrigger asChild className="" 
-      // ref={props.ref} 
       >
         {
            

@@ -1,20 +1,18 @@
 "use client";
 
 import { ServiceQuestionaireOptions } from "@/helpers/servicesToSelect";
+import { SelectedOptionWithAnswers, updateSelectedOptions } from "@/helpers/updateSelectedOptions";
 import { Check } from "lucide-react";
-import { FC, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 
-//  interface TextSelectQuestionaireProps {
-//   option: ServiceQuestionaireOptions;
-//   className?: string;
-//   checkOff?: boolean; 
-//   onSelected?: Function
-// }
+
 interface TextSelectQuestionaireProps {
   option: ServiceQuestionaireOptions;
   className?: string;
   checkOff?: boolean; //To Control the check icon and selected state from a parent component
   onSelected?: Function // function to execute when the component is clicked
+  saveSelectedOption?: Dispatch<SetStateAction<SelectedOptionWithAnswers[]>>;
+  question?: string;
 }
 
 const TextSelectQuestionaire: FC<TextSelectQuestionaireProps> = ({
@@ -22,7 +20,10 @@ const TextSelectQuestionaire: FC<TextSelectQuestionaireProps> = ({
   className,
   onSelected,
   checkOff,
+  saveSelectedOption, 
+  question
 }) => {
+  
 
   // dynamically set the state depending on if the prop checkOff is passed(meaning that we want to control the selected state from a parent component) or not meaning that the component is responsible for handling its checked or selected state
   const [isSelected, setIsSelected] = useState(()=>{
@@ -31,6 +32,37 @@ const TextSelectQuestionaire: FC<TextSelectQuestionaireProps> = ({
      }
      return false
   });
+
+    // keep track of if this is the first time component mounts
+    const firstTimeComponentIsMounted = useRef(true);
+
+    // update the selectedAnswers state when the isSelected state changes after component has mounted
+    useEffect(() => {
+      if(saveSelectedOption && question){
+      if (firstTimeComponentIsMounted.current === true) {
+        firstTimeComponentIsMounted.current = false;
+      } else {
+        // update answers only if this is not  the first time the component is being mounted
+        if (isSelected) {
+          updateSelectedOptions(
+            saveSelectedOption,
+            question,
+            option.caption,
+            true,
+            false
+          );
+        } else {
+          updateSelectedOptions(
+            saveSelectedOption,
+            question,
+            option.caption,
+            false,
+            false
+          );
+        }
+      }
+    }
+    }, [isSelected]);
 
 
   return (

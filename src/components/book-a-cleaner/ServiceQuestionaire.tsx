@@ -1,34 +1,29 @@
-import { FC, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { ServiceQuestionaire } from "@/helpers/servicesToSelect";
-import InputElement from "../Input";
 import ServiceImageQuestionaire from "./ServiceImageQuestionaire";
 import ServiceImgQuestionaireWithLongCaption from "./ServiceImgQuestionaireWithLongCaption";
 import TextSelectQuestionaire from "./TextSelectQuestionaire";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
+import UserInputQuestionaire from "./UserInputQuestionaire";
 
 interface ServiceQuestionaireProps {
   info: ServiceQuestionaire[];
 
-  onSelected?: Function; //  a higher order function to be executed when an option is selected by the user. This function must supply the state or store as an argument of type Array. confused? implement a setState function of this signature setState(prevStateArray => return current state)
-  // This can be your setState function. It will call your setState or store manager function with the selected question and answer
-  // use this to store the selected question and answer
+  updateSelectedAnswers?: Dispatch<SetStateAction<SelectedOptionWithAnswers[]>>; // 
 }
 
-const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({
-  info,
-}) => {
-  const [selectedAnswer, setSelectedAnswer] = useState<SelectedOptionWithAnswers[]>([]);
-
-  const [textSelectAnswers, setTextSelectAnswers] = useState<string[]>([]);
-  const [questionsAndTheirAnswers, setQuestionsAndTheirAnswers] = useState({});
-
-
+const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({ info, updateSelectedAnswers }) => {
+  const [selectedAnswer, setSelectedAnswer] = useState<
+    SelectedOptionWithAnswers[]
+  >([]);
 
   // clear the selected answers when component mounts for the first time
-  useEffect(()=>{
-    setSelectedAnswer([])
-  }, [])
-
+  useEffect(() => {
+    // setSelectedAnswer([]);
+    if(updateSelectedAnswers){
+      updateSelectedAnswers([])
+    }
+  }, []);
 
   const handleSelected = (currentState: []) => {
     const currentStateCopy = [...currentState];
@@ -50,14 +45,19 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({
                 {info.options?.map((option, index) => {
                   let ui = <div></div>;
                   if (info.questionaireType === "ImageWithCaption") {
-                    ui = (
+                    ui = updateSelectedAnswers? 
                       <ServiceImageQuestionaire
                         option={option}
                         key={option.caption + index}
-                        saveSelectedOption={setSelectedAnswer}
+                        saveSelectedOption={updateSelectedAnswers}
                         question={info.question}
-                      />
-                    );
+                      /> :                       <ServiceImageQuestionaire
+                      option={option}
+                      key={option.caption + index}
+                      saveSelectedOption={setSelectedAnswer}
+                      question={info.question}
+                    />
+                    ;
                     return ui;
                   }
 
@@ -68,12 +68,25 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({
             {info.questionaireType === "TextSelect" && (
               <div className="flex flex-col items-center w-full px-2">
                 {info.options?.map((option, index) => {
-                  return (
-                    <TextSelectQuestionaire
-                      option={option}
-                      key={option.caption + index}
-                    />
-                  );
+                  if(updateSelectedAnswers){
+                    return (
+                      <TextSelectQuestionaire
+                        option={option}
+                        key={option.caption + index}
+                        saveSelectedOption={updateSelectedAnswers}
+                        question={info.question}
+                      />
+                    );
+                  }else{
+                    return (
+                      <TextSelectQuestionaire
+                        option={option}
+                        key={option.caption + index}
+                        saveSelectedOption={setSelectedAnswer}
+                        question={info.question}
+                      />
+                    );
+                  }
                 })}
               </div>
             )}
@@ -81,13 +94,26 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({
             {info.questionaireType === "ImageWithLongCaption" && (
               <div className="flex flex-col items-center w-full px-2">
                 {info.options?.map((option, index) => {
-                  return (
-                    <ServiceImgQuestionaireWithLongCaption
-                      option={option}
-                      key={option.caption + index}
-                      saveSelectedOption={setTextSelectAnswers}
-                    />
-                  );
+                  if(updateSelectedAnswers){
+                    return (
+                      <ServiceImgQuestionaireWithLongCaption
+                        option={option}
+                        key={option.caption + index}
+                        saveSelectedOption={updateSelectedAnswers}
+                        question={info.question}
+                      />
+                    );
+
+                  }else{
+                    return (
+                      <ServiceImgQuestionaireWithLongCaption
+                        option={option}
+                        key={option.caption + index}
+                        saveSelectedOption={setSelectedAnswer}
+                        question={info.question}
+                      />
+                    );
+                  }
                 })}
               </div>
             )}
@@ -95,11 +121,20 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({
             {info.questionaireType === "UserInput" && (
               <div className="flex items-start w-full px-2">
                 <div className="flex items-start border-[1.4px] border-black rounded-sm">
-                  <InputElement
+                  { updateSelectedAnswers? <UserInputQuestionaire
                     className="ring-0 border-none min-w-[100%]"
                     size={50}
                     type="number"
-                  />
+                    saveSelectedOption={updateSelectedAnswers}
+                    question={info.question}
+                  /> : <UserInputQuestionaire
+                  className="ring-0 border-none min-w-[100%]"
+                  size={50}
+                  type="number"
+                  saveSelectedOption={setSelectedAnswer}
+                  question={info.question}
+                />}
+                  
                 </div>
               </div>
             )}

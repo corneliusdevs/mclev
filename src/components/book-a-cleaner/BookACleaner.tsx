@@ -1,13 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import HomeheroButton from "../ui/HomeheroButton";
 import SelectComponent from "../SelectComponent";
-import { servicesToSelect, servicesToSelectLookup } from "@/helpers/servicesToSelect";
+import {
+  servicesToSelect,
+  servicesToSelectLookup,
+} from "@/helpers/servicesToSelect";
 import AlertDialogComponent from "../AlertDialogComponent";
 import { Loader2 } from "lucide-react";
-import ServiceDetail from "../ServiceDetail";
+import ServiceDetail from "./ServiceDetail";
 import PersonalDetailsForm from "./PersonalDetailsForm";
+import { getServiceQuestionaire } from "@/helpers/getServiceQuestionaire";
+import { validateServiceQuestionaire } from "@/helpers/validateServiceQuestionaire";
+import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 
 const BookACleaner = () => {
   // const section = ["choose a service", "details", "personal information"]
@@ -17,15 +23,130 @@ const BookACleaner = () => {
 
   const [selectedService, setSelectedService] = useState<string>("");
 
-  // store the selected answered question and its answers
-  const [serviceDetailsQuestionsAndAnswers, setServiceDetailsQuestionsAndAnswers] = useState([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<
+    SelectedOptionWithAnswers[]
+  >([]);
 
+  const persistedSelectedServiceRef = useRef<string>("");
+  const persistedValidatedAnswersRef = useRef<SelectedOptionWithAnswers[]>();
 
-  
+  const [error, setError] = useState({
+    isError: false,
+    detailsValidated: false,
+    message: {
+      title: "",
+      description: "",
+    },
+  });
+
   let currentSectionUi = <div></div>;
-  
-  const currentSectionUiGenerator = (sectionUiToGenerate:string)=> {
 
+  const sectionErrorManager = () => {
+    const dummyReturn = <div className="hidden"></div>;
+    console.log("errors ", error, currentSection);
+    // manage errors if current section is 'choose a service'
+    if (currentSection === "choose a service") {
+      // if a service has been selected and there is still an error message, clear the error message
+      if (selectedService !== "" && error.message.title !== "") {
+        setError({
+          isError: false,
+          detailsValidated: false,
+          message: {
+            title: "",
+            description: "",
+          },
+        });
+      }
+      // if no service has been selected and there is no error message, set the error message
+      if (selectedService === "" && error.message.title === "") {
+        setError((previousState) => {
+          return {
+            isError: true,
+            detailsValidated: false,
+            message: {
+              title: "No Service Selected",
+              description: "Please select a service",
+            },
+          };
+        });
+      }
+    } else if (
+      currentSection === "details" &&
+      error.detailsValidated === false
+    ) {
+      //  manage errors if current section is 'details'
+      // every required question must have at least one answer
+      if (
+        selectedAnswers.length === 0 &&
+        error.message.description !==
+          "Please make sure all questions are answered"
+      ) {
+        setError({
+          isError: true,
+          detailsValidated: false,
+          message: {
+            title: "Oops!",
+            description: "Please make sure all questions are answered",
+          },
+        });
+      }
+
+      if (selectedAnswers.length !== 0) {
+        let serviceName =
+          selectedService !== ""
+            ? servicesToSelectLookup[selectedService]
+            : servicesToSelectLookup[persistedSelectedServiceRef.current];
+
+        let questionaire = getServiceQuestionaire(serviceName);
+
+        let result = validateServiceQuestionaire(questionaire, selectedAnswers);
+        console.log(questionaire, selectedService, selectedAnswers);
+        // if a service has been selected and there is still an error message, clear the error message
+
+        if (result.pass === true && error.detailsValidated === false) {
+          // clear errors
+          setError({
+            isError: false,
+            detailsValidated: true,
+            message: {
+              title: "",
+              description: "",
+            },
+          });
+          return dummyReturn;
+        } else {
+          if (error.message.description !== result.question) {
+            setError({
+              isError: true,
+              detailsValidated: false,
+              message: {
+                title: "Unanswered Question",
+                description: result.question,
+              },
+            });
+
+            return dummyReturn;
+          }
+        }
+      }
+    } else {
+      if (error.isError !== false) {
+        setError({
+          isError: false,
+          detailsValidated: false,
+          message: {
+            title: "",
+            description: "",
+          },
+        });
+      }
+    }
+
+    // dummy return to prevent errors because typescript expects us to return a react node since were calling the funtion in our component's JSX
+    return <div className="hidden"></div>;
+  };
+
+  const currentSectionUiGenerator = (sectionUiToGenerate: string) => {
     if (sectionUiToGenerate === "choose a service") {
       currentSectionUi = (
         <div className="px-8">
@@ -44,30 +165,34 @@ const BookACleaner = () => {
           </div>
         </div>
       );
+    } else if (sectionUiToGenerate === "details") {
+      currentSectionUi =
+        selectedService !== "" ? (
+          <ServiceDetail
+            serviceName={servicesToSelectLookup[selectedService]}
+            updateSelectedAnswers={setSelectedAnswers}
+          />
+        ) : (
+          <ServiceDetail
+            serviceName={
+              servicesToSelectLookup[persistedSelectedServiceRef.current]
+            }
+            updateSelectedAnswers={setSelectedAnswers}
+          />
+        );
+    } else if (sectionUiToGenerate === "personal information") {
+      currentSectionUi = <PersonalDetailsForm />;
     }
-
-
-
-    else if(sectionUiToGenerate === "details"){
-      
-       currentSectionUi = <ServiceDetail serviceName={servicesToSelectLookup[selectedService]} onSelected={setServiceDetailsQuestionsAndAnswers}/>
-    }
-    
-    else if(sectionUiToGenerate === "personal information"){
-      
-      currentSectionUi = <PersonalDetailsForm />
-   }
-
-  }
-;
+  };
 
   // GENERATE THE CURRENT SECTION
-  currentSectionUiGenerator(currentSection)
-  // const validateInput = () => {
-  //   if (currentSection === "choose a service") {
-  //     setSelectedService("details");
-  //   }
-  // };
+  currentSectionUiGenerator(currentSection);
+  {
+    /* DETERMINE IF THERE ARE NO ERROR */
+  }
+  {
+    sectionErrorManager();
+  }
 
   return (
     <div>
@@ -103,7 +228,34 @@ const BookACleaner = () => {
 
       {/* Buttons */}
       <div className="flex flex-col items-center py-4">
-        {selectedService !== "" ? (
+        {error.message.title === "No Service Selected" ? (
+          <AlertDialogComponent
+            description={error.message.description}
+            title={error.message.title}
+            actionText={"OK"}
+            buttonClassname={
+              "mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+            }
+            buttonSize={"default"}
+            buttonText={"Next"}
+            buttonVariant={"outline"}
+            actionButtonClassName={"bg-red-600 hover:bg-red-700"}
+          />
+        ) : // error.message.title === "Unanswered Question"
+        currentSection === "details" && error.detailsValidated === false ? (
+          <AlertDialogComponent
+            description={error.message.description}
+            title={error.message.title}
+            actionText={"OK"}
+            buttonClassname={
+              "mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+            }
+            buttonSize={"default"}
+            buttonText={"Next"}
+            buttonVariant={"outline"}
+            actionButtonClassName={"bg-red-600 hover:bg-red-700"}
+          />
+        ) : (
           <HomeheroButton
             text={"Next"}
             variant={"outline"}
@@ -117,55 +269,59 @@ const BookACleaner = () => {
                 </div>
               </div>
             }
-            onClick={()=>{
-              if(currentSection === "choose a service"){
-                setCurrentSection("details")
-            }else if(currentSection === "details"){
-              setCurrentSection("personal information") 
-            }
+            onClick={() => {
+              if (currentSection === "choose a service") {
+                persistedSelectedServiceRef.current = selectedService;
+                setSelectedService("");
+                setCurrentSection("details");
+              } else if (currentSection === "details") {
+                persistedValidatedAnswersRef.current = selectedAnswers;
+                setSelectedAnswers([]);
+                setCurrentSection("personal information");
+              }
             }}
-          />
-        ) : (
-          <AlertDialogComponent
-            description={"Please choose a service"}
-            title={"No Service Selected"}
-            actionText={"OK"}
-            buttonClassname={
-              "mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
-            }
-            buttonSize={"default"}
-            buttonText={"Next"}
-            buttonVariant={"outline"}
-            actionButtonClassName={"bg-red-600 hover:bg-red-700"}
           />
         )}
 
-
-           {/* PREVIOUS BUTTON LOGIC */}
-        {
-          currentSection !== "choose a service" && <HomeheroButton
-          text={"Previous"}
-          variant={"outline"}
-          className="mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
-          size={"default"}
-          // LOADER FOR WHEN API CALL IS MADE
-          icon={
-            <div className="hidden">
-              <div className="pl-2">
-                <Loader2 size={16} className="animate-spin" />
+        {/* PREVIOUS BUTTON LOGIC */}
+        {currentSection !== "choose a service" && (
+          <HomeheroButton
+            text={"Previous"}
+            variant={"outline"}
+            className="mt-4 bg-transparent text-accentcol rounded-none border-2 hover:bg-transparent border-accentcol hover:bg-accentcol hover:tracking-wider hover:text-white/80 transition-all"
+            size={"default"}
+            // LOADER FOR WHEN API CALL IS MADE
+            icon={
+              <div className="hidden">
+                <div className="pl-2">
+                  <Loader2 size={16} className="animate-spin" />
+                </div>
               </div>
-            </div>
-          }
-          onClick={()=>{
-            setSelectedService("")
-            if(currentSection === "details"){
-                setCurrentSection("choose a service")
-            }else{
-              setCurrentSection("details") 
             }
-          }}
-        />
-        }
+            onClick={() => {
+              setSelectedService("");
+              if (currentSection === "details") {
+                setCurrentSection("choose a service");
+                setError({
+                  isError: true,
+                  detailsValidated: false,
+                  message: {
+                    title: "No Service Selected",
+                    description: "Please select a service",
+                  },
+                });
+              } else {
+                setError((prev) => {
+                  return {
+                    ...prev,
+                    detailsValidated: false,
+                  };
+                });
+                setCurrentSection("details");
+              }
+            }}
+          />
+        )}
       </div>
     </div>
   );

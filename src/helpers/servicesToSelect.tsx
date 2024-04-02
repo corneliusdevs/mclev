@@ -85,7 +85,7 @@ export type ServiceQuestionaireOptions = {
 export type ServiceQuestionaire = {
   questionaireType: "ImageWithCaption" | "TextSelect" | "ImageWithLongCaption" | "UserInput";
   question: string;
-  required?: boolean;
+  required: boolean;
   options?: ServiceQuestionaireOptions[];
 };
 
@@ -125,7 +125,7 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
   },
   {
     questionaireType: "ImageWithCaption",
-    question: "Which of the following apply to your property",
+    question: "Which of the following applies to your property",
     required: true,
     options: [
       {

@@ -14,11 +14,7 @@ import TextSelectQuestionaire from "./TextSelectQuestionaire";
 import AlertDialogComponent from "../AlertDialogComponent";
 import { Booking } from "@/db/models/bookings-model";
 
-
-
-
 const PersonalDetailsForm: FC = (props): React.ReactNode => {
-
   const {
     register,
     handleSubmit,
@@ -35,41 +31,40 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
   const [httpStatus, setHttpStatus] = useState<number>();
 
   const [selectedTime, setSelectedTime] = useState<string>("");
-  const [additionalNotes, setAdditionalNotes] = useState<string>("")
+  const [additionalNotes, setAdditionalNotes] = useState<string>("");
 
-  const controlAm = ()=>{
-    if(selectedTime === "" || selectedTime === "PM"){
-      return true
+  const controlAm = () => {
+    if (selectedTime === "" || selectedTime === "PM") {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
-  const controlPm = ()=>{
-    if(selectedTime === "" || selectedTime === "AM"){
-      return true
+  const controlPm = () => {
+    if (selectedTime === "" || selectedTime === "AM") {
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
-  const onSubmit = async (info:PersonalDetailsSchemaType ) => {
-
+  const onSubmit = async (info: PersonalDetailsSchemaType) => {
     console.log("executed submit");
-   console.log({
-    ...info,
-    selectedTime,
-    additionalNotes
-   })
-    
+    console.log({
+      ...info,
+      selectedTime,
+      additionalNotes,
+    });
+
     // send the request to the api
     mutate(
       {
         ...info,
         prefferedTime: selectedTime,
-        additionalNotes
+        additionalNotes,
       },
       {
         onSuccess: (data) => {
-          console.log("submit success ", data)
+          console.log("submit success ", data);
           setHttpStatus(data.httpStatus);
           // router.push("/admin-dashboard");
         },
@@ -85,7 +80,6 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
     <main className="bg-white">
       <div className="flex justify-center items-center min-w-[100%] bg-primarycol/20">
         <div className="flex flex-col w-full bg-white p-4 py-6 pb-4">
-
           {/* PERSONAL DETAILS FORM */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {errors.name && (
@@ -98,15 +92,12 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
               </span>
             </p>
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input
-                className="p-2"
-                type="text"
-                {...register("name")}
-               
-              />
+              <input className="p-2" type="text" {...register("name")} />
             </div>
             {errors.phoneNumber && (
-              <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.phoneNumber.message}
+              </p>
             )}
             <p>
               {" "}
@@ -119,7 +110,6 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
                 className="p-2"
                 type="phone"
                 {...register("phoneNumber")}
-                
               />
             </div>
             {errors.email && (
@@ -132,12 +122,7 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
               </span>
             </p>
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input
-                className="p-2"
-                type="text"
-                {...register("email")}
-                
-              />
+              <input className="p-2" type="text" {...register("email")} />
             </div>
             {errors.postcode && (
               <p className="text-red-500 text-sm">{errors.postcode.message}</p>
@@ -149,14 +134,12 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
               </span>
             </p>
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input
-                className="p-2"
-                type="text"
-                {...register("postcode")}
-              />
+              <input className="p-2" type="text" {...register("postcode")} />
             </div>
             {errors.prefferedDate && (
-              <p className="text-red-500 text-sm">{errors.prefferedDate.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.prefferedDate.message}
+              </p>
             )}
             <p>
               {" "}
@@ -171,7 +154,7 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
                 {...register("prefferedDate")}
               />
             </div>
-            
+
             <p>
               {" "}
               <span>
@@ -180,36 +163,33 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
             </p>
             <div className="flex mb-4 w-full">
               <TextSelectQuestionaire
-              checkOff={controlAm()}
-              onSelected={
-                setSelectedTime
-              }
-              className={"max-w-[100px]"}
-              option={{caption: "AM"}} />
+                checkOff={controlAm()}
+                onSelected={setSelectedTime}
+                className={"max-w-[100px]"}
+                option={{ caption: "AM" }}
+              />
               <div className="w-[100px]"></div>
               <TextSelectQuestionaire
-              checkOff={controlPm()}
-              onSelected={
-                setSelectedTime
-              }
-              className={"max-w-[100px]"} option={{caption: "PM"}} />
+                checkOff={controlPm()}
+                onSelected={setSelectedTime}
+                className={"max-w-[100px]"}
+                option={{ caption: "PM" }}
+              />
             </div>
             {errors.additionalNotes && (
-              <p className="text-red-500 text-sm">{errors.additionalNotes.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.additionalNotes.message}
+              </p>
             )}
             <p>
               {" "}
-              <span>
-                Additional Notes
-              </span>
+              <span>Additional Notes</span>
             </p>
             <div className="flex items-start">
               <textarea
-               className="p-2 border-[1.5px] border-primarycol/10"
+                className="p-2 border-[1.5px] border-primarycol/10"
                 {...register("additionalNotes")}
-                onChange={(e)=>[
-                  setAdditionalNotes(e.target.value)
-                ]}
+                onChange={(e) => [setAdditionalNotes(e.target.value)]}
                 value={additionalNotes}
                 rows={10}
                 cols={50}
@@ -217,16 +197,23 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
               ></textarea>
             </div>
 
-            <div
-              className={`flex justify-center p-4 mt-2`}
-            >
+            <div className={`flex justify-center p-4 mt-2`}>
               <AlertDialogComponent
                 title={
-                  selectedTime === ""? "Please select a preferred time" : isLoading === true ? "Processing..." : httpStatus === 201 ? "Thank you for your reservation!" 
+                  selectedTime === ""
+                    ? "Please select a preferred time"
+                    : isLoading === true
+                    ? "Processing..."
+                    : httpStatus === 201
+                    ? "Thank you for your reservation!"
                     : "Ooops! Something went wrong. Please try again later"
                 }
                 buttonClassname=""
-                actionButtonClassName={`${httpStatus === 200 ? "bg-primarycol/90 hover:bg-primarycol/70" : "bg-red-600 hover:bg-red-700"}`}
+                actionButtonClassName={`${
+                  httpStatus === 200
+                    ? "bg-primarycol/90 hover:bg-primarycol/70"
+                    : "bg-red-600 hover:bg-red-700"
+                }`}
                 buttonSize={"lg"}
                 buttonText="Ok"
                 actionText="Ok"
@@ -238,19 +225,12 @@ const PersonalDetailsForm: FC = (props): React.ReactNode => {
                     text="Submit"
                     className="bg-primarycol px-8 transform hover:scale-90"
                     onClick={() => {
-                      console.log("form state errors ", errors)
+                      console.log("form state errors ", errors);
                     }}
                   />
                 }
               />
-              {/* <AdminButton
-                type="submit"
-                text="Submit"
-                className="bg-primarycol px-8 transform hover:scale-90"
-                // onClick={() => {
-                //   setLoginError(0);
-                // }}
-              /> */}
+              
             </div>
           </form>
         </div>

@@ -28,9 +28,9 @@ const ServiceImageQuestionaire: FC<ServiceImageQuestionaireProps> = ({
     }else{
       // update answers only if this is not  the first time the component is being mounted
       if(isSelected){
-        updateSelectedOptions(saveSelectedOption, question, option.caption, true)
+        updateSelectedOptions(saveSelectedOption, question, option.caption, true, false)
       }else{
-        updateSelectedOptions(saveSelectedOption, question, option.caption, false)
+        updateSelectedOptions(saveSelectedOption, question, option.caption, false, false)
       }
     }
 

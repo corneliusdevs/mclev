@@ -5,28 +5,33 @@ export type SelectedOptionWithAnswers = {
   answers: string[];
 };
 
+// makes a copy of the store to be updated and returns the new store with the applied update
 const updateStore = (
   store: SelectedOptionWithAnswers[],
   item: SelectedOptionWithAnswers,
   toBeStored: boolean
 ) => {
   let storeCopy = [...store];
+
   let indexOfSavedEntry = -1;
 
   if (storeCopy.length === 0 && toBeStored) {
     storeCopy.push(item);
   }
 
+  // check if the question has already been answered. if Yes, save the index of the question
   storeCopy.forEach((savedEntry, index) => {
     if (savedEntry.question === item.question) {
       indexOfSavedEntry = index;
     }
   });
 
+  // Check if the question with answers to be updated is in the Store.
   if (indexOfSavedEntry !== -1 && toBeStored) {
+    // overwrite the question and answer
     storeCopy[indexOfSavedEntry] = item;
   } else {
-    // push the answer to the answers array copy
+    // push question and answer to the store
     storeCopy.push(item);
   }
 
@@ -38,11 +43,13 @@ const updateStore = (
   return storeCopy;
 };
 
+//
 const updateAnswersOfSelectedOption = (
   existingOptionWithAnswers: SelectedOptionWithAnswers,
   question: string,
   answer: string,
-  saveAnswer: boolean
+  saveAnswer: boolean,
+  shouldOverwriteAnswersWithCurrentValue: boolean
 ) => {
   let indexOfSavedAnswer = -1;
   let isAnswerSaved = false;
@@ -60,12 +67,39 @@ const updateAnswersOfSelectedOption = (
   if (saveAnswer === true) {
     // check if the answer has been stored and if so, overwrite the value
     if (isAnswerSaved) {
-      //   previousAnswersArrayCopy[indexOfAnswer] = answer;
+      // if shouldOverwriteAnswerWithCurrentValue is true, then return an array containing only the current answer
+      if (shouldOverwriteAnswersWithCurrentValue) {
+
+        savedAnswers = [answer];
+        
+        // if answer is an empty string and overwrite answers with current value is true, clear the answers array
+        if (answer === "") {
+          savedAnswers = [];
+        }
+
+        return {
+          question,
+          answers: savedAnswers,
+        };
+      }
 
       return existingOptionWithAnswers;
     } else {
-      // push the answer to the answers array copy
+      // push the answer to the answers array copy only
       savedAnswers.push(answer);
+
+      // if shouldOverwriteAnswerWithCurrentValue is true, then return an array containing only the current answer
+      if (shouldOverwriteAnswersWithCurrentValue) {
+        savedAnswers = [answer];
+        // if answer is an empty string and overwrite answers with current value is true, clear the answers array
+        if (answer === "") {
+          savedAnswers = [];
+        }
+        return {
+          question,
+          answers: savedAnswers,
+        };
+      }
 
       return {
         question,
@@ -73,6 +107,19 @@ const updateAnswersOfSelectedOption = (
       };
     }
   } else {
+    // if shouldOverwriteAnswerWithCurrentValue is true, then return an array containing only the current answer
+    if (shouldOverwriteAnswersWithCurrentValue) {
+      savedAnswers = [answer];
+      // if answer is an empty string and overwrite answers with current value is true, clear the answers array
+      if (answer === "") {
+        savedAnswers = [];
+      }
+      return {
+        question,
+        answers: savedAnswers,
+      };
+    }
+
     // remove the unSelected answer from the previousAnswersArray
     if (indexOfSavedAnswer !== -1) {
       savedAnswers.splice(indexOfSavedAnswer, 1);
@@ -96,9 +143,9 @@ export const updateSelectedOptions = (
   >,
   question: string,
   answer: string,
-  saveAnswer: boolean
+  saveAnswer: boolean,
+  shouldOverwriteAnswersWithCurrentValue: boolean
 ) => {
-
   // make a copy of the previous state
   saveSelectedOptionStateHandler((store) => {
     let storeCopy = [...store];
@@ -116,6 +163,7 @@ export const updateSelectedOptions = (
       question: "",
       answers: [],
     };
+
     let exisitingEntryIndex: number;
 
     storeCopy.forEach((savedEntry, index) => {
@@ -130,7 +178,8 @@ export const updateSelectedOptions = (
         exisitingEntry,
         question,
         answer,
-        saveAnswer
+        saveAnswer,
+        shouldOverwriteAnswersWithCurrentValue
       );
       storeCopy = updateStore(storeCopy, item, saveAnswer);
     } else {
@@ -138,13 +187,14 @@ export const updateSelectedOptions = (
         exisitingEntry,
         question,
         answer,
-        saveAnswer
+        saveAnswer,
+        shouldOverwriteAnswersWithCurrentValue
       );
       storeCopy = updateStore(storeCopy, item, saveAnswer);
     }
 
     console.log(storeCopy);
-    
+
     return storeCopy;
   });
 };
