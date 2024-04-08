@@ -37,24 +37,24 @@ const AdminDashboard = () => {
       let { httpStatus, userRole, kindeDetails } = data;
       if (httpStatus !== 200 || userRole !== "admin" || !kindeDetails) {
         navigate("/sign-in");
+      } else {
+        setIsAdminLoggedIn(true);
       }
-      setIsAdminLoggedIn(true);
       setIsAuthenticating(false);
     }
   }, [isLoading, data, error]);
 
   return (
     <main className="">
-      {isAuthenticating ? (
+      {(isAuthenticating || !isAdminLoggedIn) && (
         <div className="w-full h-[65vh] flex justify-center items-center">
           <div className="flex flex-col items-center gap-2 text-center px-12">
             <Loader2 className="h-8 w-8 animate-spin text-zinc-800" />
-            <h3 className="font-semibold text-xl">
-              Authenticating...
-            </h3>
+            <h3 className="font-semibold text-xl">Authenticating...</h3>
           </div>
         </div>
-      ) : (
+      )}
+      {isAdminLoggedIn && !isAuthenticating && !isLoading && (
         <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} />
       )}
     </main>

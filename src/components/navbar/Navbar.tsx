@@ -42,16 +42,15 @@ const Navbar: FC<NavbarProps> = () => {
 
   const [openNavbar, setOpenNavbar] = useState<boolean>(false);
   const [isUser, setIsUser] = useState<boolean>(false);
- 
+
   const currentPath = usePathname();
   const { isLoading, data, error } = trpc.getUserSession.useQuery();
 
-
-  useEffect(()=>{
-    if(typeof data === 'object' && data !== null && 'kindeDetails' in data){
-       setIsUser(true);
+  useEffect(() => {
+    if (typeof data === "object" && data !== null && "kindeDetails" in data) {
+      setIsUser(true);
     }
-  }, [isLoading, data])
+  }, [isLoading, data]);
 
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
@@ -86,37 +85,54 @@ const Navbar: FC<NavbarProps> = () => {
               <div className="bg-white/70  transition-all duration-[2000] z-100">
                 {navbarItems.map((item, index) => {
                   return (
-                    <div
+                    <Link
                       key={item.text + index}
-                      className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                      href={`/${item.link}`}
+                      onClick={() => {
+                        setOpenNavbar((v) => !v);
+                      }}
                     >
-                      <Link href={`/${item.link}`}>{item.text}</Link>
-                    </div>
+                      <div className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
+                        {item.text}
+                      </div>
+                    </Link>
                   );
                 })}
                 {isUser ? (
-                  <LogoutLink>
+                  <LogoutLink key={Date.now()}>
                     <div
-                      key={Date.now()}
                       className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                      onClick={() => {
+                        setOpenNavbar((v) => !v);
+                      }}
                     >
                       Logout
                     </div>
                   </LogoutLink>
                 ) : (
-                  <div
+                  <Link
+                    href={"/sign-in"}
                     key={Date.now()}
-                    className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                    onClick={() => {
+                      setOpenNavbar((v) => !v);
+                    }}
                   >
-                    <Link href={"/sign-in"} >Sign In</Link>
-                  </div>
+                    <div className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
+                      Sign In
+                    </div>
+                  </Link>
                 )}
-                <div
-                    key={Date.now()}
-                    className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
-                  >
-                    <Link href={"/admin-dashboard"} >Dashboard</Link>
+                <Link
+                  href={"/admin-dashboard"}
+                  key={Date.now()}
+                  onClick={() => {
+                    setOpenNavbar((v) => !v);
+                  }}
+                >
+                  <div className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
+                    Dashboard
                   </div>
+                </Link>
               </div>
             )}
           </MaxwidthWrapper>
