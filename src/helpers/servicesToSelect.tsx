@@ -96,11 +96,11 @@ export const antiviralServiceQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "working.png",
         caption: "Studio",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "flats1.png",
         caption: "House/Flat",
       },
     ],
@@ -114,11 +114,11 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "house.png",
         caption: "Single",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "flats.png",
         caption: "Double",
       },
     ],
@@ -129,27 +129,27 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "kitchen-table.png",
         caption: "Combined kitchen/living",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "kitchen2.png",
         caption: "Separated kitchen/living",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "washing-machine.png",
         caption: "Utility room",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "studyroom-office.png",
         caption: "Study room/office",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "conservatory.png",
         caption: "Conservatory",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "additional-areas.png",
         caption: "Additional areas",
       },
     ],
@@ -189,19 +189,19 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
     required: false,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "sofa.png",
         caption: "Sofa",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "armchair.png",
         caption: "Armchair",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "mattress.png",
         caption: "Mattress",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "curtains.png",
         caption: "Curtains",
       },
     ],
@@ -234,27 +234,27 @@ export const carpetOrRugCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "bedroom.png",
         caption: "Bedroom",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "living-room.png",
         caption: "Living room",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "diningroom.png",
         caption: "Dining room",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "hallway.png",
         caption: "Hallway",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "staircase.png",
         caption: "Staircase",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "landing.png",
         caption: "Landing",
       },
     ],
@@ -266,15 +266,15 @@ export const carpetOrRugCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: false,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "smallrug.png",
         caption: "Small / up to 4sq.m",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "medium-rug.png",
         caption: "Medium / up to 8sq.m",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "large-rug.png",
         caption: "Large / up to 15sq.m",
       },
     ],
@@ -324,19 +324,19 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "flats1.png",
         caption: "Flat",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "terraced-house.png",
         caption: "Terraced House",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "semi-detached-house.png",
         caption: "Semi detached",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "detached-house.png",
         caption: "Detached House",
       },
     ],
@@ -371,15 +371,15 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: false,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "conservatory.png",
         caption: "Conservatory",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "glass-roof.png",
         caption: "Glass roof",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "skylight-window.png",
         caption: "Skylight",
       },
     ],
@@ -464,7 +464,7 @@ export const uphosteryCleaningServiceQuestionaire: ServiceQuestionaire[] = [
   },
   {
     questionaireType: "ImageWithCaption",
-    question: "Would you like to add matress cleaning?",
+    question: "Would you like to add mattress cleaning?",
     required: false,
     options: [
       {

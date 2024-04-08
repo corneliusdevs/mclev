@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomeheroButton from "../ui/HomeheroButton";
 import SelectComponent from "../SelectComponent";
 import {
@@ -30,6 +30,9 @@ const BookACleaner = () => {
   const persistedSelectedServiceRef = useRef<string>("");
   const persistedValidatedAnswersRef = useRef<SelectedOptionWithAnswers[]>();
 
+  useEffect(()=>{
+    console.log(servicesToSelectLookup[selectedService], " selected Services")
+  }, [selectedService])
   const [error, setError] = useState({
     isError: false,
     detailsValidated: false,

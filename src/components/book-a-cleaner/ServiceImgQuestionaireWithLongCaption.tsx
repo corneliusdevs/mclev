@@ -54,7 +54,7 @@ const ServiceImgQuestionaireWithLongCaption: FC<
         );
       }
     }
-  }, [isSelected]);
+  }, [isSelected, option.caption, saveSelectedOption]);
 
   return (
     <div className="relative w-full">
@@ -71,7 +71,7 @@ const ServiceImgQuestionaireWithLongCaption: FC<
         <div className="p-1">
           <div className="transform scale-[0.6] flex justify-center">
             <Image
-              src={"/assets/services/oven3.png"}
+              src={`/assets/services/${option.imageSrc}`}
               alt="cooker"
               width={100}
               height={100}

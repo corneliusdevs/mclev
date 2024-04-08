@@ -7,7 +7,7 @@ import { VariantProps } from "class-variance-authority"
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
    text: string;
-   icon?: React.ReactNode
+   icon?: React.ReactNode;
 }
 
 const HomeheroButton: FC<HomeheroButtonProps> = ({variant, size, className, text, ...props})=>{

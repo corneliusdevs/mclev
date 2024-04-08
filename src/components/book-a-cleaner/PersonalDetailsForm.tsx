@@ -13,10 +13,12 @@ import {
 import TextSelectQuestionaire from "./TextSelectQuestionaire";
 import AlertDialogComponent from "../AlertDialogComponent";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
+import { getServiceQuestionaire } from "@/helpers/getServiceQuestionaire";
+import { servicesToSelectLookup } from "@/helpers/servicesToSelect";
 
 interface PersonalDetailsFormProps {
   bookingInfo?: SelectedOptionWithAnswers[];
-  selectedService?: string;
+  selectedService: string;
 }
 
 const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
@@ -56,13 +58,12 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   };
 
   const onSubmit = async (info: PersonalDetailsSchemaType) => {
-    console.log("executed submit");
+    console.log("selected service is ", servicesToSelectLookup[selectedService]);
     console.log({
       ...info,
       selectedTime,
       additionalNotes,
       bookingInfo,
-      selectedService
     });
 
     console.log("this is booking info ", bookingInfo)
@@ -77,7 +78,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
           ...info,
           prefferedTime: selectedTime,
           additionalNotes,
-          selectedService,
+          selectedService: servicesToSelectLookup[selectedService],
           bookingInfo,
         },
         {
@@ -208,11 +209,11 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               <textarea
                 className="p-2 border-[1.5px] border-primarycol/10"
                 {...register("additionalNotes")}
-                onChange={(e) => [setAdditionalNotes(e.target.value)]}
+                onChange={(e) => {setAdditionalNotes(e.target.value)}}
                 value={additionalNotes}
                 rows={10}
                 cols={50}
-                name="abstract"
+                name="additional-details"
               ></textarea>
             </div>
 

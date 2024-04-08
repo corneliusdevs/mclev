@@ -26,7 +26,7 @@ const ButtonWithIcons: FC<ButtonWithIconsProps> = ({
       onClick={()=>{
         if (props.clickHandler)props.clickHandler()
       }}>
-        <div className={`flex justify-between items-center w-full max-w-[110px] min-w-[100px]`}>
+        <div className={`flex justify-between items-center w-full max-w-[110px]`}>
           <span className=""> {icon}</span>
           <span>{text}</span>
           {props.extraInfo && <span>&#40;{props.extraInfo}&#41;</span>}

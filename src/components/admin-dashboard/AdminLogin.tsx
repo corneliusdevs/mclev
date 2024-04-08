@@ -25,7 +25,7 @@ const AdminLogin: FC = (props): React.ReactNode => {
   });
 
 
-  const { mutate, isLoading } = trpc.createUser.useMutation({ networkMode: "always" });
+  const { mutate, isLoading } = trpc.signUpAdmin.useMutation({ networkMode: "always" });
 
   const router = useRouter()
   const [httpStatus, setHttpStatus] = useState<number>();
@@ -130,6 +130,7 @@ const AdminLogin: FC = (props): React.ReactNode => {
                     : "Ooops! Something went wrong. Please try again later"
                 }
                 buttonClassname=""
+                actionButtonClassName={`${httpStatus === 200 && "bg-primarycol hover:bg-primarycol"} ${httpStatus === 401 && "bg-red-600 hover:bg-red-600"} px-8 transform hover:scale-90`}
                 buttonSize={"lg"}
                 buttonText="Ok"
                 actionText="Ok"
@@ -139,7 +140,7 @@ const AdminLogin: FC = (props): React.ReactNode => {
                   <AdminButton
                     type="submit"
                     text="Login"
-                    className="bg-primarycol px-8 transform hover:scale-90"
+                    className={`bg-primarycol px-8 transform hover:scale-90`}
                     // onClick={() => {
                     //   setLoginError(0);
                     // }}

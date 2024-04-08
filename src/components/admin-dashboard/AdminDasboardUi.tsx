@@ -1,22 +1,22 @@
 "use client";
 
 import AdminNavbar from "@/ui/admin-dashboard/AdminNavbar";
-import BookingList from "@/ui/admin-dashboard/Booking";
 import ChatList from "@/ui/admin-dashboard/ChatList";
 import SearchUi from "@/ui/admin-dashboard/Search";
 import Tab from "@/ui/admin-dashboard/Tab";
 import ChatDialog from "@/ui/chat/ChatDialog";
 import React, { FC, useState } from "react";
+import Bookings from "./bookings/Bookings";
 
-interface AdminDashboardUi{
-
+interface AdminDashboardUiProps{
+isAdminLoggedIn: boolean
 }
 
-const AdminDashboardUi = (): React.ReactNode => {
-  const [dashboardState, setDashboardState] = useState<
-    "chats" | "dashboard" | "bookings" | "chatDialog"
-  >("chats");
+const AdminDashboardUi = ({isAdminLoggedIn}: AdminDashboardUiProps): React.ReactNode => {
 
+  const [dashboardState, setDashboardState] = useState<
+  "chats" | "dashboard" | "bookings" | "chatDialog"
+>("chats");
   const determineDashboardUi = (): JSX.Element=> {
     let dashboardUi = <div></div>;
     switch (dashboardState) {
@@ -157,27 +157,7 @@ const AdminDashboardUi = (): React.ReactNode => {
       case "bookings":
         dashboardUi = (
           <div>
-            <BookingList
-              title="William Smith"
-              subTitle="Meeting Tomorrow"
-              description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-              timeStamp={"3 hours ago"}
-              unread={true}
-            />
-            <BookingList
-              title="John James"
-              subTitle="Meeting Tomorrow"
-              description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-              timeStamp={"3 hours ago"}
-              unread={true}
-            />
-            <BookingList
-              title="Janet Ruth"
-              subTitle="Meeting Tomorrow"
-              description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-              timeStamp={"3 hours ago"}
-              unread={true}
-            />
+             <Bookings />
           </div>
         );
         break;
@@ -192,15 +172,15 @@ const AdminDashboardUi = (): React.ReactNode => {
   };
   return (
     <main className="">
-      <div className="fixed top-0 z-40 flex flex-col justify-between items-center w-full backdrop-lg border-b-[1px] border-slate-200">
+      <div className="sticky top-0 z-40 flex flex-col justify-between items-center w-full backdrop-lg border-b-[1px] border-slate-200">
         <AdminNavbar
           handleDashboardState={setDashboardState}
           dashBoardState={dashboardState}
+          isAdminLoggedIn = {isAdminLoggedIn}
         />
       </div>
-      <div className="mt-[50px]">
+      <div className="">
         {determineDashboardUi()}
-
       </div>
     </main>
   );

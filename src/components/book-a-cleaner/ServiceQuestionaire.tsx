@@ -6,13 +6,13 @@ import TextSelectQuestionaire from "./TextSelectQuestionaire";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 import UserInputQuestionaire from "./UserInputQuestionaire";
 
-interface ServiceQuestionaireProps {
+interface ServiceQuestionaireComponentProps {
   info: ServiceQuestionaire[];
 
   updateSelectedAnswers?: Dispatch<SetStateAction<SelectedOptionWithAnswers[]>>; // 
 }
 
-const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({ info, updateSelectedAnswers }) => {
+const ServiceQuestionaireComponent: FC<ServiceQuestionaireComponentProps> = ({ info, updateSelectedAnswers }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<
     SelectedOptionWithAnswers[]
   >([]);
@@ -23,11 +23,8 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({ info, updateSelecte
     if(updateSelectedAnswers){
       updateSelectedAnswers([])
     }
-  }, []);
+  }, [updateSelectedAnswers]);
 
-  const handleSelected = (currentState: []) => {
-    const currentStateCopy = [...currentState];
-  };
 
   return (
     <div>
@@ -145,4 +142,4 @@ const ServiceQuestionaire: FC<ServiceQuestionaireProps> = ({ info, updateSelecte
   );
 };
 
-export default ServiceQuestionaire;
+export default ServiceQuestionaireComponent;

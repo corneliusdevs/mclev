@@ -34,7 +34,7 @@ const ServiceImageQuestionaire: FC<ServiceImageQuestionaireProps> = ({
       }
     }
 
-  }, [isSelected])
+  }, [isSelected, option.caption, question, saveSelectedOption ])
 
   return (
     <div className="relative">
@@ -47,7 +47,7 @@ const ServiceImageQuestionaire: FC<ServiceImageQuestionaireProps> = ({
         <div className="p-1">
           <div className="transform scale-[0.6] flex justify-center">
             <Image
-              src={"/assets/services/oven3.png"}
+              src={`/assets/services/${option.imageSrc}`}
               alt="cooker"
               width={100}
               height={100}

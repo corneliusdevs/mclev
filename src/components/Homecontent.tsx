@@ -210,21 +210,21 @@ const Homecontent = () => {
         <CarouselWithArrows
           items={[
             <TestimonialCard
-            key={Date.now.toString() + 122}
+            key={Date.now().toString() + 122}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={5}
               review={"Customer's review goes here. Its a really long review that takes long to type."}
             />,
             <TestimonialCard
-            key={Date.now.toString() + 11}
+            key={Date.now().toString() + 11}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={3}
               review={"Customer's review goes here. Its a really long review that takes long to type."}
             />,
             <TestimonialCard
-            key={Date.now.toString() + 12}
+            key={Date.now().toString() + 12}
               title={"Josh M."}
               subtitle={"2 days ago"}
               rating={4}

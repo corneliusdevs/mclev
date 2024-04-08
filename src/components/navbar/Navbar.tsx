@@ -1,11 +1,15 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { AlignJustify, AlignRight, X } from "lucide-react";
 import MaxwidthWrapper from "../Max_Min_widthWrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getServerSession } from "@/app/getServerSession";
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import HomeheroButton from "../ui/HomeheroButton";
+import { trpc } from "@/trpc-client/client";
 
 interface NavbarProps {}
 
@@ -38,8 +42,17 @@ const Navbar: FC<NavbarProps> = () => {
   ];
 
   const [openNavbar, setOpenNavbar] = useState<boolean>(false);
-
+  const [isUser, setIsUser] = useState<boolean>(false);
+ 
   const currentPath = usePathname();
+  const { isLoading, data, error } = trpc.getUserSession.useQuery();
+
+
+  useEffect(()=>{
+    if(typeof data === 'object' && data !== null && 'kindeDetails' in data){
+       setIsUser(true);
+    }
+  }, [isLoading])
 
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
@@ -82,6 +95,23 @@ const Navbar: FC<NavbarProps> = () => {
                     </div>
                   );
                 })}
+                {isUser ? (
+                  <LogoutLink>
+                    <div
+                      key={Date.now()}
+                      className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                    >
+                      Logout
+                    </div>
+                  </LogoutLink>
+                ) : (
+                  <div
+                    key={Date.now()}
+                    className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                  >
+                    <Link href={"/sign-in"} >Sign In</Link>
+                  </div>
+                )}
               </div>
             )}
           </MaxwidthWrapper>

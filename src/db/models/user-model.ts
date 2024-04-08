@@ -1,9 +1,9 @@
 import mongoose, { model, Schema } from "mongoose";
 
 export interface User {
-  username: string;
+  email: string;
   userRole: "admin" | "user";
-  password: string;
+  kindeId: string;
 }
 
 export interface MongoUser extends User, mongoose.Document {}
@@ -15,12 +15,12 @@ export type TUser = User & {
 };
 
 const UserSchema = new mongoose.Schema<User>({
-  username: {
+  email: {
     type: String,
     required: true,
     unique:  true,
   },
-  password: {
+  kindeId: {
     type: String,
     required: true,
   },
