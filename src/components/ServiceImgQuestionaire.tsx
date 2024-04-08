@@ -7,13 +7,13 @@ import Image from "next/image";
 import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { FC, useState } from "react";
 
-interface ServiceImageQuestionaireProps {
+interface ServiceImgQuestionaireProps {
   option: ServiceQuestionaireOptions;
   saveSelectedOption:  Dispatch<SetStateAction<SelectedOptionWithAnswers[]>>;
   question: string;
 }
 
-const ServiceImageQuestionaire: FC<ServiceImageQuestionaireProps> = ({
+const ServiceImgQuestionaire: FC<ServiceImgQuestionaireProps> = ({
   option, saveSelectedOption, question
 }) => {
   const [isSelected, setIsSelected] = useState(false);
@@ -69,4 +69,4 @@ const ServiceImageQuestionaire: FC<ServiceImageQuestionaireProps> = ({
   );
 };
 
-export default ServiceImageQuestionaire;
+export default ServiceImgQuestionaire;
