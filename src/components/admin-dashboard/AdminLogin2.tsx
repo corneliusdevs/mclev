@@ -37,21 +37,21 @@ const AdminLogin2: FC = (props): React.ReactNode => {
 
   const onSubmit = async (info: { username: string; password: string }) => {
     // send the request to the api
-    mutate(
-      {
-        ...info,
-      },
-      {
-        onSuccess: (data) =>{ 
-          setHttpStatus(data.httpStatus)
-          router.push("/admin-dashboard")
-        },
-        onError: (error) => {
-          setHttpStatus(error.data?.httpStatus)
-          console.log("error logging in ", error)
-        },
-      }
-    );
+   // mutate(
+    //   {
+    //     ...info,
+    //   },
+    //   {
+    //     onSuccess: (data) =>{ 
+    //       setHttpStatus(data.httpStatus)
+    //       router.push("/admin-dashboard")
+    //     },
+    //     onError: (error) => {
+    //       setHttpStatus(error.data?.httpStatus)
+    //       console.log("error logging in ", error)
+    //     },
+    //   }
+    // );
 
   };
 

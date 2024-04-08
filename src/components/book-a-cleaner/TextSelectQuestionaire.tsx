@@ -62,7 +62,7 @@ const TextSelectQuestionaire: FC<TextSelectQuestionaireProps> = ({
         }
       }
     }
-    }, [isSelected]);
+    }, [isSelected, option.caption, question, saveSelectedOption]);
 
 
   return (

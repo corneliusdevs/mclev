@@ -45,7 +45,7 @@ const [userInput, setUserInput] = useState<string>("")
       }
       
     }
-  }, [userInput]);
+  }, [userInput, question, saveSelectedOption]);
 
   return (
     <div>
@@ -63,5 +63,7 @@ const [userInput, setUserInput] = useState<string>("")
     </div>
   );
 });
+
+UserInputQuestionaire.displayName = "UserInputQuestionaire";
 
 export default UserInputQuestionaire;

@@ -18,4 +18,5 @@ const InputElement = forwardRef<HTMLInputElement,  InputProps>(({ className, pla
   );
 });
 
+InputElement.displayName = "Custom Input(src/components/Input.tsx)"
 export default InputElement;

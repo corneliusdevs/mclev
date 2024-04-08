@@ -54,7 +54,7 @@ const ServiceImgQuestionaireWithLongCaption: FC<
         );
       }
     }
-  }, [isSelected, option.caption, saveSelectedOption]);
+  }, [isSelected, option.caption, saveSelectedOption, question]);
 
   return (
     <div className="relative w-full">

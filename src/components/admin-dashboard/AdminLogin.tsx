@@ -25,9 +25,11 @@ const AdminLogin: FC = (props): React.ReactNode => {
   });
 
 
-  const { mutate, isLoading } = trpc.signUpAdmin.useMutation({ networkMode: "always" });
+  // const { mutate, isLoading } = trpc.signUpAdmin.useMutation({ networkMode: "always" });
 
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [httpStatus, setHttpStatus] = useState<number>();
   const [isUsernameAndPassFieldNotEmpty, setIsUsernameAndPassFieldNotEmpty] = useState({
     username: false,
@@ -36,21 +38,21 @@ const AdminLogin: FC = (props): React.ReactNode => {
 
   const onSubmit = async (info: { username: string; password: string }) => {
     // send the request to the api
-    mutate(
-      {
-        ...info,
-      },
-      {
-        onSuccess: (data) =>{ 
-          setHttpStatus(data.httpStatus)
-          router.push("/admin-dashboard")
-        },
-        onError: (error) => {
-          setHttpStatus(error.data?.httpStatus)
-          console.log("error logging in ", error)
-        },
-      }
-    );
+    // mutate(
+    //   {
+    //     ...info,
+    //   },
+    //   {
+    //     onSuccess: (data) =>{ 
+    //       setHttpStatus(data.httpStatus)
+    //       router.push("/admin-dashboard")
+    //     },
+    //     onError: (error) => {
+    //       setHttpStatus(error.data?.httpStatus)
+    //       console.log("error logging in ", error)
+    //     },
+    //   }
+    // );
 
   };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import HomeheroButton from "../ui/HomeheroButton";
 import SelectComponent from "../SelectComponent";
 import {
@@ -30,9 +30,14 @@ const BookACleaner = () => {
   const persistedSelectedServiceRef = useRef<string>("");
   const persistedValidatedAnswersRef = useRef<SelectedOptionWithAnswers[]>();
 
-  useEffect(()=>{
-    console.log(servicesToSelectLookup[selectedService], " selected Services")
-  }, [selectedService])
+  const updateSelectedAnswers = useCallback(setSelectedAnswers, [
+    selectedAnswers, setSelectedAnswers
+  ]);
+
+  useEffect(() => {
+    console.log(servicesToSelectLookup[selectedService], " selected Services");
+  }, [selectedService, setSelectedAnswers]);
+
   const [error, setError] = useState({
     isError: false,
     detailsValidated: false,
@@ -173,14 +178,14 @@ const BookACleaner = () => {
         selectedService !== "" ? (
           <ServiceDetail
             serviceName={servicesToSelectLookup[selectedService]}
-            updateSelectedAnswers={setSelectedAnswers}
+            updateSelectedAnswers={updateSelectedAnswers}
           />
         ) : (
           <ServiceDetail
             serviceName={
               servicesToSelectLookup[persistedSelectedServiceRef.current]
             }
-            updateSelectedAnswers={setSelectedAnswers}
+            updateSelectedAnswers={updateSelectedAnswers}
           />
         );
     } else if (sectionUiToGenerate === "personal information") {

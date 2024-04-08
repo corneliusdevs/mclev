@@ -52,7 +52,7 @@ const Navbar: FC<NavbarProps> = () => {
     if(typeof data === 'object' && data !== null && 'kindeDetails' in data){
        setIsUser(true);
     }
-  }, [isLoading])
+  }, [isLoading, data])
 
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
@@ -112,6 +112,12 @@ const Navbar: FC<NavbarProps> = () => {
                     <Link href={"/sign-in"} >Sign In</Link>
                   </div>
                 )}
+                <div
+                    key={Date.now()}
+                    className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
+                  >
+                    <Link href={"/admin-dashboard"} >Dashboard</Link>
+                  </div>
               </div>
             )}
           </MaxwidthWrapper>
