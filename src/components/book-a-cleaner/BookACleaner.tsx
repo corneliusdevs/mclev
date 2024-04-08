@@ -1,16 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import HomeheroButton from "../ui/HomeheroButton";
-import SelectComponent from "../SelectComponent";
+import HomeheroButton from "@/components/ui/HomeheroButton";
+import SelectComponent from "@/components/SelectComponent";
 import {
   servicesToSelect,
   servicesToSelectLookup,
 } from "@/helpers/servicesToSelect";
-import AlertDialogComponent from "../AlertDialogComponent";
+import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { Loader2 } from "lucide-react";
-import ServiceDetail from "./ServiceDetail";
-import PersonalDetailsForm from "./PersonalDetailsForm";
+import ServiceDetail from "@/components/book-a-cleaner/ServiceDetail";
+import PersonalDetailsForm from "@/components/book-a-cleaner/PersonalDetailsForm";
 import { getServiceQuestionaire } from "@/helpers/getServiceQuestionaire";
 import { validateServiceQuestionaire } from "@/helpers/validateServiceQuestionaire";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";

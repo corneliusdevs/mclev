@@ -1,7 +1,7 @@
 "use client"
 
 import { Dispatch, FC, SetStateAction, forwardRef, useEffect, useRef, useState } from "react";
-import Input from "../Input";
+import Input from "@/components/Input";
 import { SelectedOptionWithAnswers, updateSelectedOptions } from "@/helpers/updateSelectedOptions";
 
 interface UserInputQuestionaireProps extends React.InputHTMLAttributes<HTMLInputElement> {

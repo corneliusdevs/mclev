@@ -2,13 +2,12 @@
 
 import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
-import { AlignJustify, AlignRight, X } from "lucide-react";
-import MaxwidthWrapper from "../Max_Min_widthWrapper";
+import { AlignJustify, X } from "lucide-react";
+import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { getServerSession } from "@/app/getServerSession";
 import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import HomeheroButton from "../ui/HomeheroButton";
+import HomeheroButton from "@/components/ui/HomeheroButton";
 import { trpc } from "@/trpc-client/client";
 
 interface NavbarProps {}

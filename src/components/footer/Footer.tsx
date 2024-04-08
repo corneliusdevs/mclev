@@ -3,7 +3,7 @@ import { ChevronRight, Facebook, Mail, Youtube } from "lucide-react";
 import React from "react";
 import { faPinterestP, faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { phoneNumber, webEmail } from "@/helpers/siteInfo";
-import TooltipComponent from "../Tooltip";
+import TooltipComponent from "@/components/Tooltip";
 
 const usefulLinks = [
   "Home",

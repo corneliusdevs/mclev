@@ -10,10 +10,9 @@ import {
   PersonalDetailsSchemaType,
   personalDetailsSchema,
 } from "@/helpers/personalDetailsSchema";
-import TextSelectQuestionaire from "./TextSelectQuestionaire";
-import AlertDialogComponent from "../AlertDialogComponent";
+import TextSelectQuestionaire from "@/components/book-a-cleaner/TextSelectQuestionaire";
+import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
-import { getServiceQuestionaire } from "@/helpers/getServiceQuestionaire";
 import { servicesToSelectLookup } from "@/helpers/servicesToSelect";
 
 interface PersonalDetailsFormProps {

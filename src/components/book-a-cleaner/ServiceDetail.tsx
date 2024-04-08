@@ -1,7 +1,7 @@
 
 
 import { Dispatch, FC, SetStateAction } from "react";
-import ServiceQuestionaire from "./ServiceQuestionaire";
+import ServiceQuestionaire from "@/components/book-a-cleaner/ServiceQuestionaire";
 import {
   antiviralServiceQuestionaire,
   carpetOrRugCleaningServiceQuestionaire,
