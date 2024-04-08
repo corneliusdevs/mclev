@@ -1,10 +1,11 @@
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { ServiceQuestionaire } from "@/helpers/servicesToSelect";
-import ServiceImageQuestionaire from "@/components/book-a-cleaner/ServiceImageQuestionaire";
+// import ServiceImageQuestionaire from "@/components/book-a-cleaner/ServiceImageQuestionaire";
 import ServiceImgQuestionaireWithLongCaption from "@/components/book-a-cleaner/ServiceImgQuestionaireWithLongCaption";
 import TextSelectQuestionaire from "@/components/book-a-cleaner/TextSelectQuestionaire";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 import UserInputQuestionaire from "@/components/book-a-cleaner/UserInputQuestionaire";
+import ServiceImageQuestionaire from "./ServiceImageQuestionaire";
 
 interface ServiceQuestionaireComponentProps {
   info: ServiceQuestionaire[];
