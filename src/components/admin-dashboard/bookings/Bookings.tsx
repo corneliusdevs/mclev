@@ -32,8 +32,8 @@ const Bookings: FC<BookingsProps> = () => {
 
   useEffect(() => {
     let timeout = setTimeout(() => {
-      if (data && data?.length !== 0) {
-        setBookings(data);
+      if (data && data?.bookings.length !== 0) {
+        setBookings(data.bookings);
       }
       setIsLoading(false);
     }, 3000);
@@ -115,7 +115,7 @@ const Bookings: FC<BookingsProps> = () => {
           <div className="sticky z-20 top-[50px] bg-white/95 text-black flex flex-col justify-start text-2xl border-b-[1px] border-greenaccentcol/15 pb-2 text-center">
           <span>All Bookings</span>
         </div>
-          {data.map((booking, index) => {
+          {data.bookings.map((booking, index) => {
             return (
               <BookingList
                 key={booking._id + index}

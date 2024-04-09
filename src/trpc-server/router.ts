@@ -16,7 +16,7 @@ const bcrypt = require("bcrypt");
 // IMPLEMENT A RATE LIMITING API IN ALL ROUTES
 
 export const appRouter = router({
-  getUserSession: publicProcedure.query(async()=>{
+  getUserSession: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 
@@ -29,15 +29,12 @@ export const appRouter = router({
       });
     }
 
-
-      return {
-        kindeDetails: user,
-        httpStatus: 200
-      }
-
-
+    return {
+      kindeDetails: user,
+      httpStatus: 200,
+    };
   }),
-  getAdminSession: publicProcedure.query(async()=>{
+  getAdminSession: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
 
@@ -50,35 +47,32 @@ export const appRouter = router({
       });
     }
 
-    let dbUser:TUser | undefined | null;
+    let dbUser: TUser | undefined | null;
 
-    
     await connectToDb()
-    .then(async () => {
+      .then(async () => {
         // check if user in database
         dbUser = await adminUserModel.findOne({ email: user.email });
       })
       .catch((err) => {
         console.log("error connnecting to database ", err);
         throw new TRPCError({
-          code:"INTERNAL_SERVER_ERROR",
-          message: "Unable to connect to database"
-        })
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Unable to connect to database",
+        });
       });
 
-      if(dbUser){
-          return {
-            kindeDetails: user,
-            userRole: dbUser.userRole,
-            httpStatus: 200
-          }
-      }
-
+    if (dbUser) {
       return {
-        httpStatus: 401
-      }
+        kindeDetails: user,
+        userRole: dbUser.userRole,
+        httpStatus: 200,
+      };
+    }
 
-
+    return {
+      httpStatus: 401,
+    };
   }),
   authCallback: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
@@ -95,10 +89,10 @@ export const appRouter = router({
 
     console.log("About to get user in database ");
 
-    let dbUser:TUser | undefined | null;
-    let adminUser:TAdminUser | undefined | null;
+    let dbUser: TUser | undefined | null;
+    let adminUser: TAdminUser | undefined | null;
     await connectToDb()
-    .then(async () => {
+      .then(async () => {
         // check if user in database
         adminUser = await adminUserModel.findOne({ email: user.email });
         dbUser = await userModel.findOne({ email: user.email });
@@ -111,48 +105,44 @@ export const appRouter = router({
               kindeId: user.id,
               userRole: "user",
             });
-            
           }
         } catch (err) {
           console.log("error creating user ", err);
           throw new TRPCError({
-            code:"INTERNAL_SERVER_ERROR",
-            message: "Failed"
-          })
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Failed",
+          });
         }
       })
       .catch((err) => {
         console.log("error connnecting to database ", err);
         throw new TRPCError({
-          code:"INTERNAL_SERVER_ERROR",
-          message: "Unable to connect to database"
-        })
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Unable to connect to database",
+        });
       });
 
-
-      if(typeof adminUser !== "undefined" && adminUser!== null){
-        return {
-          success: true,
-          userRole: adminUser.userRole,
-          kindeDetails: user
-        }
-      }
-      
-
-      if(typeof dbUser !== "undefined" && dbUser!== null){
-        return {
-          success: true,
-          userRole: dbUser.userRole,
-          kindeDetails: user
-        }
-      }
-
+    if (typeof adminUser !== "undefined" && adminUser !== null) {
       return {
         success: true,
-        userRole: "user",
-        kindeDetails: user
+        userRole: adminUser.userRole,
+        kindeDetails: user,
       };
-  
+    }
+
+    if (typeof dbUser !== "undefined" && dbUser !== null) {
+      return {
+        success: true,
+        userRole: dbUser.userRole,
+        kindeDetails: user,
+      };
+    }
+
+    return {
+      success: true,
+      userRole: "user",
+      kindeDetails: user,
+    };
   }),
   // loginAdmin: publicProcedure
   //   .input((v) => {
@@ -369,42 +359,32 @@ export const appRouter = router({
     };
 
     let bookings: DummyBookingType[] = [];
-    connect()
+    await connect()
       .then(async () => {
         console.log("db connected, getting bookings");
+
+        try {
+          bookings = await bookingsModel.find({});
+        } catch (err) {
+          console.log("error fetching bookings ", err);
+          throw new TRPCError({
+            message: "Oops! Something went wrong",
+            code: "INTERNAL_SERVER_ERROR",
+          });
+        }
       })
       .catch((error) => {
+        console.log("error connecting to database ", error);
         throw new TRPCError({
           message: "Oops! Something went wrong",
           code: "INTERNAL_SERVER_ERROR",
         });
       });
 
-    const getBookings = async () => {
-      let bookings: DummyBookingType[] = [];
-      await bookingsModel
-        .find({})
-        .then((results: DummyBookingType[]) => {
-          bookings = results;
-        })
-        .catch((err) => {
-          console.log("error occured getting booking ", err);
-          throw new TRPCError({
-            message: "Oops! Something went wrong",
-            code: "INTERNAL_SERVER_ERROR",
-          });
-        });
-
-      return bookings;
+    return {
+      bookings: bookings,
+      httpStatus: 200,
     };
-    let results = await getBookings();
-
-    return results;
-
-    // throw new TRPCError({
-    //   message: "Oops something went wrong. Please try again later",
-    //   code: "INTERNAL_SERVER_ERROR"
-    //  })
   }),
 
   createFeedback: publicProcedure
@@ -433,7 +413,7 @@ export const appRouter = router({
               ...params.input,
             })
             .then((result) => {
-               isSaved = true 
+              isSaved = true;
             })
             .catch((error) => {
               console.log("failed to create feedback in database", error);
@@ -447,12 +427,12 @@ export const appRouter = router({
           console.log(error);
         });
 
-        if(isSaved){
-          return {
-            message: "Successfull",
-            httpStatus: 201,
-          };
-        }
+      if (isSaved) {
+        return {
+          message: "Successfull",
+          httpStatus: 201,
+        };
+      }
       return {
         message: "Oopses! Something went wrong",
         httpStatus: 500,
