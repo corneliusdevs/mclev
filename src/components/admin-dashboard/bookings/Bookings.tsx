@@ -1,5 +1,5 @@
 import BookingList from "@/ui/admin-dashboard/BookingList";
-import { ArrowLeft, Bird, Loader2, MoveLeft, } from "lucide-react";
+import { ArrowLeft, Bird, Loader2, MoveLeft } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import "./bookings.css";
 import { trpc } from "@/trpc-client/client";
@@ -8,9 +8,7 @@ import Booking from "@/components/Booking";
 import { DummyBookingType, dummyBooking } from "@/helpers/dummyBooking";
 import ButtonWithIcons from "@/ui/admin-dashboard/ButtonWithIcon";
 
-interface BookingsProps {
-
-}
+interface BookingsProps {}
 
 type BookingsState = {
   viewingBooking: boolean;
@@ -34,8 +32,11 @@ const Bookings: FC<BookingsProps> = () => {
     let timeout = setTimeout(() => {
       if (data && data?.bookings.length !== 0) {
         setBookings(data.bookings);
+        setIsLoading(false);
       }
-      setIsLoading(false);
+      if (!isFetchingBookings) {
+        setIsLoading(false);
+      }
     }, 3000);
 
     return () => {
@@ -58,25 +59,24 @@ const Bookings: FC<BookingsProps> = () => {
 
   return (
     <div>
-      {
-        bookingsState.viewingBooking &&
-      <div className="sticky z-20 top-[50px] left-0">
-        {/* BACK BUTTON */}
-        <ButtonWithIcons
-          icon={<MoveLeft size={20} />}
-          text={"All Bookings"}
-          extraInfo=""
-          className={`w-full rounded-none font-xl`}
-          variant={"outline"}
-          clickHandler={() => {
-            setBookingsState({
-              viewingBooking: false,
-              bookingId: ""
-            })
-          }}
-        />
-      </div> 
-      }
+      {bookingsState.viewingBooking && (
+        <div className="sticky z-20 top-[50px] left-0">
+          {/* BACK BUTTON */}
+          <ButtonWithIcons
+            icon={<MoveLeft size={20} />}
+            text={"All Bookings"}
+            extraInfo=""
+            className={`w-full rounded-none font-xl`}
+            variant={"outline"}
+            clickHandler={() => {
+              setBookingsState({
+                viewingBooking: false,
+                bookingId: "",
+              });
+            }}
+          />
+        </div>
+      )}
       {isLoading ? (
         <div className="relative w-full h-[50vh] flex justify-center items-center">
           <div className="flex flex-col">
@@ -99,7 +99,7 @@ const Bookings: FC<BookingsProps> = () => {
             </p>
           </div>
         </div>
-      ) : bookings.length === 0 ? (
+      ) : bookings.length === 0 && !isFetchingBookings ? (
         <div className="w-full h-[50vh] flex justify-center items-center">
           <div className="flex flex-col">
             <div className="flex justify-center text-gray-500 transform rotateYOnHover">
@@ -113,8 +113,8 @@ const Bookings: FC<BookingsProps> = () => {
       ) : data && !bookingsState.viewingBooking ? (
         <div className="">
           <div className="sticky z-20 top-[50px] bg-white/95 text-black flex flex-col justify-start text-2xl border-b-[1px] border-greenaccentcol/15 pb-2 text-center">
-          <span>All Bookings</span>
-        </div>
+            <span>All Bookings</span>
+          </div>
           {data.bookings.map((booking, index) => {
             return (
               <BookingList
@@ -163,7 +163,6 @@ const Bookings: FC<BookingsProps> = () => {
           /> */}
         </div>
       )}
-      
     </div>
   );
 };

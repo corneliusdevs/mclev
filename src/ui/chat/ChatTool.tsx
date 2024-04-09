@@ -11,7 +11,7 @@ interface ChatToolProps {
 const ChatTool:FC<ChatToolProps> = ({handleChatDialogState, chatDialogState}) => {
   
   return (
-    <div className="fixed bottom-3 right-2 flex justify-center items-center rounded-full w-14 h-14 bg-secondarycol text-white shadow-md hover:cursor-pointer hover:scale-[1.15] transition-all"
+    <div className="fixed bottom-6 right-2 flex justify-center items-center rounded-full w-14 h-14 bg-secondarycol text-white shadow-md hover:cursor-pointer hover:scale-[1.15] transition-all"
 
     onClick={()=>{
       handleChatDialogState( (state)=> !state )
