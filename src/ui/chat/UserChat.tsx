@@ -1,9 +1,33 @@
 "use client";
-import { ChevronLeft } from "lucide-react";
+import { Bird, ChevronLeft, Loader2, Send } from "lucide-react";
 import Image from "next/image";
-import UserChatDialog from "./UserChatDialog";
+import UserChatDialog, { ChatType, ClientSideChatType } from "./UserChatDialog";
+import { trpc } from "@/trpc-client/client";
+import { useEffect, useState } from "react";
+import { Chats } from "@/db/models/chat-model";
 
 const UserChat = () => {
+  const [allChats, setAllChats] = useState<Chats[]>([]);
+
+  const {
+    data,
+    isLoading: isFetchingChats,
+    error,
+  } = trpc.getAllUserChats.useQuery();
+
+ 
+  useEffect(() => {
+    // MAKE SURE TO HANDLE ERROR STATE
+    if (error) {
+    }
+    if (data) {
+      setAllChats(data.chats);
+    }
+  
+  }, [isFetchingChats, data]);
+
+
+
   return (
     <section className="fixed top-20 w-full h-[80vh] flex flex-col items-center z-50">
       <div className="flex flex-col items-center w-[80%] rounded-lg h-[70vh] bg-white z-70 shadow-2xl overflow-x-clip">
@@ -27,7 +51,29 @@ const UserChat = () => {
           </div>
         </div>
         <div className="bg-white h-[60vh] w-[98%]">
-          <UserChatDialog />
+        {isFetchingChats && (
+          <div className="w-full h-[65vh] flex justify-center items-center">
+          <div className="flex flex-col items-center gap-2 text-center px-12">
+            <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
+            <h3 className="text-xl">Fetching...</h3>
+          </div>
+        </div>
+        )}
+        {
+          (!isFetchingChats && error) && <div className="w-full h-[50vh] flex justify-center items-center">
+          <div className="flex flex-col">
+            <div className="flex justify-center text-gray-500 transform rotateYOnHover">
+              <Bird className="h-8 w-8" strokeWidth={1} />{" "}
+            </div>
+            <p className="flex items-center justify-center text-gray-600 text-xl">
+              Oops! Something Went Wrong
+            </p>
+          </div>
+        </div>
+        }
+        
+        {(allChats.length > 0 && !isFetchingChats) &&  <UserChatDialog chats={allChats[0]} />}
+          
         </div>
       </div>
     </section>

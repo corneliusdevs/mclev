@@ -7,7 +7,6 @@ import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import HomeheroButton from "@/components/ui/HomeheroButton";
 import { trpc } from "@/trpc-client/client";
 
 interface NavbarProps {}
@@ -86,20 +85,22 @@ const Navbar: FC<NavbarProps> = () => {
                 {navbarItems.map((item, index) => {
                   return (
                     <Link
-                      key={item.text + index}
+                      key={item.link + item.text + index}
                       href={`/${item.link}`}
                       onClick={() => {
                         setOpenNavbar((v) => !v);
                       }}
                     >
-                      <div className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
+                      <div 
+                       key={"div" + item.text + index}
+                      className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300">
                         {item.text}
                       </div>
                     </Link>
                   );
                 })}
                 {isUser ? (
-                  <LogoutLink key={Date.now()}>
+                  <LogoutLink key={Date.now() + "link 1"}>
                     <div
                       className="hover:bg-secondarycol hover:text-white text-center py-2 border-b-[1px] backdrop-blur-lg transition-all duration-300"
                       onClick={() => {
@@ -112,7 +113,7 @@ const Navbar: FC<NavbarProps> = () => {
                 ) : (
                   <Link
                     href={"/sign-in"}
-                    key={Date.now()}
+                    key={Date.now() + "link 2"}
                     onClick={() => {
                       setOpenNavbar((v) => !v);
                     }}

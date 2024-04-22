@@ -16,6 +16,7 @@ interface AdminNavbarProps {
   >;
   dashBoardState: "chats" | "dashboard" | "bookings" | "chatDialog";
   isAdminLoggedIn: boolean;
+  chatsNumber: number
 }
 
 const AdminNavbar: FC<AdminNavbarProps> = (props) => {
@@ -40,7 +41,7 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
               <ButtonWithIcons
                 icon={<Mail size={20} />}
                 text={"Chats"}
-                extraInfo="12"
+                extraInfo={`${props.chatsNumber}`}
                 className={`w-full ${
                   props.dashBoardState === "chats" &&
                   "bg-accentcol hover:bg-accentcol"

@@ -1,5 +1,5 @@
 import dbConnect from "@/db/mongoose";
-import { publicProcedure, router } from ".";
+import { adminProcedure, messagesProcedure, publicProcedure, router } from ".";
 import userModel, { TUser } from "@/db/models/user-model";
 import * as z from "zod";
 import { TRPCError } from "@trpc/server";
@@ -10,12 +10,376 @@ import feedbackModel from "@/db/models/feedback-model";
 import { validateCreateAdminAccountPassword } from "@/lib/utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import adminUserModel, { TAdminUser } from "@/db/models/admin-user-model";
+import chatModel, { Chats, TChats } from "@/db/models/chat-model";
+import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
 
 const bcrypt = require("bcrypt");
 
 // IMPLEMENT A RATE LIMITING API IN ALL ROUTES
-
 export const appRouter = router({
+  // SWITCH TO ADMIN PROCEDURE IN DEPLOYMENT
+  getAllAdminChats: publicProcedure.query(async (params) => {
+    // if(params.ctx.admin.userRole !== "admin"){
+    //   return {
+    //     chats: [],
+    //     httpStatus: 401
+    //   }
+    // }
+
+    const connect = async () => {
+      console.log("calling connect");
+      await dbConnect();
+    };
+
+    let isError: boolean = false;
+
+    let chats: Chats[] = [];
+    await connect()
+      .then(async () => {
+        console.log("db connected, getting user chats");
+
+        try {
+          chats = await chatModel.find({});
+        } catch (err) {
+          console.log("error fetching user chats ", err);
+
+          isError = true;
+
+          throw new TRPCError({
+            message: "Oops! Something went wrong",
+            code: "INTERNAL_SERVER_ERROR",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("error connecting to database ", error);
+        throw new TRPCError({
+          message: "Oops! Something went wrong",
+          code: "INTERNAL_SERVER_ERROR",
+        });
+      });
+
+    if (isError) {
+      return {
+        chats: [],
+        httpStatus: 500,
+      };
+    }
+
+    return {
+      chats: chats,
+      httpStatus: 200,
+    };
+  }),
+  getAllUserChats: messagesProcedure
+    .query(async (params) => {
+      const connect = async () => {
+        console.log("calling connect");
+        await dbConnect();
+      };
+
+      let isError: boolean = false;
+
+      let chats: Chats[] = [];
+      await connect()
+        .then(async () => {
+          console.log("db connected, getting user chats");
+
+          try {
+            chats = await chatModel.find({ userId: params.ctx.chatCookie });
+          } catch (err) {
+            console.log("error fetching user chats ", err);
+
+            isError = true;
+
+            // throw new TRPCError({
+            //   message: "Oops! Something went wrong",
+            //   code: "INTERNAL_SERVER_ERROR",
+            // });
+          }
+        })
+        .catch((error) => {
+          console.log("error connecting to database ", error);
+          throw new TRPCError({
+            message: "Oops! Something went wrong",
+            code: "INTERNAL_SERVER_ERROR",
+          });
+        });
+
+      if (isError) {
+        return {
+          chats: [],
+          httpStatus: 500,
+        };
+      }
+
+      return {
+        chats: chats,
+        httpStatus: 200,
+      };
+    }),
+  handleAdminMessages: publicProcedure
+    .input((v) => {
+      console.log("validating messagessssssssss");
+      const schema = z.object({
+        message: z.string(),
+        timeStamp: z.number(),
+        author: z.string(),
+        chatId: z.string(),
+        recipientsId: z.array(z.string()),
+      });
+      const result = schema.safeParse(v);
+      if (!result.success) {
+        console.log("zod validation failed for handle messages ", result.error);
+        throw result.error;
+      }
+      return result.data;
+    })
+    .mutation(async (params) => {
+      // connect to db
+      const connect = async () => {
+        console.log("calling connect");
+        await dbConnect();
+      };
+
+      let result: TChats | null = null;
+
+      let isError: boolean = false;
+
+      await connect()
+        .then(async () => {
+          // CHECK IF A USER ID EXISTS IN THE DATABSE AND IF IT DOES, UPDATE THE CHAT FIELD USING THE SET OPERATOR ELSE, CREATE A NEW CHAT WITH THE UNIQUE USER ID
+          let chatHistory = await chatModel.find({
+            userId: params.input.recipientsId[0],
+          });
+
+          if (chatHistory.length !== 0) {
+            console.log("in if block ", chatHistory);
+            try {
+              const toBeSaved = {
+                message: params.input.message,
+                recipientsId: params.input.recipientsId,
+                author: params.input.author,
+                timeStamp: params.input.timeStamp,
+                chatId: params.input.chatId,
+              };
+
+              result = await chatModel.findOneAndUpdate(
+                {
+                  userId: params.input.recipientsId[0],
+                },
+                {
+                  $push: {
+                    chats: toBeSaved,
+                  },
+                },
+                {
+                  new: true,
+                }
+              );
+              
+              if(!result){
+                isError = true
+              }
+              // throw new TRPCError({
+              //   message: "Unable to perform request",
+              //   code: "INTERNAL_SERVER_ERROR",
+              // });
+
+              return;
+            } catch (err) {
+              console.log("failed to update chat ", err);
+              isError = true;
+              throw new TRPCError({
+                message: "Unable to perform request",
+                code: "INTERNAL_SERVER_ERROR",
+              });
+            }
+          } else {
+            console.log("in else block ...");
+            try {
+              result = await chatModel.create({
+                userId: params.input.recipientsId[0],
+                chats: {
+                  message: params.input.message,
+                  recipientsId: params.input.recipientsId,
+                  author: params.input.author,
+                  timeStamp: params.input.timeStamp,
+                  chatId: params.input.chatId,
+                },
+              });
+
+              console.log("This is result from create ", result);
+              // throw new TRPCError({
+              //   message: "Unable to perform request",
+              //   code: "INTERNAL_SERVER_ERROR",
+              // });
+            } catch (err) {
+              console.log("failed to create chat ", err);
+              isError = true;
+
+              // throw new TRPCError({
+              //   message: "Unable to perform request",
+              //   code: "INTERNAL_SERVER_ERROR",
+              // });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log("could not connect to db in hanldeMessages route", err);
+          isError = true;
+
+          // throw new TRPCError({
+          //   message: "Unable to perform request",
+          //   code: "INTERNAL_SERVER_ERROR",
+          // });
+
+          return;
+        });
+
+      console.log("about to exit fns");
+
+      if (isError) {
+        return {
+          success: false,
+          httpStatus: 500,
+        };
+      }
+
+      return {
+        success: true,
+        httpStatus: 201,
+      };
+    }),
+  handleUserMessages: messagesProcedure
+    .input((v) => {
+      console.log("validating messagessssssssss");
+      const schema = z.object({
+        message: z.string(),
+        timeStamp: z.number(),
+        author: z.string(),
+        chatId: z.string(),
+        recipientsId: z.array(z.string()),
+      });
+      const result = schema.safeParse(v);
+      if (!result.success) {
+        console.log("zod validation failed for handle messages ", result.error);
+        throw result.error;
+      }
+      return result.data;
+    })
+    .mutation(async (params) => {
+      // connect to db
+      const connect = async () => {
+        console.log("calling connect");
+        await dbConnect();
+      };
+
+      let result: TChats | null = null;
+
+      let isError: boolean = false;
+
+      await connect()
+        .then(async () => {
+          // CHECK IF A USER ID EXISTS IN THE DATABSE AND IF IT DOES, UPDATE THE CHAT FIELD USING THE SET OPERATOR ELSE, CREATE A NEW CHAT WITH THE UNIQUE USER ID
+          let chatHistory = await chatModel.find({
+            userId: params.ctx.chatCookie,
+          });
+
+          if (chatHistory.length !== 0) {
+            console.log("in if block ", chatHistory);
+            try {
+              const toBeSaved = {
+                message: params.input.message,
+                recipientsId: params.input.recipientsId,
+                author: params.input.author,
+                timeStamp: params.input.timeStamp,
+                chatId: params.input.chatId,
+              };
+
+              result = await chatModel.findOneAndUpdate(
+                {
+                  userId: params.ctx.chatCookie,
+                },
+                {
+                  $push: {
+                    chats: toBeSaved,
+                  },
+                },
+                {
+                  new: true,
+                }
+              );
+
+              // throw new TRPCError({
+              //   message: "Unable to perform request",
+              //   code: "INTERNAL_SERVER_ERROR",
+              // });
+            } catch (err) {
+              console.log("failed to update chat ", err);
+              isError = true;
+              throw new TRPCError({
+                message: "Unable to perform request",
+                code: "INTERNAL_SERVER_ERROR",
+              });
+            }
+          } else {
+            console.log("in else block ...");
+            try {
+              result = await chatModel.create({
+                userId: params.ctx.chatCookie,
+                chats: {
+                  message: params.input.message,
+                  recipientsId: params.input.recipientsId,
+                  author: params.input.author,
+                  timeStamp: params.input.timeStamp,
+                  chatId: params.input.chatId,
+                },
+                isRead: false,
+              });
+
+              console.log("This is result from create ", result);
+              // throw new TRPCError({
+              //   message: "Unable to perform request",
+              //   code: "INTERNAL_SERVER_ERROR",
+              // });
+            } catch (err) {
+              console.log("failed to create chat ", err);
+              isError = true;
+
+              throw new TRPCError({
+                message: "Unable to perform request",
+                code: "INTERNAL_SERVER_ERROR",
+              });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log("could not connect to db in hanldeMessages route", err);
+          isError = true;
+
+          // throw new TRPCError({
+          //   message: "Unable to perform request",
+          //   code: "INTERNAL_SERVER_ERROR",
+          // });
+
+          return;
+        });
+
+      console.log("about to exit fns");
+
+      if (isError) {
+        return {
+          success: false,
+          httpStatus: 500,
+        };
+      }
+
+      return {
+        success: true,
+        httpStatus: 201,
+      };
+    }),
   getUserSession: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
@@ -144,63 +508,7 @@ export const appRouter = router({
       kindeDetails: user,
     };
   }),
-  // loginAdmin: publicProcedure
-  //   .input((v) => {
-  //     const userSchema = z.object({
-  //       username: z.string(),
-  //       password: z.string(),
-  //     });
-  //     console.log("parsing input");
-  //     const result = userSchema.safeParse(v);
-  //     if (!result.success) {
-  //       console.log("zod validation failed");
-  //       throw result.error;
-  //     }
-  //     return result.data;
-  //   })
-  //   .mutation(async (params) => {
-  //     // connect to db
-  //     await dbConnect();
 
-  //     //  get all users
-  //     const users: TUser[] = await userModel.aggregate([
-  //       {
-  //         $project: {
-  //           username: 1,
-  //           password: 1,
-  //           _id: {
-  //             $toString: "$_id",
-  //           },
-  //         },
-  //       },
-  //     ]);
-
-  //     let isValidCredentials = false;
-  //     //  determine if username and password matched
-  //     // MAKE SURE TO ENCRYPT PASSWORDS BEFORE STORAGE
-  //     users.forEach((user) => {
-  //       if (
-  //         user.email === params.input.username &&
-  //         user.password === params.input.password
-  //       ) {
-  //         isValidCredentials = true;
-  //       }
-  //     });
-
-  //     if (!isValidCredentials) {
-  //       throw new TRPCError({
-  //         message: "INVALID CREDENTIALS",
-  //         code: "UNAUTHORIZED",
-  //       });
-  //     }
-
-  //     return {
-  //       message: "Welcome admin",
-  //       httpStatus: 200,
-  //     };
-  //   }),
-
-  // IMPLEMENT A RATE LIMITING API IN ALL ROUTES
   signUpAdmin: publicProcedure
     .input((v) => {
       const schema = z.object({
@@ -311,7 +619,6 @@ export const appRouter = router({
       };
 
       let details;
-      let result;
 
       connect()
         .then(async () => {
@@ -352,6 +659,7 @@ export const appRouter = router({
         httpStatus: 201,
       };
     }),
+
   getBookings: publicProcedure.query(async () => {
     const connect = async () => {
       console.log("calling connect");

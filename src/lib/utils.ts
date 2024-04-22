@@ -9,3 +9,14 @@ export const validateCreateAdminAccountPassword = (password:string)=>{
 console.log("Comparing passwords ", process.env.ADMIN_SIGNUP_SECRET)
   return password === process.env.ADMIN_SIGNUP_SECRET
 }
+
+export  function formatTimeAMPM(dateInMillisecs: number) {
+  let dateObject = new Date(dateInMillisecs)
+  let hours = dateObject.getHours();
+  let minutes:string | number = dateObject.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  return hours + ':' + minutes + ' ' + ampm;
+}

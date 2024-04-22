@@ -29,19 +29,14 @@ const Bookings: FC<BookingsProps> = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let timeout = setTimeout(() => {
-      if (data && data?.bookings.length !== 0) {
-        setBookings(data.bookings);
-        setIsLoading(false);
-      }
-      if (!isFetchingBookings) {
-        setIsLoading(false);
-      }
-    }, 3000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
+    if (data && data?.bookings.length !== 0) {
+      setBookings(data.bookings);
+      setIsLoading(false);
+    }
+    if (!isFetchingBookings) {
+      setIsLoading(false);
+    }
+    
   }, [isFetchingBookings, data]);
 
   const getBookingInfoFromState = (
