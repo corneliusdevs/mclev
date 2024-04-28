@@ -1,8 +1,9 @@
+import { Chat } from "@/db/models/chat-model";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
 
-const updateChatStoreHelper = (
-  chatStore: ClientSideChatType[],
-  chatToBeStored: ClientSideChatType
+const updateAdminChatStoreHelper = (
+  chatStore: Chat[],
+  chatToBeStored: Chat
 ) => {
   console.log("chat state gotten is ... ", chatStore);
   let chatStoreCopy = [...chatStore];
@@ -15,7 +16,7 @@ const updateChatStoreHelper = (
   }
 
   chatStoreCopy.forEach((savedEntry, index) => {
-    if (savedEntry.id === chatToBeStored.id) {
+    if (savedEntry.chatId === chatToBeStored.chatId) {
       console.log("calleddd 22222222222");
 
       if (savedEntry.message === chatToBeStored.message) {
@@ -43,4 +44,4 @@ const updateChatStoreHelper = (
   return chatStoreCopy;
 };
 
-export default updateChatStoreHelper;
+export default updateAdminChatStoreHelper;

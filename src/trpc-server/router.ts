@@ -80,13 +80,20 @@ export const appRouter = router({
 
       let isError: boolean = false;
 
-      let chats: Chats[] = [];
+      let chats: Chats = {
+        userId: "",
+        isRead: false,
+        chats: []
+      };
       await connect()
         .then(async () => {
           console.log("db connected, getting user chats");
 
           try {
-            chats = await chatModel.find({ userId: params.ctx.chatCookie });
+            let data:Chats | null = await chatModel.findOne({ userId: params.ctx.chatCookie });
+            if(data){
+              chats = data
+            }
           } catch (err) {
             console.log("error fetching user chats ", err);
 
@@ -108,7 +115,7 @@ export const appRouter = router({
 
       if (isError) {
         return {
-          chats: [],
+          chats: null,
           httpStatus: 500,
         };
       }

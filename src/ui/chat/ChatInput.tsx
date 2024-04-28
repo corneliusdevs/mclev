@@ -1,18 +1,38 @@
+"use client";
+
 import InputElement from "@/components/Input";
 import { Send } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ChatType, ClientSideChatType } from "./UserChatDialog";
-import { formatTimeAMPM } from "@/lib/utils";
+import { ClientSideChatType } from "./UserChatDialog";
 import { trpc } from "@/trpc-client/client";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
+import { socket } from "@/lib/socket.io/connectToMsgServer";
+
+// import {io } from "socket.io-client"
+// import { getMessagesServerAddress } from "@/lib/getMessagesServerAddress";
+
+// // const socket = io(getMessagesServerAddress())
+// console.log("this is messages server address ", getMessagesServerAddress())
+// const socket = io("http://localhost:3001")
 
 interface ChatInputProps {
-  updateChatStore: Dispatch<SetStateAction<(ClientSideChatType)[]>>;
+  updateChatStore: Dispatch<SetStateAction<ClientSideChatType[]>>;
   isAdmin: boolean;
+  chatStore: ClientSideChatType[];
+  userId: string;
+  updateLocalChatStoreStatefxn: Dispatch<SetStateAction<ClientSideChatType[]>>;
+  isUpdatingLocalChatStoreState: boolean;
 }
 
-const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
+const ChatInput: FC<ChatInputProps> = ({
+  updateChatStore,
+  isAdmin,
+  chatStore,
+  userId,
+  isUpdatingLocalChatStoreState,
+  updateLocalChatStoreStatefxn,
+}) => {
   const [message, setMessage] = useState<ClientSideChatType>({
     id: uuidv4(),
     message: "",
@@ -23,6 +43,8 @@ const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
     recipientsId: ["admin"],
   });
 
+  const [emit, setEmit] = useState(false);
+
   const {
     mutate,
     isLoading: isSending,
@@ -30,6 +52,28 @@ const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
   } = trpc.handleUserMessages.useMutation({
     networkMode: "always",
   });
+
+  useEffect(() => {
+    // emit message
+    setMessage({
+      id: uuidv4(),
+      type: "saveChat",
+      message: "",
+      timeStamp: Date.now(),
+      recipientsId: ["client"],
+      author: "client",
+      status: "success",
+    });
+    if (emit) {
+      console.log("emmitting... chat input");
+      socket.emit("send-to-admin", {
+        message: message,
+        userId: userId,
+      });
+    }
+
+    setEmit(false);
+  }, [emit]);
 
   return (
     <div className="bg-greengray relative m-6">
@@ -44,7 +88,7 @@ const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
                 return {
                   ...prevState,
                   message: event.target.value,
-                  author: isAdmin? "admin" : "client",
+                  author: isAdmin ? "admin" : "client",
                   timeStamp: Date.now(),
                 };
               });
@@ -64,46 +108,62 @@ const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
             author: "client",
           });
 
-          setMessage({
-            id: uuidv4(),
-            type: "saveChat",
-            message: "",
-            timeStamp: Date.now(),
-            recipientsId: ["client"],
-            author: "client",
-            status: "success",
-          });
-
           mutate(
             {
               message: message.message,
               timeStamp: message.timeStamp,
               recipientsId: ["admin"],
               author: message.author,
-              chatId: message.id
+              chatId: message.id,
             },
             {
               onSuccess: (data) => {
                 console.log("mutate messages success ", data);
                 // setIsLoading(false);
-                if(!data.success){
+                if (!data.success) {
                   updateChatStore((prevState) => {
-                    const nextState = updateChatStoreHelper(prevState, {...message, status: "failed"})
-                    return [
-                      ...nextState,
-                    ];
+                    const nextState = updateChatStoreHelper(prevState, {
+                      ...message,
+                      status: "failed",
+                    });
+
+                    return [...nextState];
                   });
+
+                  if (!isUpdatingLocalChatStoreState) {
+                    console.log("out .........");
+                    updateLocalChatStoreStatefxn(() => {
+                      const nextState = updateChatStoreHelper(chatStore, {
+                        ...message,
+                        status: "failed",
+                      });
+
+                      return [...nextState];
+                    });
+                  }
                 }
               },
               onError: (error) => {
                 console.log("mutate messages error ", error);
                 // setIsLoading(false);
                 updateChatStore((prevState) => {
-                  const nextState = updateChatStoreHelper(prevState, {...message, status: "failed"})
-                  return [
-                    ...nextState,
-                  ];
+                  const nextState = updateChatStoreHelper(prevState, {
+                    ...message,
+                    status: "failed",
+                  });
+                  return [...nextState];
                 });
+
+                if (!isUpdatingLocalChatStoreState) {
+                  updateLocalChatStoreStatefxn(() => {
+                    const nextState = updateChatStoreHelper(chatStore, {
+                      ...message,
+                      status: "failed",
+                    });
+
+                    return [...nextState];
+                  });
+                }
               },
             }
           );
@@ -111,6 +171,10 @@ const ChatInput: FC<ChatInputProps> = ({ updateChatStore, isAdmin }) => {
           updateChatStore((prevState) => {
             return [...prevState, message];
           });
+
+
+          //  set state to trigger emitting to connected sockets
+          setEmit(true);
         }}
       >
         <Send />
