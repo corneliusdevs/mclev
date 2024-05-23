@@ -4,7 +4,7 @@ const phoneNumberRegex = /^\+?\d{1,3}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{1,4}[-.\s]?\d
 
 const ukAndEuropePostalCodeRegex = /^(GIR 0AA|[A-PR-UWYZ](?:\d{0,2}|[A-HK-Y]\d{0,1}|[A-HK-Y]\d[A-Z])? ?\d[A-Z]{2}|(F-)?\d{4})$/i;
 
-const dateRegex = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])(?:-(\d{2}))?$/;
+const dateRegex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[0-2])[\/\-](\d{2}|\d{4})$/;
 
 
 export const personalDetailsSchema = z.object({

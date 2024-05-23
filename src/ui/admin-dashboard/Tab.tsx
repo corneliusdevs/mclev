@@ -17,7 +17,7 @@ interface TabProps {
 const Tab: FC<TabProps> = ({ tabList, defaultTabValue, ...props }) => {
   return (
     <Tabs defaultValue={defaultTabValue} className="">
-      <TabsList className="grid w-full grid-cols-2 rounded-none">
+      <TabsList className="grid w-full grid-cols-2 rounded-none relative">
         {tabList.map((tab, index) => {
           return (
             <TabsTrigger value={tab.value} key={tab.tabName + index}>

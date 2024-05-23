@@ -2,37 +2,37 @@ import InputElement from "@/components/Input";
 import { Send } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ChatType, ClientSideChatType } from "./UserChatDialog";
 import { trpc } from "@/trpc-client/client";
-import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
+import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
+import updateAllAdminChatsStoreHelper from "@/helpers/updateAdminChatStore";
 
 interface AdminChatInputProps {
-  updateChatStore: Dispatch<SetStateAction<ClientSideChatType[]>>;
+  updateAllChatsStore: Dispatch<SetStateAction<AllAdminChats[]>>;
   isAdmin: boolean;
-  recipientId: string;
-  chatStore: ChatType[];
-  updateLocalChatStoreStatefxn: Dispatch<SetStateAction<ClientSideChatType[]>>;
-  isUpdatingLocalChatStoreState: boolean;
+  userId: string;
+  chatStore: AllAdminChats[];
+  setToggleScrollDiv: Dispatch<SetStateAction<boolean>>
+  // updateLocalChatStoreStatefxn: Dispatch<SetStateAction<ClientSideChatType[]>>;
+  // isUpdatingLocalChatStoreState: boolean;
 
 }
 
 const AdminChatInput: FC<AdminChatInputProps> = ({
-  updateChatStore,
+  updateAllChatsStore,
   isAdmin,
-  recipientId,
-  chatStore,
-  isUpdatingLocalChatStoreState,
-  updateLocalChatStoreStatefxn
+  userId,
+  setToggleScrollDiv,
 }) => {
-  const [message, setMessage] = useState<ClientSideChatType>({
-    id: uuidv4(),
+  const [message, setMessage] = useState<AdminChats>({
     message: "",
     timeStamp: Date.now(),
     author: "admin",
     type: "saveChat",
     status: "success",
-    recipientsId: [recipientId],
+    recipientsId: [userId],
+    chatId: uuidv4(),
+    id: uuidv4()
   });
 
   const [emit, setEmit] = useState(false);
@@ -41,7 +41,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
     mutate,
     isLoading: isSending,
     error,
-  } = trpc.handleAdminMessages.useMutation({
+  } = trpc.adminChats.handleAdminMessages.useMutation({
     networkMode: "always",
   });
 
@@ -49,6 +49,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
     // emit message
     setMessage({
       id: uuidv4(),
+      chatId: uuidv4(),
       type: "saveChat",
       message: "",
       timeStamp: Date.now(),
@@ -61,7 +62,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
       console.log("emmitting... adminChat input");
       socket.emit("send-to-client", {
         message: message,
-        userId: recipientId,
+        userId: userId,
       });
     }
 
@@ -73,7 +74,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
       <div className="flex rounded-sm">
         <div className="w-full rounded-sm">
           <InputElement
-            className="w-full p-4 pr-8 focus:bg-white rounded-sm"
+            className="w-full p-4 pr-12 focus:bg-white rounded-sm"
             placeholder="Reply message"
             value={message.message}
             onChange={(event) => {
@@ -97,7 +98,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
           console.log("sending, ", {
             message: message.message,
             timeStamp: message.timeStamp,
-            recipientId: [recipientId],
+            recipientsId: [userId],
             author: "admin",
           });
 
@@ -105,7 +106,7 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
             {
               message: message.message,
               timeStamp: message.timeStamp,
-              recipientsId: [recipientId],
+              recipientsId: [userId],
               author: message.author,
               chatId: message.id,
             },
@@ -114,59 +115,48 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
                 console.log("mutate messages success ", data);
                 // setIsLoading(false);
                 if (!data.success) {
-                  updateChatStore((prevState) => {
-                    const nextState = updateChatStoreHelper(prevState, {
+                  updateAllChatsStore((prevState) => {
+                    const nextState = updateAllAdminChatsStoreHelper(prevState, {
                       ...message,
                       status: "failed",
-                    });
+                    }, userId);
                     return [...nextState];
                   });
 
-                  if (!isUpdatingLocalChatStoreState) {
-                    console.log("out .........");
-                    updateLocalChatStoreStatefxn(() => {
-                      const nextState = updateChatStoreHelper(chatStore, {
-                        ...message,
-                        status: "failed",
-                      });
-
-                      return [...nextState];
-                    });
-                  }
+  
                 }
               },
               onError: (error) => {
                 console.log("mutate messages error ", error);
                 // setIsLoading(false);
-                updateChatStore((prevState) => {
-                  const nextState = updateChatStoreHelper(prevState, {
+                updateAllChatsStore((prevState) => {
+                  const nextState = updateAllAdminChatsStoreHelper(prevState, {
                     ...message,
                     status: "failed",
-                  });
+                  }, userId);
                   return [...nextState];
                 });
 
-                
-                if (!isUpdatingLocalChatStoreState) {
-                  updateLocalChatStoreStatefxn(() => {
-                    const nextState = updateChatStoreHelper(chatStore, {
-                      ...message,
-                      status: "failed",
-                    });
-
-                    return [...nextState];
-                  });
-                }
+  
               },
             }
           );
 
-          updateChatStore((prevState) => {
-            return [...prevState, message];
+    
+          updateAllChatsStore((prevState) => {
+            const nextState = updateAllAdminChatsStoreHelper(prevState, {
+              ...message,
+              status: "success",
+            }, userId);
+            return [...nextState];
           });
 
           //  set state to trigger emitting to connected sockets
           setEmit(true);
+
+          // toggle Scroll Div state
+          setToggleScrollDiv(v => !v)
+          
         }}
       >
         <Send />

@@ -6,12 +6,15 @@ import { useState } from "react";
 const FeedbackTool = () => {
   const [rating, setRating] = useState<number>(0);
   const [ratingExperience, setRatingExperience] = useState<string>("");
+  const [username, setUsername] = useState<string>("")
 
   // FIX THE BOX SHADOW EFFECT ON HOVER
   return (
     <div>
     <DrawerComponent
       mainContentComponent = {<FeedbackUi ratingsState={rating} ratingsStateHandler={setRating} 
+      username =  {username}
+      setUsername = {setUsername}
       ratingExperience={ratingExperience} ratingExperienceHandler={setRatingExperience}/>}
       // closeButtonDisabled={ratingExperience === "" ? true : false}
       // closeButtonText={rating > 0 ? "Submit" : undefined}

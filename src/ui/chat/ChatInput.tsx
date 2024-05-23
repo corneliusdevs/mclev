@@ -9,12 +9,6 @@ import { trpc } from "@/trpc-client/client";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
 
-// import {io } from "socket.io-client"
-// import { getMessagesServerAddress } from "@/lib/getMessagesServerAddress";
-
-// // const socket = io(getMessagesServerAddress())
-// console.log("this is messages server address ", getMessagesServerAddress())
-// const socket = io("http://localhost:3001")
 
 interface ChatInputProps {
   updateChatStore: Dispatch<SetStateAction<ClientSideChatType[]>>;
@@ -43,13 +37,14 @@ const ChatInput: FC<ChatInputProps> = ({
     recipientsId: ["admin"],
   });
 
+
   const [emit, setEmit] = useState(false);
 
   const {
     mutate,
     isLoading: isSending,
     error,
-  } = trpc.handleUserMessages.useMutation({
+  } = trpc.userChats.handleUserMessages.useMutation({
     networkMode: "always",
   });
 
@@ -65,7 +60,7 @@ const ChatInput: FC<ChatInputProps> = ({
       status: "success",
     });
     if (emit) {
-      console.log("emmitting... chat input");
+      console.log("emmitting... chat input", " user id is ", userId);
       socket.emit("send-to-admin", {
         message: message,
         userId: userId,
@@ -80,7 +75,7 @@ const ChatInput: FC<ChatInputProps> = ({
       <div className="flex rounded-sm">
         <div className="w-full rounded-sm">
           <InputElement
-            className="w-full p-4 pr-8 focus:bg-white rounded-sm"
+            className="w-full p-4 pr-12 focus:bg-white rounded-sm"
             placeholder="Reply message"
             value={message.message}
             onChange={(event) => {
@@ -171,6 +166,17 @@ const ChatInput: FC<ChatInputProps> = ({
           updateChatStore((prevState) => {
             return [...prevState, message];
           });
+
+          if (!isUpdatingLocalChatStoreState) {
+            updateLocalChatStoreStatefxn(() => {
+              const nextState = updateChatStoreHelper(chatStore, {
+                ...message,
+                status: "success",
+              });
+
+              return [...nextState];
+            });
+          }
 
 
           //  set state to trigger emitting to connected sockets

@@ -15,6 +15,7 @@ interface TestimonialCardProps {
   subtitle: string;
   review: string;
   rating: number;
+  response?: string;
 }
 
 const TestimonialCard: FC<TestimonialCardProps> = (props) => {
@@ -72,11 +73,13 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
           </div>
         </CardContent>
         <CardFooter>
+          {
+            props?.response && props&&
           <div className="scroll h-[57px] box-border border-l-[1px] border-black px-1.5 text-[13px] ml-2 -mt-2 text-black/75">
             <span className="block text-black/75 font-[600] ">Response from the Owner</span>
-            Customer&apos;s review goes here. Its a really long review that takes so
-            long to type.
+             {props.response}
           </div>
+          }
         </CardFooter>
       </Card>
     </div>

@@ -1,25 +1,35 @@
 "use-client";
 
-import { CalendarDays, Mail } from "lucide-react";
+import { CalendarDays, Mail, MailCheck } from "lucide-react";
 import ButtonWithIcons from "./ButtonWithIcon";
 import Image from "next/image";
 import Sidebar from "./Sidebar";
 import { Dispatch, FC, SetStateAction } from "react";
-import { useRouter } from "next/navigation";
 import HomeheroButton from "@/components/ui/HomeheroButton";
 import Link from "next/link";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { trpc } from "@/trpc-client/client";
+import { DashboardStateType } from "@/components/admin-dashboard/types";
 
 interface AdminNavbarProps {
-  handleDashboardState: Dispatch<
-    SetStateAction<"chats" | "dashboard" | "bookings" | "chatDialog">
-  >;
-  dashBoardState: "chats" | "dashboard" | "bookings" | "chatDialog";
+  handleDashboardState: Dispatch<SetStateAction<DashboardStateType>>;
+  dashBoardState: DashboardStateType;
   isAdminLoggedIn: boolean;
-  chatsNumber: number
+  chatsNumber: number;
 }
 
 const AdminNavbar: FC<AdminNavbarProps> = (props) => {
+  const {
+    isLoading: isCountingBookings,
+    data: bookingsCount,
+    error: bookingsCountError,
+  } = trpc.bookings.count.useQuery();
+
+  const {
+    isLoading: isCountingFeedbacks,
+    data: feedbacksCount,
+    error: feedbacksCountError,
+  } = trpc.feedback.count.useQuery();
 
   return (
     <div className="w-full flex justify-between items-center sticky top-0 z-40 bg-white">
@@ -57,7 +67,7 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
               <ButtonWithIcons
                 icon={<CalendarDays size={20} />}
                 text={"Bookings"}
-                extraInfo="12"
+                extraInfo={`${bookingsCount?.httpStatus === 200 && bookingsCount.bookingsCount}`}
                 className={`w-full mt-3 ${
                   props.dashBoardState === "bookings" &&
                   "bg-accentcol hover:bg-accentcol"
@@ -70,23 +80,38 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
                   props.handleDashboardState("bookings");
                 }}
               />
+              <ButtonWithIcons
+                icon={<MailCheck size={20} />}
+                text={"Feedbacks"}
+                extraInfo={`${feedbacksCount?.httpStatus === 200 && feedbacksCount.feedbacksCount}`}
+                className={`w-full mt-3 ${
+                  props.dashBoardState === "feedbacks" &&
+                  "bg-accentcol hover:bg-accentcol"
+                }`}
+                variant={`${
+                  props.dashBoardState === "feedbacks" ? "default" : "outline"
+                }`}
+                clickHandler={() => {
+                  console.log("feedbacks  clicked");
+                  props.handleDashboardState("feedbacks");
+                }}
+              />
               <Link href={"/"}>
-              <HomeheroButton
-                text={"Home"}
-                className={`w-full mt-3`}
-                variant={"outline"}
+                <HomeheroButton
+                  text={"Home"}
+                  className={`w-full mt-3`}
+                  variant={"outline"}
                 />
-              
               </Link>
-              {
-                props.isAdminLoggedIn && <LogoutLink>
+              {props.isAdminLoggedIn && (
+                <LogoutLink>
                   <HomeheroButton
-                text={"Logout"}
-                className={`w-full mt-3`}
-                variant={"outline"}
-                />
+                    text={"Logout"}
+                    className={`w-full mt-3`}
+                    variant={"outline"}
+                  />
                 </LogoutLink>
-              }
+              )}
             </div>
           }
         />

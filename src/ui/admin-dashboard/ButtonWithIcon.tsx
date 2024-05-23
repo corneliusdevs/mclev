@@ -9,7 +9,8 @@ interface ButtonWithIconsProps
   text: string;
   icon: React.ReactNode;
   extraInfo?: string;
-  clickHandler?: Function
+  clickHandler?: Function;
+  containerStyles?: string;
 }
 
 const ButtonWithIcons: FC<ButtonWithIconsProps> = ({
@@ -18,15 +19,16 @@ const ButtonWithIcons: FC<ButtonWithIconsProps> = ({
   className,
   text,
   icon,
+  containerStyles,
   ...props
 }) => {
   return (
-    <div>
+    <div className={``}>
       <button className={cn(buttonVariants({ variant, size, className }))}
       onClick={()=>{
         if (props.clickHandler)props.clickHandler()
       }}>
-        <div className={`flex justify-between items-center w-full max-w-[110px]`}>
+        <div className={cn(`flex justify-between items-center w-full max-w-[120px]`, containerStyles && containerStyles)}>
           <span className=""> {icon}</span>
           <span>{text}</span>
           {props.extraInfo && <span>&#40;{props.extraInfo}&#41;</span>}

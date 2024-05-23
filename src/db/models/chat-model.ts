@@ -12,6 +12,8 @@ export interface Chats {
   userId: string;
   chats: Chat[];
   isRead: boolean;
+  name: string,
+  // lastReadIndex: number;
 }
 
 export type TChats = Chats & {
@@ -55,10 +57,17 @@ const ChatSchema = new mongoose.Schema<Chats>({
   isRead:{
     type: Boolean,
         required: true
-  }
+  },
+  name:{
+    type: String,
+    required: false
+  },
+  // lastReadIndex:{
+  //   type: Number,
+  //   required: true
+  // }
  
- 
-});
+}, {timestamps: true});
 
 // export default mongoose.model<User>("Chats", UserSchema);
 

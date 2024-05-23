@@ -11,7 +11,7 @@ console.log("Comparing passwords ", process.env.ADMIN_SIGNUP_SECRET)
 }
 
 export const getRegisterAdminSecret = ()=>{
-  return process.env.REGISTER_ADMIN_TO_MSG_SERVER_SECRET
+  return process.env.NEXT_PUBLIC_REGISTER_ADMIN_TO_MSG_SERVER_SECRET
 }
 
 export  function formatTimeAMPM(dateInMillisecs: number) {

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/trpc-client/client";
 import { Loader2, MailCheck, Squirrel, Star } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 
 type ratingsText = {
   [x: string]: string;
@@ -10,7 +10,9 @@ interface FeedbackUiProps {
   ratingsState: number;
   ratingsStateHandler: Dispatch<SetStateAction<number>>;
   ratingExperience: string;
+  username: string;
   ratingExperienceHandler: Dispatch<SetStateAction<string>>;
+  setUsername: Dispatch<SetStateAction<string>>;
 }
 
 const FeedbackUi: FC<FeedbackUiProps> = ({
@@ -18,6 +20,8 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
   ratingsStateHandler: setRating,
   ratingExperience,
   ratingExperienceHandler: setRatingExperience,
+  username,
+  setUsername
 }) => {
   const ratingsText: ratingsText = {
     "1": "Very Bad",
@@ -28,8 +32,9 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
   };
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
   const { mutate, isLoading, isSuccess, error, data } =
-    trpc.createFeedback.useMutation({
+    trpc.feedback.create.useMutation({
       networkMode: "always",
     });
 
@@ -38,6 +43,7 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
     mutate({
       rating: rating,
       experience: ratingExperience,
+      name:username,
     });
   };
 
@@ -165,7 +171,14 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
       )}
       {rating > 0 && isSubmitted === false && (
         <div className="flex flex-col items-center w-full p-3 text-center">
-          <div className="pb-3 text-center">Tell us about your experience</div>
+          <div className="flex justify-center w-full mb-2">
+            <input 
+            className={"p-2 border-[1.5px] border-primarycol/10 w-full max-w-[450px]"}
+            placeholder={"enter your name..."}
+            type="text" value={username} onChange={(e)=>{
+              setUsername(e.target.value)
+            }}/>
+          </div>
           <textarea
             className="p-2 border-[1.5px] border-primarycol/10 w-full max-w-[450px]"
             onChange={(e) => {
@@ -173,6 +186,7 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
                 return e.target.value;
               });
             }}
+            placeholder={"Your experience..."}
             value={ratingExperience}
             rows={10}
             // cols={}
@@ -180,7 +194,7 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
           ></textarea>
         </div>
       )}
-      {ratingExperience.length > 1 && !isLoading && isSubmitted === false && (
+      { username.length > 2 && ratingExperience.length > 1 && !isLoading && isSubmitted === false && (
         <div>
           <Button
             variant={"outline"}
@@ -189,6 +203,7 @@ const FeedbackUi: FC<FeedbackUiProps> = ({
               setIsSubmitted(true);
               setRating(0);
               setRatingExperience("")
+              setUsername("")
               console.log("calling handleSubmitFeedback");
             }}
             className={`hover:bg-secondarycol hover:text-white`}

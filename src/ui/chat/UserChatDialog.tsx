@@ -1,8 +1,10 @@
 "use client";
 
 import React, {
+  Dispatch,
   FC,
   MutableRefObject,
+  SetStateAction,
   useEffect,
   useRef,
   useState,
@@ -13,7 +15,6 @@ import { v4 as uuidv4 } from "uuid";
 import ShowChatUi from "./ShowChatUi";
 import SaveChatUi from "./SaveChatUi";
 import ChatInput from "./ChatInput";
-import { Chats } from "@/db/models/chat-model";
 import { Send } from "lucide-react";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
@@ -35,20 +36,25 @@ export type ClientSideChatType = ChatType & {
 interface UserChatDialogProps {
   chats: ClientSideChatType[];
   userId: string;
+  isUpdatingLocalChatStoreState: boolean;
+  updateLocalChatStoreStatefxn: Dispatch<SetStateAction<ClientSideChatType[]>>;
+  updatedChats: ClientSideChatType[];
+  setUpdatedChats: Dispatch<SetStateAction<ClientSideChatType[]>>;
+  allMessagesRef: MutableRefObject<ClientSideChatType[]>;
 }
 
 const UserChatDialog: FC<UserChatDialogProps> = ({
   chats: messages,
   userId,
+  updatedChats,
+  setUpdatedChats,
+  isUpdatingLocalChatStoreState,
+  updateLocalChatStoreStatefxn,
 }) => {
+
+  const [localMessagesState, setLocalMessagesState] = useState<ClientSideChatType[]>([])
   const messagesRef: MutableRefObject<ClientSideChatType[]> = useRef([
     ...messages,
-  ]);
-
-  const [updatedChats, setUpdatedChats] = useState<ClientSideChatType[]>([]);
-
-  const [chats, setChats] = useState<ClientSideChatType[]>([
-    ...messagesRef.current,
   ]);
 
   const initialMessageState: ClientSideChatType = {
@@ -60,6 +66,8 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     author: "client",
     status: "success",
   };
+
+  // console.log("user chat dialog..............",  );
 
   const [isNewMessage, setIsNewMessage] = useState<{
     isNew: boolean;
@@ -75,32 +83,27 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 
   const generateChatUi = () => {
     let result = [];
-    // if (error) {
-    //   return (
-    //     <div className="flex w-full h-full text-sm justify-center items-center text-center pt-[80px]">
-    //       Oops! Chat is Unavailable at the moment.
+
+    // console.log("generating chat ui....");
+
+    // if (messagesRef.current.length === 0) {
+    //   result.push(
+    //     <div className="w-full h-full flex justify-center items-center pt-14">
+    //       <div className="flex flex-col">
+    //         <div className="flex justify-center text-gray-500 transform rotateYOnHover">
+    //           <Send className="h-8 w-8" strokeWidth={1} />{" "}
+    //         </div>
+    //         <p className="flex items-center justify-center text-gray-600 text-xl">
+    //           Send a message
+    //         </p>
+    //       </div>
     //     </div>
     //   );
+
+    //   return result;
     // }
 
-    if (chats.length === 0) {
-      result.push(
-        <div className="w-full h-full flex justify-center items-center pt-14">
-          <div className="flex flex-col">
-            <div className="flex justify-center text-gray-500 transform rotateYOnHover">
-              <Send className="h-8 w-8" strokeWidth={1} />{" "}
-            </div>
-            <p className="flex items-center justify-center text-gray-600 text-xl">
-              Send a message
-            </p>
-          </div>
-        </div>
-      );
-
-      return result;
-    }
-
-    let toBeMapped = updatedChats.length === 0 ? chats : updatedChats;
+    let toBeMapped = messages;
     result = toBeMapped.map((chat, index) => {
       if (chat.author === "client") {
         return (
@@ -131,15 +134,26 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   };
 
   useEffect(() => {
+    // update the messagesRef on each rerender
+    setIsNewMessage({
+      isNew: true,
+      newMessage: messages[messages.length - 1]
+    })
+  }, [messages]);
+
+
+
+  useEffect(() => {
     // scroll the messages div to the bottom automatically when user sends a message
     if (chatMessagesRef.current) {
       chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     }
-  }, [chats, updatedChats]);
+  }, [updatedChats]);
 
   useEffect(() => {
     socket.on("send-message", (payload: ClientSideChatType | null) => {
       if (payload) {
+        // console.log("i rannnnnnnnnnnnn");
         setIsNewMessage({
           isNew: true,
           newMessage: payload,
@@ -157,19 +171,22 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
           messagesRef.current,
           isNewMessage.newMessage
         );
-        console.log("ifffffffffffffff ... ", newChatState);
+        // console.log("ifffffffffffffff ... ", newChatState);
         setUpdatedChats(newChatState);
       } else {
         newChatState = updateChatStoreHelper(
           updatedChats,
           isNewMessage.newMessage
         );
-        console.log("elsssssssssseeeeeeeee ... ", newChatState);
+        // console.log("elsssssssssseeeeeeeee ... ", newChatState);
         setUpdatedChats(newChatState);
       }
 
       // do not edit unless you know absolutely what you're doing
       messagesRef.current = [...newChatState];
+
+      // update the local chat state
+      setLocalMessagesState(newChatState)
     }
     setIsNewMessage({
       isNew: false,
@@ -179,14 +196,14 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 
   useEffect(() => {
     // register user socket Id
-    if (!isConnectedToMsgServerRef.current) {
+    if (!isConnectedToMsgServerRef.current && typeof userId === "string" && userId !== "") {
       console.log("registering... user ");
       socket.emit("register-user", {
         userId: userId,
       });
+      isConnectedToMsgServerRef.current = true;
     }
 
-    isConnectedToMsgServerRef.current = true
   }, [isConnectedToMsgServerRef.current]);
 
   return (
@@ -196,20 +213,38 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
         className="bg-homegray max-w-full h-[80%] overflow-y-scroll p-6"
         ref={chatMessagesRef}
       >
-        {generateChatUi()}
+        {messagesRef.current.length === 0 ? (
+          <div className="w-full h-full flex justify-center items-center pt-14">
+            <div className="flex flex-col">
+              <div className="flex justify-center text-gray-500 transform rotateYOnHover">
+                <Send className="h-8 w-8" strokeWidth={1} />{" "}
+              </div>
+              <p className="flex items-center justify-center text-gray-600 text-xl">
+                Send a message
+              </p>
+            </div>
+          </div>
+        ) : (
+          generateChatUi()
+        )}
+        {/* {generateChatUi()} */}
       </div>
       <div>
         <ChatInput
-          updateChatStore={
-            updatedChats.length === 0 ? setChats : setUpdatedChats
-          }
+          // updateChatStore={
+          //   updatedChats.length === 0 ? setChats : setUpdatedChats
+          // }
+          updateChatStore={updateLocalChatStoreStatefxn}
           isAdmin={false}
-          chatStore={updatedChats.length === 0 ? chats : updatedChats}
+          // chatStore={updatedChats.length === 0 ? chats : updatedChats}
+          chatStore={messages}
           userId={userId}
-          isUpdatingLocalChatStoreState={
-            updatedChats.length === 0 ? false : true
-          }
-          updateLocalChatStoreStatefxn={setUpdatedChats}
+          // isUpdatingLocalChatStoreState={
+          //   updatedChats.length === 0 ? false : true
+          // }
+          isUpdatingLocalChatStoreState={isUpdatingLocalChatStoreState}
+          // updateLocalChatStoreStatefxn={setUpdatedChats}
+          updateLocalChatStoreStatefxn={updateLocalChatStoreStatefxn}
         />
       </div>
     </section>

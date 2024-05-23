@@ -68,7 +68,9 @@ export const adminProcedure = publicProcedure.use(async (opts) => {
     },
   });
 });
+
 export const messagesProcedure = publicProcedure.use(async (opts) => {
+  
   const { ctx } = opts;
 
   // set max cookie age to 3 weeks

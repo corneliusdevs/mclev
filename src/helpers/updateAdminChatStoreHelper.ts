@@ -1,9 +1,10 @@
+import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
 import { Chat } from "@/db/models/chat-model";
-import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
+
 
 const updateAdminChatStoreHelper = (
-  chatStore: Chat[],
-  chatToBeStored: Chat
+  chatStore: AdminChats[],
+  chatToBeStored: AdminChats
 ) => {
   console.log("chat state gotten is ... ", chatStore);
   let chatStoreCopy = [...chatStore];
@@ -34,7 +35,7 @@ const updateAdminChatStoreHelper = (
     console.log("cha exists ... ", indexOfSavedEntry);
 
     // overwrite the question and answer
-    chatStoreCopy[indexOfSavedEntry] = chatToBeStored;
+    // chatStoreCopy[indexOfSavedEntry] = chatToBeStored;
   } else {
     // push question and answer to the chatStore
     console.log("executing else updateChatStoreHelper");

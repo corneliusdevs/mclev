@@ -1,4 +1,5 @@
 import { TBooking } from "@/db/models/bookings-model";
+import { timeStamp } from "console";
 
 export type DummyBookingType = typeof dummyBooking
 
@@ -45,6 +46,7 @@ export const dummyBooking = {
     additionalNotes: 'Here are some additional notes',
     isRead: false,
     status: 'pending',
-    _id: '660f9585c14750a250f86524'
+    _id: '660f9585c14750a250f86524',
+    timeStamp: Date.now()
   }
 

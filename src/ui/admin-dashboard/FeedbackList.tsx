@@ -13,32 +13,32 @@ interface BookingListProps {
   timeStamp: string;
   unread?: boolean;
   clickHandler?: Function,
-  bookingId: string;
-  refreshBookingState: Dispatch<SetStateAction<boolean>>;  // must return a promise
+  feedbackId: string;
+  refreshFeedbackState: Dispatch<SetStateAction<boolean>>;  // must return a promise
 }
 
-const BookingList: FC<BookingListProps> = ({
+const FeedbackList: FC<BookingListProps> = ({
   title,
   subTitle,
   description,
   timeStamp,
   unread,
   clickHandler,
-  bookingId,
-  refreshBookingState,
+  feedbackId,
+  refreshFeedbackState,
   ...props
 }) => {
 
-  const [deleteBooking, setDeleteBooking] = useState<boolean>(false);
+  const [deleteFeedback, setDeleteFeedback] = useState<boolean>(false);
 
   const {
     data,
-    isLoading: isFetchingBookings,
+    isLoading: isDeletingFeedbacks,
     error,
-    refetch: deleteBookings,
-  } = trpc.bookings.delete.useQuery(
+    refetch: deleteFeedbackFromDb,
+  } = trpc.feedback.delete.useQuery(
     {
-      bookingId: bookingId,
+      feedbackId: feedbackId,
     },
     {
       enabled: false,
@@ -46,25 +46,25 @@ const BookingList: FC<BookingListProps> = ({
   );
 
   useEffect(() => {
-    if (deleteBooking) {
-      const deleteChatPromise = deleteBookings();
+    if (deleteFeedback) {
+      const deleteFeedbackPromise = deleteFeedbackFromDb();
 
       //  toast notification
       toast
-        .promise(deleteChatPromise, {
+        .promise(deleteFeedbackPromise, {
           loading: `Deleting ${title}`,
-          success: `Booking ${title} deleted`,
-          error: `Failed to delete booking ${title}`,
+          success: `Feedback ${title} deleted`,
+          error: `Failed to delete feedback ${title}`,
         })
         .then(() => {
-          refreshBookingState(true);
+          refreshFeedbackState(true);
         });
       }
 
 
-    setDeleteBooking(false);
+    setDeleteFeedback(false);
     // refreshChatState(true)
-  }, [deleteBooking]);
+  }, [deleteFeedback]);
   return (
     <div className="relative flex flex-col items-center justify-center w-full py-2 ">
     <div className="border-2 rounded-sm p-2 relative hover:bg-slate-200 min-w-full pb-3">
@@ -96,7 +96,7 @@ const BookingList: FC<BookingListProps> = ({
       </div>
       <AlertDialogComponent
         title={`Delete`}
-        description={`Delete Booking ${title}?`}
+        description={`Delete Feedback ${title}?`}
         actionText={"Delete"}
         cancelText={"Cancel"}
         buttonClassname={
@@ -104,9 +104,9 @@ const BookingList: FC<BookingListProps> = ({
         }
         buttonText={<Trash2Icon />}
         buttonVariant={"ghost"}
-        actionButtonClassName={"bg-red-400 hover:bg-red-500"}
+        actionButtonClassName={"bg-red-500 hover:bg-red-600"}
         onActionButtonClickHandler={() => {
-          setDeleteBooking(true);
+          setDeleteFeedback(true);
         }}
       />
     </div>
@@ -114,4 +114,4 @@ const BookingList: FC<BookingListProps> = ({
   );
 };
 
-export default BookingList;
+export default FeedbackList;

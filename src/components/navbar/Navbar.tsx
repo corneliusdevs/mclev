@@ -43,7 +43,7 @@ const Navbar: FC<NavbarProps> = () => {
   const [isUser, setIsUser] = useState<boolean>(false);
 
   const currentPath = usePathname();
-  const { isLoading, data, error } = trpc.getUserSession.useQuery();
+  const { isLoading, data, error } = trpc.auth.getUserSession.useQuery();
 
   useEffect(() => {
     if (typeof data === "object" && data !== null && "kindeDetails" in data) {

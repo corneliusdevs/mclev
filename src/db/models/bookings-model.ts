@@ -14,6 +14,7 @@ export interface Booking {
   bookingInfo: SelectedOptionWithAnswers[],
   isRead: boolean,
   status: string,
+  timeStamp: number;
 }
 
 export interface MongoUser extends Booking, mongoose.Document {}
@@ -70,8 +71,12 @@ const BookingSchema = new mongoose.Schema<Booking>({
   status:{
     type: String,
     required: true,
-  }
-});
+  },
+  timeStamp:  {
+    type: Number,
+    required: true
+  },
+}, {timestamps: true});
 
 // export default mongoose.model<User>("Booking", UserSchema);
 

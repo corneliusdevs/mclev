@@ -1,3 +1,4 @@
+import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
 import { Chats } from "@/db/models/chat-model";
 import updateAdminChatStoreHelper from "@/helpers/updateAdminChatStoreHelper";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
@@ -7,18 +8,20 @@ import { v4 as uuidv4 } from "uuid";
 interface useUpdateAllAdminChatsProps {
   newMessage: ClientSideChatType;
   userId: string;
-  messagesStore: Chats[];
+  messagesStore: AllAdminChats[];
 }
 
 const fromClientSideChatTypeToChatType = (
   ClientSideChatType: ClientSideChatType
 ) => {
   return {
-    message: ClientSideChatType.message,
-    timeStamp: ClientSideChatType.timeStamp,
-    recipientsId: ClientSideChatType.recipientsId,
-    author: ClientSideChatType.author,
-    chatId: uuidv4(),
+    // message: ClientSideChatType.message,
+    // timeStamp: ClientSideChatType.timeStamp,
+    // recipientsId: ClientSideChatType.recipientsId,
+    // author: ClientSideChatType.author,
+    // chatId: uuidv4(),
+    ...ClientSideChatType,
+    chatId: uuidv4()
   };
 };
 
@@ -28,12 +31,12 @@ const updateAllAdminChats = ({
   messagesStore,
 }: useUpdateAllAdminChatsProps) => {
   console.log("messages store gotten ", messagesStore);
-  const chatStatecopy: Chats[] = [];
+  const chatStatecopy: AllAdminChats[] = [];
 
   const generateNewAdminChatState = () => {
     const messagesStoreCopy = [...messagesStore];
 
-    const toBeMapped: Chats[] = messagesStoreCopy;
+    const toBeMapped: AllAdminChats[] = messagesStoreCopy;
     let indexOfSavedEntry = -1;
 
     toBeMapped.forEach((message, index) => {
@@ -54,12 +57,20 @@ const updateAllAdminChats = ({
         if (indexOfSavedEntry !== -1) {
           console.log("cha exists ... ", indexOfSavedEntry);
       
-          // overwrite the question and answer
-          messagesStoreCopy[indexOfSavedEntry] = {
-            userId: message.userId,
+          // // overwrite the question and answer
+          // messagesStoreCopy[indexOfSavedEntry] = {
+          //   userId: message.userId,
+          //   isRead: message.isRead,
+          //   chats: updatedChatsArray,
+          // };
+
+          messagesStoreCopy.splice(indexOfSavedEntry, 1)
+          messagesStoreCopy.unshift({
+              userId: message.userId,
             isRead: message.isRead,
             chats: updatedChatsArray,
-          };
+            name: message.name
+          })
         } 
 
         // console.log("fishsing ", updatedChatsArray);

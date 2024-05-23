@@ -1,6 +1,13 @@
 "use client";
 
-import { Dispatch, FC, MutableRefObject, useEffect, useRef, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import ShowChatUi from "./ShowChatUi";
 import "./styles.css";
 import "@/helpers/styles.css";
@@ -11,7 +18,9 @@ import AdminChatInput from "./AdminChatInput";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
 import { ClientSideChatType } from "./UserChatDialog";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
-
+import SaveUserName from "./SaveUserName";
+import { generateAdminChatState } from "@/helpers/formatAdminChatState";
+import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
 
 export const initialMessageState: ClientSideChatType = {
   id: uuidv4(),
@@ -36,63 +45,30 @@ export type ChatType = {
 };
 
 interface AdminChatDialogProps {
-  chats: Chats;
-  otherChatsStore: Chats[],
-  updateOtherChatsStore: Dispatch<React.SetStateAction<Chats[]>>
+  chats: AllAdminChats;
+  allChatsStore: AllAdminChats[];
+  updateAllChatsStore: Dispatch<React.SetStateAction<AllAdminChats[]>>;
+  chatStoreRef: MutableRefObject<AllAdminChats[]>;
+  updatedChatsStore: AllAdminChats[];
 }
 
-const AdminChatDialog: FC<AdminChatDialogProps> = ({ chats: messages }) => {
-  const generateAdminChatState = (chats: Chats) => {
-    let result: ChatType[] = [];
-    chats.chats.map((chat) => {
-      result.push({
-        id: uuidv4(),
-        status: "success",
-        type: "showChat",
-        ...chat,
-      });
-    });
+const AdminChatDialog: FC<AdminChatDialogProps> = ({
+  chats: messages,
+  chatStoreRef,
+  updateAllChatsStore,
+  allChatsStore,
+  updatedChatsStore
+}) => {
 
-    return result;
-  };
-
-  const generatedMessages = generateAdminChatState(messages);
-  const [adminChats, setAdminChatsState] = useState<ChatType[]>([
-    ...generatedMessages,
-  ]);
-
-  const adminMessagesRef: MutableRefObject<ChatType[]> = useRef([
-    ...generatedMessages,
-  ]);
-
-  const [updatedAdminChats, setUpdatedAdminChats] = useState<ChatType[]>([]);
-
-  const [shouldUpdateOtherChats, setShouldUpdateOtherChats] = useState<boolean>(false);
-
-
-  const [isNewMessage, setIsNewMessage] = useState<{
-    isNew: boolean;
-    newMessage: ChatType;
-  }>({
-    isNew: false,
-    newMessage: initialMessageState,
-  });
-
+const [toggleScrollDiv, setToggleScrolldiv] = useState<boolean>(false)
 
 
   const chatMessagesRef = useRef<HTMLDivElement>(null);
   const generateChatUi = () => {
     let result = [];
-    // if (error) {
-    //   return (
-    //     <div className="flex w-full h-full text-sm justify-center items-center text-center pt-[80px]">
-    //       Oops! Chat is Unavailable at the moment.
-    //     </div>
-    //   );
-    // }
+   
 
-    let toBeMapped =
-      updatedAdminChats.length === 0 ? adminChats : updatedAdminChats;
+    let toBeMapped = messages.chats;
 
     result = toBeMapped.map((chat, index) => {
       if (chat.author === "admin") {
@@ -123,97 +99,50 @@ const AdminChatDialog: FC<AdminChatDialogProps> = ({ chats: messages }) => {
     return result;
   };
 
+
+
   // scroll the messages div tothe bottom automatically when user sends a reply
   useEffect(() => {
+  console.log("scrolling................")
     if (chatMessagesRef.current) {
       chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     }
-  }, [adminChats, updatedAdminChats]);
+  }, [messages.chats, toggleScrollDiv]);
 
-  useEffect(() => {
-    console.log("listening to user")
-    socket.on("user-message", (message: ClientSideChatType | null, userId: string) => {
-      if (message && messages.userId === userId) {
-        console.log("payload gottten admin")
-        setIsNewMessage({
-          isNew: true,
-          newMessage: message,
-        });
-      }
-
-      // update other chats
-      if(message && messages.userId !== userId){
-        setShouldUpdateOtherChats(true)
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isNewMessage.isNew) {
-      let newChatState: ChatType[] = [];
-
-      if (updatedAdminChats.length === 0) {
-        newChatState = updateChatStoreHelper(
-          adminMessagesRef.current,
-          isNewMessage.newMessage
-        );
-        console.log("ifffffffffffffff ... ", newChatState);
-        setUpdatedAdminChats(newChatState);
-      } else {
-        newChatState = updateChatStoreHelper(
-          updatedAdminChats,
-          isNewMessage.newMessage
-        );
-        console.log("elsssssssssseeeeeeeee ... ", newChatState);
-        setUpdatedAdminChats(newChatState);
-      }
-
-      // do not edit unless you know absolutely what you're doing
-      adminMessagesRef.current = [...newChatState];
-    }
-    setIsNewMessage({
-      isNew: false,
-      newMessage: initialMessageState,
-    });
-  }, [isNewMessage.isNew]);
-
-
-  useEffect(()=>{
-    if(shouldUpdateOtherChats){
-
-
-      // you will update the all messages page!!!
-      setShouldUpdateOtherChats(false)
-    }
-
-  }, [shouldUpdateOtherChats])
 
   return (
     <section className="bg-homegray w-full">
       {/* main chat */}
+      <SaveUserName
+        nameOfUser={
+          messages.name.length > 0
+            ? messages.name.slice(0, 11)
+            : messages.userId.slice(-12)
+        }
+        userId={messages.userId}
+      />
       <div
         ref={chatMessagesRef}
-        className="bg-homegray w-full h-[70vh] overflow-y-scroll p-6"
+        className="bg-homegray w-full h-[60vh] overflow-y-scroll p-6"
       >
         {generateChatUi()}
       </div>
       <div>
         <AdminChatInput
-          updateChatStore={
-            updatedAdminChats.length === 0
-              ? setAdminChatsState
-              : setUpdatedAdminChats
-          }
+          // updateChatStore={
+          //   updatedAdminChats.length === 0
+          //     ? setAdminChatsState
+          //     : setUpdatedAdminChats
+          // }
+          updateAllChatsStore={updateAllChatsStore}
           isAdmin={true}
-          recipientId={messages.userId}
-          chatStore={
-            updatedAdminChats.length === 0 ? adminChats : updatedAdminChats
-          }
-          isUpdatingLocalChatStoreState={
-            updatedAdminChats.length === 0 ? false : true
-          }
-          updateLocalChatStoreStatefxn={setUpdatedAdminChats}
-          
+          userId={messages.userId}
+          chatStore={allChatsStore}
+          setToggleScrollDiv = {setToggleScrolldiv}
+          // isUpdatingLocalChatStoreState={
+          //   updatedAdminChats.length === 0 ? false : true
+          // }
+          // updateLocalChatStoreStatefxn={setUpdatedAdminChats}
         />
       </div>
     </section>

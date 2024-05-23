@@ -32,7 +32,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     resolver: zodResolver(personalDetailsSchema),
   });
 
-  const { mutate, isLoading } = trpc.createBooking.useMutation({
+  const { mutate, isLoading } = trpc.bookings.create.useMutation({
     networkMode: "always",
   });
 
@@ -233,8 +233,9 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 actionButtonClassName={`${
                   httpStatus === 200
                     ? "bg-primarycol/90 hover:bg-primarycol/70"
-                    : "bg-red-600 hover:bg-red-700"
+                    : "bg-red-400 hover:bg-red-500"
                 }`}
+                isDisabled={isLoading}
                 buttonSize={"lg"}
                 buttonText="Ok"
                 actionText="Ok"

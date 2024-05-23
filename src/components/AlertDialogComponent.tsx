@@ -10,30 +10,31 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { FC } from "react";
-
+import React, { FC } from "react";
 
 type AlertDialogComponentProps = {
   description: string;
-  buttonText: string;
-  buttonVariant:
+  buttonText?: string | React.ReactNode;
+  buttonVariant?:
     | "outline"
     | "default"
     | "destructive"
     | "secondary"
     | "ghost"
     | "link";
-  buttonClassname: string;
+  buttonClassname?: string;
   title: string | undefined;
-  buttonSize: "default" | "sm" | "lg" | "icon" | null | undefined;
+  buttonSize?: "default" | "sm" | "lg" | "icon" | null | undefined;
   cancelText?: string;
   cancelButtonClassName?: string;
   actionButtonClassName?: string;
   actionText: string;
-  customButton?: React.ReactNode 
+  customButton?: React.ReactNode;
+  onActionButtonClickHandler?: Function;
+  isDisabled?: boolean
 };
 
-const AlertDialogComponent:FC<AlertDialogComponentProps> =({
+const AlertDialogComponent: FC<AlertDialogComponentProps> = ({
   description,
   buttonText,
   buttonSize,
@@ -44,37 +45,53 @@ const AlertDialogComponent:FC<AlertDialogComponentProps> =({
   actionText,
   cancelButtonClassName,
   actionButtonClassName,
+  onActionButtonClickHandler,
+  isDisabled,
   ...props
 }) => {
   return (
-    <AlertDialog >
-      <AlertDialogTrigger asChild className="" 
-      >
-        {
-           
-            props.customButton ?  
-          props.customButton : <Button
-          variant={buttonVariant}
-          className={buttonClassname}
-          size={buttonSize}
-        >
-          {buttonText}
-        </Button>
-        }
-        
+    <AlertDialog>
+      <AlertDialogTrigger asChild className="">
+        {props.customButton ? (
+          props.customButton
+        ) : (
+          <Button
+            variant={buttonVariant}
+            className={buttonClassname}
+            size={buttonSize}
+          >
+            {buttonText}
+          </Button>
+        )}
       </AlertDialogTrigger>
-      <AlertDialogContent className="">
+      <AlertDialogContent >
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          {cancelText && <AlertDialogCancel className={`${cancelButtonClassName && cancelButtonClassName}`}>{cancelText}</AlertDialogCancel>}
-          <AlertDialogAction className={`${actionButtonClassName && actionButtonClassName}`}>{actionText}</AlertDialogAction>
+          {cancelText && (
+            <AlertDialogCancel
+              className={`${cancelButtonClassName && cancelButtonClassName}`}
+            >
+              {cancelText}
+            </AlertDialogCancel>
+          )}
+          {
+                !isDisabled &&
+          <AlertDialogAction
+            className={`${actionButtonClassName && actionButtonClassName}`}
+            onClick={() => {
+              onActionButtonClickHandler && onActionButtonClickHandler();
+            }}
+          >
+            {actionText}
+          </AlertDialogAction>
+          }
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
-  };
+};
 
 export default AlertDialogComponent;

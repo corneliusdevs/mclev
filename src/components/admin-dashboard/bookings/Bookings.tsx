@@ -1,12 +1,18 @@
 import BookingList from "@/ui/admin-dashboard/BookingList";
-import { ArrowLeft, Bird, Loader2, MoveLeft } from "lucide-react";
+import { Bird, Loader2, MoveLeft, Rabbit, RefreshCcw } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import "./bookings.css";
 import { trpc } from "@/trpc-client/client";
-import { TBooking } from "@/db/models/bookings-model";
 import Booking from "@/components/Booking";
 import { DummyBookingType, dummyBooking } from "@/helpers/dummyBooking";
 import ButtonWithIcons from "@/ui/admin-dashboard/ButtonWithIcon";
+import { formatTimeDuration } from "@/helpers/utilities";
+import { formatDistanceToNowStrict } from "date-fns";
+import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
+import Search from "@/ui/admin-dashboard/Search";
+import SearchUi from "@/ui/admin-dashboard/Search";
+import { SearchUiPayload } from "../types";
 
 interface BookingsProps {}
 
@@ -20,15 +26,55 @@ const Bookings: FC<BookingsProps> = () => {
     viewingBooking: false,
     bookingId: "",
   });
+
   const [bookings, setBookings] = useState<DummyBookingType[]>([]);
+
+  const [isDataSearched, setIsDataSearched] = useState<boolean>(false);
+
+  const [searchResults, setSearchResults] = useState<SearchUiPayload>([]);
+
   const {
     data,
     isLoading: isFetchingBookings,
     error,
-  } = trpc.getBookings.useQuery();
+    refetch: refetchBookings,
+  } = trpc.bookings.get.useQuery();
+
+  const {
+    mutate: markBookingAsReadMutation,
+    isLoading: isMarkingChatAsRead,
+    error: errorMarkingChatAsRead,
+  } = trpc.bookings.markAsRead.useMutation({
+    networkMode: "always",
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const [shouldMarkAsRead, setShouldMarkAsRead] = useState<{
+    markAsRead: boolean;
+    bookingId: string;
+  }>({
+    markAsRead: false,
+    bookingId: "",
+  });
+
+  const [isRefetchingBookings, setIsRefetchingBookings] =
+    useState<boolean>(false);
+
   useEffect(() => {
+    if (isRefetchingBookings) {
+      const fetchPromise = refetchBookings();
+
+      // show toast notifications
+      toast.promise(fetchPromise, {
+        loading: "Updating bookings",
+        success: "Bookings up to date",
+        error: "Could not update bookings",
+      });
+
+      setIsRefetchingBookings(false);
+    }
+
     if (data && data?.bookings.length !== 0) {
       setBookings(data.bookings);
       setIsLoading(false);
@@ -36,8 +82,7 @@ const Bookings: FC<BookingsProps> = () => {
     if (!isFetchingBookings) {
       setIsLoading(false);
     }
-    
-  }, [isFetchingBookings, data]);
+  }, [isFetchingBookings, data, isRefetchingBookings]);
 
   const getBookingInfoFromState = (
     state: DummyBookingType[],
@@ -51,6 +96,23 @@ const Bookings: FC<BookingsProps> = () => {
 
     return <Booking bookingInfo={dummyBooking} />;
   };
+
+  useEffect(() => {
+    // register admin socket Id
+    if (shouldMarkAsRead.markAsRead) {
+      console.log("marking as read...");
+      markBookingAsReadMutation({
+        bookingId: shouldMarkAsRead.bookingId,
+      });
+    }
+
+    setShouldMarkAsRead({
+      markAsRead: false,
+      bookingId: "",
+    });
+  }, [shouldMarkAsRead.markAsRead]);
+
+  let bookingsToBeMapped = isDataSearched ? searchResults : bookings
 
   return (
     <div>
@@ -107,56 +169,89 @@ const Bookings: FC<BookingsProps> = () => {
         </div>
       ) : data && !bookingsState.viewingBooking ? (
         <div className="">
-          <div className="sticky z-20 top-[50px] bg-white/95 text-black flex flex-col justify-start text-2xl border-b-[1px] border-greenaccentcol/15 pb-2 text-center">
-            <span>All Bookings</span>
+          <div className="sticky z-20 top-[50px] bg-white/95 text-black flex items-center justify-center text-xl border-b-[1px] border-greenaccentcol/15 py-1 text-center">
+            <span className="mr-4">All Bookings</span>
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                setIsRefetchingBookings(true);
+              }}
+            >
+              <span>
+                <RefreshCcw size={19} className="text-slate-600" />
+              </span>
+            </Button>
           </div>
-          {data.bookings.map((booking, index) => {
-            return (
-              <BookingList
-                key={booking._id + index}
-                title={booking.selectedService}
-                subTitle={booking.name}
-                unread={!booking.isRead}
-                description={
-                  booking.additionalNotes ? booking.additionalNotes : ""
-                }
-                timeStamp={"3 hours ago"}
-                clickHandler={() => {
-                  setBookingsState({
-                    viewingBooking: true,
-                    bookingId: booking._id,
-                  });
-                }}
-              />
-            );
-          })}
+
+          {/* SEARCH UI */}
+          <div className="flex justify-center items-center max-w[400px] w-full p-2">
+          <SearchUi
+            dataToBeSearched={bookings}
+            dataName={"bookings"}
+            setSearchResults={setSearchResults}
+            onSearch={() => {
+              setIsDataSearched(true);
+            }}
+            onClearSearchResults={() => {
+              setIsDataSearched(false);
+            }}
+
+            placeholder={"lookup name or service"}
+          />
+        </div>
+          {isDataSearched && bookingsToBeMapped.length === 0 && (
+            <div className="relative w-full h-[50vh] flex justify-center items-center">
+              <div className="flex flex-col">
+                <div className="flex justify-center text-gray-500">
+                  <Rabbit size={50} strokeWidth={1} />{" "}
+                </div>
+                <p className="flex items-center justify-center text-gray-600 text-xl">
+                  No Match Found.
+                </p>
+              </div>
+            </div>
+          )}
+
+          <div className="flex px-2 flex-col">
+            {bookingsToBeMapped.map((booking, index) => {
+              return (
+                <BookingList
+                  key={booking._id + index}
+                  bookingId={booking._id}
+                  title={booking.selectedService}
+                  subTitle={booking.name}
+                  unread={!booking.isRead}
+                  refreshBookingState={setIsRefetchingBookings}
+                  description={
+                    booking.additionalNotes ? booking.additionalNotes : ""
+                  }
+                  timeStamp={formatTimeDuration(
+                    formatDistanceToNowStrict(new Date(booking.timeStamp), {
+                      addSuffix: true,
+                    })
+                  )}
+                  clickHandler={() => {
+                    setBookingsState({
+                      viewingBooking: true,
+                      bookingId: booking._id,
+                    });
+
+                    if (!booking.isRead) {
+                      setShouldMarkAsRead({
+                        markAsRead: true,
+                        bookingId: booking._id,
+                      });
+                    }
+                  }}
+                />
+              );
+            })}
+          </div>
         </div>
       ) : bookingsState.viewingBooking ? (
         <div>{getBookingInfoFromState(bookings, bookingsState.bookingId)}</div>
       ) : (
-        <div>
-          {/* <BookingList
-            title="William Smith"
-            subTitle="Meeting Tomorrow"
-            description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-            timeStamp={"3 hours ago"}
-            unread={true}
-          />
-          <BookingList
-            title="John James"
-            subTitle="Meeting Tomorrow"
-            description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-            timeStamp={"3 hours ago"}
-            unread={true}
-          />
-          <BookingList
-            title="Janet Ruth"
-            subTitle="Meeting Tomorrow"
-            description="I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details I would love to make enquiries on a number of services you render, seeing you are the best cleaning service in south London and I love your deication and attention to details"
-            timeStamp={"3 hours ago"}
-            unread={true}
-          /> */}
-        </div>
+        <div></div>
       )}
     </div>
   );

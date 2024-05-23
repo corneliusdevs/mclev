@@ -5,12 +5,13 @@ import { trpc } from "@/trpc-client/client";
 import { navigate } from "../actions";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import AblyProviderComponent from "@/lib/ably/ably";
 
 const AdminDashboard = () => {
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(true);
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
 
-  // trpc.getUserCredentials.useQuery(undefined, {
+  // trpc.auth.getUserSession.useQuery(undefined, {
   //   onSuccess: ({ httpStatus, userRole, kindeDetails }) => {
   //     if (httpStatus !== 200 || userRole !== "admin" || !kindeDetails) {
   //       navigate("/sign-in");
@@ -26,23 +27,23 @@ const AdminDashboard = () => {
   //   retryDelay: 500,
   // });
 
-  // const { isLoading, data, error } = trpc.getAdminSession.useQuery();
+  const { isLoading, data, error } = trpc.auth.getAdminSession.useQuery();
 
-  // useEffect(() => {
-  //   if (error) {
-  //     navigate("/sign-in");
-  //   }
+  useEffect(() => {
+    if (error) {
+      navigate("/sign-in");
+    }
 
-  //   if (data) {
-  //     let { httpStatus, userRole, kindeDetails } = data;
-  //     if (httpStatus !== 200 || userRole !== "admin" || !kindeDetails) {
-  //       navigate("/sign-in");
-  //     } else {
-  //       setIsAdminLoggedIn(true);
-  //     }
-  //     setIsAuthenticating(false);
-  //   }
-  // }, [isLoading, data, error]);
+    if (data) {
+      let { httpStatus, userRole, kindeDetails } = data;
+      if (httpStatus !== 200 || userRole !== "admin" || !kindeDetails) {
+        navigate("/sign-in");
+      } else {
+        setIsAdminLoggedIn(true);
+      }
+      setIsAuthenticating(false);
+    }
+  }, [isLoading, data, error]);
 
   return (
     <main className="">
@@ -54,11 +55,13 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
-      {/* {isAdminLoggedIn && !isAuthenticating && !isLoading && (
+      {isAdminLoggedIn && !isAuthenticating && !isLoading && (
         <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} />
-      )} */}
+      )}
 
-      <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} />
+        {/* <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} /> */}
+      {/* <AblyProviderComponent>
+      </AblyProviderComponent> */}
     </main>
   );
 };

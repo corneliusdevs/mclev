@@ -27,7 +27,7 @@ const AdminSignup: FC = (props): React.ReactNode => {
     resolver: zodResolver(adminSignupSchema),
   });
 
-  const { mutate, isLoading } = trpc.signUpAdmin.useMutation({
+  const { mutate, isLoading } = trpc.auth.signUpAdmin.useMutation({
     networkMode: "always",
   });
 
@@ -159,13 +159,14 @@ const AdminSignup: FC = (props): React.ReactNode => {
                 actionButtonClassName={`${
                   httpStatus === 201 && "bg-primarycol hover:bg-primarycol"
                 } ${
-                  httpStatus === 401 && "bg-red-600 hover:bg-red-600"
+                  httpStatus === 401 && "bg-red-400 hover:bg-red-500"
                 } px-8 transform hover:scale-90`}
                 buttonSize={"lg"}
                 buttonText="Ok"
                 actionText="Ok"
                 description=""
                 buttonVariant={"outline"}
+                isDisabled={isLoading}
                 customButton={
                   <AdminButton
                     type="submit"

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const Page = () => {
 
 
-  const { isLoading, data, error } = trpc.authCallback.useQuery()
+  const { isLoading, data, error } = trpc.auth.authCallback.useQuery()
 
   useEffect(() => {
     if (error) {

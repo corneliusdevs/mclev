@@ -25,7 +25,7 @@ const AdminLogin: FC = (props): React.ReactNode => {
   });
 
 
-  // const { mutate, isLoading } = trpc.signUpAdmin.useMutation({ networkMode: "always" });
+  // const { mutate, isLoading } = trpc.auth.signUpAdmin.useMutation({ networkMode: "always" });
 
   const router = useRouter()
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -131,8 +131,9 @@ const AdminLogin: FC = (props): React.ReactNode => {
                     ? "Invalid Credentials"
                     : "Ooops! Something went wrong. Please try again later"
                 }
+                isDisabled={isLoading}
                 buttonClassname=""
-                actionButtonClassName={`${httpStatus === 200 && "bg-primarycol hover:bg-primarycol"} ${httpStatus === 401 && "bg-red-600 hover:bg-red-600"} px-8 transform hover:scale-90`}
+                actionButtonClassName={`${httpStatus === 200 && "bg-primarycol hover:bg-primarycol"} ${httpStatus === 401 && "bg-red-400 hover:bg-red-500"} px-8 transform hover:scale-90`}
                 buttonSize={"lg"}
                 buttonText="Ok"
                 actionText="Ok"

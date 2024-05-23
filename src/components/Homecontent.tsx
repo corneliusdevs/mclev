@@ -1,3 +1,4 @@
+"use client";
 import { phoneNumber } from "@/helpers/siteInfo";
 import HomeImageGallery from "./HomeImageGalery";
 import HomeheroButton from "./ui/HomeheroButton";
@@ -5,10 +6,47 @@ import ImageCard from "./ImageCard";
 import CarouselComponent, { CarouselWithArrows } from "./Carousel";
 import { happyCustomersImages } from "@/helpers/homeImages";
 import IconText from "./IconText";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import TestimonialCard from "./TestimonialCard";
+import { useEffect } from "react";
+import { trpc } from "@/trpc-client/client";
+import { formatTimeDuration } from "@/helpers/utilities";
+import { formatDistanceToNowStrict } from "date-fns";
 
 const Homecontent = () => {
+  const {
+    data: fetchFeedbacksData,
+    error: fetchFeedbacksError,
+    isLoading: isFetchingFeedbacks,
+  } = trpc.feedback.get.useQuery();
+
+  const generateFeedbacksUi = (): React.JSX.Element[] => {
+    const feebacksUi: React.JSX.Element[] = [];
+    fetchFeedbacksData?.feedbacks.forEach((feedback, index) => {
+      feedback.publishToFrontend &&
+        feebacksUi.push(
+          <TestimonialCard
+            key={Date.now().toString() + 122}
+            title={
+              feedback.name.length > 24
+                ? feedback.name.slice(0, 24)
+                : feedback.name
+            }
+            subtitle={formatTimeDuration(
+              formatDistanceToNowStrict(new Date(feedback.timeStamp), {
+                addSuffix: true,
+              })
+            )}
+            rating={feedback.rating}
+            review={feedback.experience}
+            response={
+              feedback.adminResponse !== "" ? feedback.adminResponse : undefined
+            }
+          />
+        );
+    });
+    return feebacksUi;
+  };
   return (
     <section>
       <article className="text-center py-6 px-3">
@@ -148,47 +186,49 @@ const Homecontent = () => {
             Here are a few more reasons to call us right now:
           </div>
           <IconText
-           key={Date.now.toString() + 7}
+            key={Date.now.toString() + 7}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
-           key={Date.now.toString() + 6}
+            key={Date.now.toString() + 6}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
-           key={Date.now.toString() + 5}
+            key={Date.now.toString() + 5}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
-           key={Date.now.toString() + 4}
+            key={Date.now.toString() + 4}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
           <IconText
-           key={Date.now.toString() + 3}
+            key={Date.now.toString() + 3}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
-          <IconText key={Date.now.toString() + 1}
+          <IconText
+            key={Date.now.toString() + 1}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
             iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
           />
-          <IconText  key={Date.now.toString() + 2}
+          <IconText
+            key={Date.now.toString() + 2}
             icon={<Check size={15} strokeWidth={4} />}
             text="Lorem ipsum dolor sit amet dolor dolor sit"
             textStyle="text-sm leading-6 font-[450]"
@@ -207,31 +247,17 @@ const Homecontent = () => {
         <div className="text-md text-slate-500 mb-2 text-center">
           What our customers say about us{" "}
         </div>
-        <CarouselWithArrows
-          items={[
-            <TestimonialCard
-            key={Date.now().toString() + 122}
-              title={"Josh M."}
-              subtitle={"2 days ago"}
-              rating={5}
-              review={"Customer's review goes here. Its a really long review that takes long to type."}
-            />,
-            <TestimonialCard
-            key={Date.now().toString() + 11}
-              title={"Josh M."}
-              subtitle={"2 days ago"}
-              rating={3}
-              review={"Customer's review goes here. Its a really long review that takes long to type."}
-            />,
-            <TestimonialCard
-            key={Date.now().toString() + 12}
-              title={"Josh M."}
-              subtitle={"2 days ago"}
-              rating={4}
-              review={"Customer's review goes here. Its a really long review that takes long to type."}
-            />,
-          ]}
-        />
+        {isFetchingFeedbacks ? (
+          <div className="flex justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        ) : fetchFeedbacksError ? (
+          <div className="text-center">Could not display feedbacks. </div>
+        ) : fetchFeedbacksData.feedbacks.length > 0 ? (
+          generateFeedbacksUi().length === 0 && <div></div>
+        ) : (
+          <CarouselWithArrows items={[...generateFeedbacksUi()]} />
+        )}
       </div>
 
       {/* How to get in touch section */}
@@ -254,7 +280,7 @@ const Homecontent = () => {
           {/* book now and request a quote buttons */}
           <div className="flex flex-col items-center justify-center py-6 bg-[#F4F4F4]">
             <HomeheroButton
-             key={Date.now.toString() + 13}
+              key={Date.now.toString() + 13}
               text={"BOOK NOW"}
               variant={"outline"}
               className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-black/75 hover:text-black/75
@@ -262,7 +288,7 @@ const Homecontent = () => {
               size={"default"}
             />
             <HomeheroButton
-             key={Date.now.toString() + 14}
+              key={Date.now.toString() + 14}
               text={"REQUEST A QUOTE"}
               variant={"outline"}
               className="mt-4 bg-transparent text-accentcol rounded-none hover:bg-transparent border-accentcol hover:border-2 hover:tracking-wider hover:text-accentcol transition-all"
