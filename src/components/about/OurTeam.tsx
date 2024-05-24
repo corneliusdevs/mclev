@@ -12,10 +12,13 @@ const OurTeam = () => {
           previousArrowClassName={"p-2 transform scale-[1.3]"}
           nextArrowClassName={"p-2 transform scale-[1.3]"}
           items={[
-            <div className="shadow-lg max-w-[300px] my-8">
+            <div 
+             key={"team1"}
+            className="shadow-lg max-w-[300px] my-8"
+            >
               <div className="flex width-[300px]">
                 <Image
-                  src={"/assets/banner/banner1.jpg"}
+                  src={"/assets/team/team1.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"
@@ -26,10 +29,12 @@ const OurTeam = () => {
                 This is a caption and a really long text
               </div>
             </div>,
-            <div className="shadow-lg max-w-[300px] my-8">
+            <div 
+            key={"team2"}
+            className="shadow-lg max-w-[300px] my-8">
               <div className="flex width-[300px]">
                 <Image
-                  src={"/assets/banner/banner1.jpg"}
+                  src={"/assets/team/team4.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"
@@ -40,10 +45,12 @@ const OurTeam = () => {
                 This is a caption and a really long text
               </div>
             </div>,
-            <div className="shadow-lg max-w-[300px] my-8">
+            <div
+             key={"team3"}
+            className="shadow-lg max-w-[300px] my-8">
               <div className="flex width-[300px]">
                 <Image
-                  src={"/assets/banner/banner1.jpg"}
+                  src={"/assets/team/team3.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"

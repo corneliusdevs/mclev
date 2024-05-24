@@ -10,7 +10,7 @@ const HistoryComponent = () => {
       </div>
       <div className="flex justify-center text-black/80 font-[14px] w-[70%] text-center">
         Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
+        industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever
         since the 1500s
       </div>
       <div className="w-full relative">
