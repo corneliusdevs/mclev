@@ -56,11 +56,15 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({ images }) => {
 
 interface CarouselWithArrowsProps {
   items: React.ReactNode[];
+  previousArrowClassName?: string;
+  nextArrowClassName?: string
 }
 
 // This is the auto-sliding carousel component without arrows
 export const CarouselWithArrows: React.FC<CarouselWithArrowsProps> = ({
   items,
+  previousArrowClassName,
+  nextArrowClassName
 }) => {
   return (
     <div className="flex justify-center">
@@ -68,8 +72,8 @@ export const CarouselWithArrows: React.FC<CarouselWithArrowsProps> = ({
         <CarouselContent className="">
           {items && items.map((item, index) => <CarouselItem className="flex justify-center" key={index + "carousel item" + Date.now().toString}>{item}</CarouselItem>)}
         </CarouselContent>
-        <CarouselPrevious className="ml-[15px] xsm:ml-[25px] sm:mr-[50px]" />
-        <CarouselNext className="mr-[15px] xsm:mr-[25px] sm:mr-[50px]" />
+        <CarouselPrevious className={`${previousArrowClassName? previousArrowClassName: "ml-[15px] xsm:ml-[25px] sm:mr-[50px]"}`}/>
+        <CarouselNext className={`${nextArrowClassName ? nextArrowClassName: "mr-[15px] xsm:mr-[25px] sm:mr-[50px]"}`} />
       </Carousel>
     </div>
   );
