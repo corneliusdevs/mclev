@@ -68,7 +68,7 @@ const AdminFeedbackUi: FC<FeedbackUiProps> = ({ feedbackInfo }) => {
             },
           }
         );
-      }else{
+      } else {
         toast("Publishing feedback...");
         publishToWebsite(
           {
@@ -88,31 +88,38 @@ const AdminFeedbackUi: FC<FeedbackUiProps> = ({ feedbackInfo }) => {
           }
         );
       }
-    } 
-      
+    }
 
-      setChangePublishStatus(false);
-    
+    setChangePublishStatus(false);
   }, [changePublishStatus]);
 
   console.log(feedbackInfo);
 
   return (
-    <div className="relative flex flex-col items-start w-full p-2 mt-10" onClick={() => {}}>
-      <div className="sticky z-20 top-[0px] right-0 flex w-full py-[2px] justify-end mt-[-46px]">
-          {/* BACK BUTTON */}
+    <div
+      className="relative flex flex-col items-start w-full p-2 mt-10"
+      onClick={() => {}}
+    >
+      <div className="sticky z-20 top-[-40px] right-0 flex w-full py-[2px] justify-end mt-[-46px]">
+        {/* PUBLISH BUTTON */}
           <ButtonWithIcons
-            icon={feedbackInfo.publishToFrontend ? <MailMinus size={20} className="mr-2"/> : <MailCheck size={20} className="mr-2"/>}
+            icon={
+              feedbackInfo.publishToFrontend ? (
+                <MailMinus size={20} className="mr-2" />
+              ) : (
+                <MailCheck size={20} className="mr-2" />
+              )
+            }
             text={feedbackInfo.publishToFrontend ? "Unpublish" : "Publish"}
             extraInfo=""
             className={`w-full rounded-none font-xl`}
             variant={"outline"}
             containerStyles={"flex min-w-full"}
             clickHandler={() => {
-              setChangePublishStatus(true)
+              setChangePublishStatus(true);
             }}
           />
-        </div>
+      </div>
       <div className="px-3 mb-2">
         <span>
           <b>From</b>: {feedbackInfo.name}

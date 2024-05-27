@@ -47,7 +47,7 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
         <Sidebar
           side={"right"}
           childComponent={
-            <div className="h-[90px] flex flex-col justify-around pt-4">
+            <div className="h-[90px] flex flex-col justify-around pt-[60px]">
               <ButtonWithIcons
                 icon={<Mail size={20} />}
                 text={"Chats"}

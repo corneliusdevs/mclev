@@ -23,7 +23,8 @@ const Homecontent = () => {
   const generateFeedbacksUi = (): React.JSX.Element[] => {
     const feebacksUi: React.JSX.Element[] = [];
     fetchFeedbacksData?.feedbacks.forEach((feedback, index) => {
-      feedback.publishToFrontend &&
+      if(feedback.publishToFrontend){
+        
         feebacksUi.push(
           <TestimonialCard
             key={Date.now().toString() + 122}
@@ -44,6 +45,7 @@ const Homecontent = () => {
             }
           />
         );
+      }
     });
     return feebacksUi;
   };
@@ -253,9 +255,7 @@ const Homecontent = () => {
           </div>
         ) : fetchFeedbacksError ? (
           <div className="text-center">Could not display feedbacks. </div>
-        ) : fetchFeedbacksData.feedbacks.length > 0 ? (
-          generateFeedbacksUi().length === 0 && <div></div>
-        ) : (
+        ) : fetchFeedbacksData.feedbacks.length > 0 &&  (
           <CarouselWithArrows items={[...generateFeedbacksUi()]} />
         )}
       </div>
