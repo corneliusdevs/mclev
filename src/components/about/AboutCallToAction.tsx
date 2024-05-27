@@ -1,4 +1,4 @@
-import { phoneNumber } from "@/helpers/siteInfo";
+import { companyPhoneNumber } from "@/helpers/siteInfo";
 import HomeheroButton from "../ui/HomeheroButton";
 
 const AboutCallToAction = () => {
@@ -11,7 +11,7 @@ const AboutCallToAction = () => {
           </div>
           <p className="mt-3 text-black/85 text-sm leading-6 text-center">
             Book a service with <b>McLev Cleaning Company</b> on{" "}
-            <span className="text-secondarycol">{phoneNumber}</span>. You can
+            <span className="text-secondarycol">{companyPhoneNumber}</span>. You can
             call us <b>24/7</b> now. We will be more than happy to provide you
             with all the information you need about our services. Don’t hesitate
             to take advantage competitive rates! We cover all major London areas

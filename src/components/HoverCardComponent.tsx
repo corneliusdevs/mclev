@@ -3,6 +3,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { Button } from "./ui/button";
 
 interface HoverCardComponentProps {
   text: string;
@@ -21,9 +22,9 @@ const HoverCardComponent = ({
 }: HoverCardComponentProps) => {
   return (
     <HoverCard>
-      <HoverCardTrigger className={`${triggerClassname && triggerClassname}`}>
-         { triggerText && triggerText }
-         { customTriggerComponent && customTriggerComponent }
+      <HoverCardTrigger className={`${triggerClassname && triggerClassname}`} asChild>
+
+         { triggerText ? <Button variant={"ghost"} className="max-w-[100px] underline underline-offset-2">{triggerText}</Button> :customTriggerComponent }
       </HoverCardTrigger>
       <HoverCardContent className={`${textClassname && textClassname}`}>
         {text}

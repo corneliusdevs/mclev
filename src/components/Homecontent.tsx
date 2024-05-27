@@ -1,5 +1,5 @@
 "use client";
-import { phoneNumber } from "@/helpers/siteInfo";
+import { companyPhoneNumber } from "@/helpers/siteInfo";
 import HomeImageGallery from "./HomeImageGalery";
 import HomeheroButton from "./ui/HomeheroButton";
 import ImageCard from "./ImageCard";
@@ -66,7 +66,7 @@ const Homecontent = () => {
           Our dedicated team of cleaning professionals is passionate about
           delivering outstanding and high-quality cleaning solutions tailored to
           your unique needs. Don’t hesitate to call us today on <br />
-          <span className="text-secondarycol">{phoneNumber}</span>
+          <span className="text-secondarycol">{companyPhoneNumber}</span>
         </span>
       </article>
 
@@ -269,7 +269,7 @@ const Homecontent = () => {
             </div>
             <p className="mt-3 text-black/85 text-sm leading-6 text-center">
               Book a service with <b>McLev Cleaning Company</b> on{" "}
-              <span className="text-secondarycol">{phoneNumber}</span>. You can
+              <span className="text-secondarycol">{companyPhoneNumber}</span>. You can
               call us <b>24/7</b> now. We will be more than happy to provide you
               with all the information you need about our services. Don’t
               hesitate to take advantage competitive rates! We cover all major

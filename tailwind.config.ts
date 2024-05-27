@@ -31,7 +31,7 @@ const config = {
       backgroundImage: {
         'construction' : "url('/assets/construc.jpg')",
         // 'home-hero': "url('/assets/home/cleaning13.jpeg')",
-        'home-hero': "url('/assets/mclev_uniform.jpg')",
+        'home-hero': "url('/assets/img/new1.jpg')",
       },
       screens: {
         "xsm":"300px",

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChevronRight, Facebook, Mail, Youtube } from "lucide-react";
 import React from "react";
 import { faPinterestP, faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { phoneNumber, webEmail } from "@/helpers/siteInfo";
+import { companyPhoneNumber, companyEmail } from "@/helpers/siteInfo";
 import TooltipComponent from "@/components/Tooltip";
 
 const usefulLinks = [
@@ -92,9 +92,9 @@ const Footer = () => {
               Lorem Ipsum, Dolor sit amet.
             </div>
             <div className="text-textwhitecol">
-              <span className="text-secondarycol">Phone: {phoneNumber} </span>
+              <span className="text-secondarycol">Phone: {companyPhoneNumber} </span>
               {/* this is the email address */}
-              <span className="block break-words">{webEmail}</span>
+              <span className="block break-words">{companyEmail}</span>
             </div>
 
             {/* social media links and icons */}

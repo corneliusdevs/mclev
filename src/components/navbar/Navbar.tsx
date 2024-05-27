@@ -30,8 +30,8 @@ const Navbar: FC<NavbarProps> = () => {
       link: "contact-us",
     },
     {
-      text: "Prices",
-      link: "prices",
+      text: "Pricing",
+      link: "pricing",
     },
     {
       text: "Book Now",
