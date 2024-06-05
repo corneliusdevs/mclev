@@ -22,12 +22,15 @@ const Tools: FC = (): React.ReactNode => {
  })
 
   useEffect(() => {
-    socket.on("send-message", (payload: ClientSideChatType | null) => {
-      if (payload && !isChatDialogOpen) {
+    socket.on("send-message", (payload: (ClientSideChatType | null)[]) => {
+      if(payload.length){ 
+        let newMessage = payload[payload?.length - 1]?.message 
+      if (newMessage  && !isChatDialogOpen) {
          setIsNewMessage({
           isNew: true,
-          message: payload.message
+          message: newMessage
          })
+      }
       }
     });
   }, []);

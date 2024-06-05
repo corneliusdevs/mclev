@@ -18,6 +18,7 @@ import ChatInput from "./ChatInput";
 import { Send } from "lucide-react";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
+import toast from "react-hot-toast";
 
 export type ChatStatus = "failed" | "success";
 export type ChatType = {
@@ -71,10 +72,12 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 
   const [isNewMessage, setIsNewMessage] = useState<{
     isNew: boolean;
+    allNewMessages: ClientSideChatType[],
     newMessage: ClientSideChatType;
   }>({
     isNew: false,
     newMessage: initialMessageState,
+    allNewMessages: []
   });
 
   const chatMessagesRef = useRef<HTMLDivElement>(null);
@@ -82,44 +85,26 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   const isConnectedToMsgServerRef = useRef<boolean>(false);
 
   const generateChatUi = () => {
-    let result = [];
-
-    // console.log("generating chat ui....");
-
-    // if (messagesRef.current.length === 0) {
-    //   result.push(
-    //     <div className="w-full h-full flex justify-center items-center pt-14">
-    //       <div className="flex flex-col">
-    //         <div className="flex justify-center text-gray-500 transform rotateYOnHover">
-    //           <Send className="h-8 w-8" strokeWidth={1} />{" "}
-    //         </div>
-    //         <p className="flex items-center justify-center text-gray-600 text-xl">
-    //           Send a message
-    //         </p>
-    //       </div>
-    //     </div>
-    //   );
-
-    //   return result;
-    // }
+    let result:React.ReactNode[] = [];
 
     let toBeMapped = messages;
-    result = toBeMapped.map((chat, index) => {
+    console.log("messages to be mapped generate chat ui", messages)
+     toBeMapped.map((chat, index) => {
       if (chat.author === "client") {
-        return (
+        result.push(
           <SaveChatUi
-            key={uuidv4()}
-            status={chat.status && chat.status}
-            message={chat.message}
-            timeStamp={chat.timeStamp}
-            className={"w-[70%]"}
-            author={chat.author}
-            isAdmin={false}
-          />
-        );
-      }
-      return (
-        <ShowChatUi
+          key={uuidv4()}
+          status={chat.status && chat.status}
+          message={chat.message}
+          timeStamp={chat.timeStamp}
+          className={"w-[70%]"}
+          author={chat.author}
+          isAdmin={false}
+        />
+        )
+      }else{
+        result.push(
+          <ShowChatUi
           key={uuidv4()}
           message={chat.message}
           timeStamp={chat.timeStamp}
@@ -127,9 +112,11 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
           isAdmin={false}
           author={chat.author}
         />
-      );
+        )
+      }
     });
 
+    console.log("result of generateChatUi ", result)
     return result;
   };
 
@@ -137,7 +124,8 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     // update the messagesRef on each rerender
     setIsNewMessage({
       isNew: true,
-      newMessage: messages[messages.length - 1]
+      newMessage: messages[messages.length - 1],
+      allNewMessages: []
     })
   }, [messages]);
 
@@ -151,12 +139,22 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   }, [updatedChats]);
 
   useEffect(() => {
-    socket.on("send-message", (payload: ClientSideChatType | null) => {
-      if (payload) {
+    socket.on("admin-message", (receivedMessages: ClientSideChatType[] | null) => {
+      if (receivedMessages?.length) {
         // console.log("i rannnnnnnnnnnnn");
         setIsNewMessage({
           isNew: true,
-          newMessage: payload,
+          allNewMessages: receivedMessages,
+          newMessage: receivedMessages[receivedMessages.length - 1],
+        });
+
+        let allReceivedMssgsId:string[] = receivedMessages.map((message)=>{
+           return message.id
+        })
+        // notify the server of recieved messages 
+        socket.emit("message-received", {
+          messageIds: allReceivedMssgsId,
+          userId: userId
         });
       }
     });
@@ -169,14 +167,14 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
       if (updatedChats.length === 0) {
         newChatState = updateChatStoreHelper(
           messagesRef.current,
-          isNewMessage.newMessage
+          isNewMessage.allNewMessages
         );
-        // console.log("ifffffffffffffff ... ", newChatState);
+        console.log("chat state about to be rendered ... ", newChatState);
         setUpdatedChats(newChatState);
       } else {
         newChatState = updateChatStoreHelper(
           updatedChats,
-          isNewMessage.newMessage
+          isNewMessage.allNewMessages
         );
         // console.log("elsssssssssseeeeeeeee ... ", newChatState);
         setUpdatedChats(newChatState);
@@ -191,13 +189,25 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     setIsNewMessage({
       isNew: false,
       newMessage: initialMessageState,
+      allNewMessages: [],
     });
   }, [isNewMessage.isNew]);
 
   useEffect(() => {
+    toast("should call reconnect")
     // register user socket Id
     if (!isConnectedToMsgServerRef.current && typeof userId === "string" && userId !== "") {
       console.log("registering... user ");
+
+
+      // get the session from localStorage if one exists
+      const sessionId = localStorage.getItem("sessionId")
+      console.log(sessionId, userId)
+      // add the userId and socketId to the socket and connect
+      socket.auth = {sessionId, userId}
+      socket.connect()
+
+
       socket.emit("register-user", {
         userId: userId,
       });
@@ -205,6 +215,63 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     }
 
   }, [isConnectedToMsgServerRef.current]);
+
+  // CLEANUP ALL EFFECTS IN THIS COMPONENT
+  useEffect(()=>{
+    // attach the session id to the next reconnection attempts
+    socket.on("session", (sessionData)=>{
+        socket.auth = { sessionId: sessionData?.sessionId, userId }
+
+        //  store it in the localStorage 
+        localStorage.setItem("sessionId", sessionData.sessionId);
+        // save the Id of the user
+        // @ts-ignore
+        socket.userId = userId;
+        // @ts-ignore
+        console.log("saved userId ", socket.userId)
+   })
+
+   // clean up the effects
+ 
+  }, [])
+
+  useEffect(()=>{
+    // attach the session id to the next reconnection attempts
+    socket.on("diconnect", ()=>{
+        toast("Disconnected");
+   })
+   // clean up the effects
+  }, [])
+
+  // CLEANUP ALL EFFECTS IN THIS COMPONENT
+  useEffect(()=>{
+    socket.on("connect_error", ()=>{
+      console.log("Could not connect to chat server");
+      toast("Temporarily unable to connect to chats")
+
+      // set is connected to messages server to false
+      isConnectedToMsgServerRef.current = false
+   })
+
+   socket.on("connect", ()=>{
+    toast("Back Online")
+    if(socket.recovered){
+      toast("connection recovered")
+      // @ts-ignore
+      console.log("recovered messagesssssssssss")
+    }
+  })
+
+  socket.on("connection-recovered", (last20Msgs:any)=>{
+    toast("connection recovered")
+    console.log("last 20 msgs are", last20Msgs)
+  })
+
+   // clean up the effects
+   return ()=>{
+     socket.off("connect_error")
+   }
+  }, [])
 
   return (
     <section className="bg-homegray w-full h-full">
@@ -231,19 +298,11 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
       </div>
       <div>
         <ChatInput
-          // updateChatStore={
-          //   updatedChats.length === 0 ? setChats : setUpdatedChats
-          // }
           updateChatStore={updateLocalChatStoreStatefxn}
           isAdmin={false}
-          // chatStore={updatedChats.length === 0 ? chats : updatedChats}
           chatStore={messages}
           userId={userId}
-          // isUpdatingLocalChatStoreState={
-          //   updatedChats.length === 0 ? false : true
-          // }
           isUpdatingLocalChatStoreState={isUpdatingLocalChatStoreState}
-          // updateLocalChatStoreStatefxn={setUpdatedChats}
           updateLocalChatStoreStatefxn={updateLocalChatStoreStatefxn}
         />
       </div>

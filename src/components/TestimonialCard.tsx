@@ -67,9 +67,6 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
             {
               props.review
             }
-            {
-              props.review
-            }
           </div>
         </CardContent>
         <CardFooter>

@@ -2,43 +2,67 @@ import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
 
 const updateChatStoreHelper = (
   chatStore: ClientSideChatType[],
-  chatToBeStored: ClientSideChatType
+  chatsToBeStored: ClientSideChatType[]
 ) => {
   console.log("chat state gotten is ... ", chatStore);
   let chatStoreCopy = [...chatStore];
 
   let indexOfSavedEntry = -1;
 
-  if (chatStoreCopy.length === 0 && chatToBeStored) {
-    chatStoreCopy.push(chatToBeStored);
-    return chatStoreCopy;
-  }
+  // if (chatStoreCopy.length === 0 && chatsToBeStored.length === 1) {
+  //   chatStoreCopy.push(chatsToBeStored[0]);
+  //   return chatStoreCopy;
+  // }
 
-  chatStoreCopy.forEach((savedEntry, index) => {
-    if (savedEntry.id === chatToBeStored.id) {
-      console.log("calleddd 22222222222");
+  // loop over chats to be stored to find through the message and id of the chat if it has already been stored
 
-      if (savedEntry.message === chatToBeStored.message) {
-        indexOfSavedEntry = index;
-        
+  for (let i = 0; i < chatsToBeStored.length; i++) {
 
-        return chatStoreCopy;
-      }
+    //  determine if the chat is already in the store using the below loop
+    for (let j = 0; j < chatStoreCopy.length; j++) {
+      if (chatStoreCopy[j]?.id === chatsToBeStored[i]?.id) {
+        console.log("calleddd 22222222222");
+
+        if (chatStoreCopy[j].message === chatsToBeStored[i].message) {
+          indexOfSavedEntry = j;
+          console.log(`returning............`);
+          continue;
+        }
       
+      }
+
+      // Check if the chat to be updated is in the Store.
     }
-  });
 
-  // Check if the chat to be updated is in the Store.
-  if (indexOfSavedEntry !== -1) {
-    console.log("cha exists ... ", indexOfSavedEntry);
+    // update the chat store based on if the chat is already in the store or not
+    if (indexOfSavedEntry !== -1) {
+      console.log("cha exists ... ", indexOfSavedEntry);
 
-    // overwrite the question and answer
-    chatStoreCopy[indexOfSavedEntry] = chatToBeStored;
-  } else {
-    // push question and answer to the chatStore
-    console.log("executing else updateChatStoreHelper");
-    chatStoreCopy.push(chatToBeStored);
+      // overwrite the existing chat with the current value
+      chatStoreCopy[indexOfSavedEntry] = chatsToBeStored[i];
+
+      indexOfSavedEntry = -1;
+      // keep looping
+      continue;
+    } else {
+      // append the chat to the chatStore
+      console.log("executing else updateChatStoreHelper");
+      chatStoreCopy.push(chatsToBeStored[i]);
+      indexOfSavedEntry = -1;
+    }
   }
+
+  // // Check if the chat to be updated is in the Store.
+  // if (indexOfSavedEntry !== -1) {
+  //   console.log("cha exists ... ", indexOfSavedEntry);
+
+  //   // overwrite the question and answer
+  //   chatStoreCopy[indexOfSavedEntry] = chatsToBeStored;
+  // } else {
+  //   // push question and answer to the chatStore
+  //   console.log("executing else updateChatStoreHelper");
+  //   chatStoreCopy.push(chatsToBeStored);
+  // }
 
   return chatStoreCopy;
 };

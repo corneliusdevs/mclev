@@ -1,5 +1,5 @@
-import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
-import { Chat } from "@/db/models/chat-model";
+import { AdminChats } from "@/components/admin-dashboard/types";
+
 
 
 const updateAdminChatStoreHelper = (

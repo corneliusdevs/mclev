@@ -1,12 +1,10 @@
-import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
-import { Chats } from "@/db/models/chat-model";
-import updateAdminChatStoreHelper from "@/helpers/updateAdminChatStoreHelper";
+import { AllAdminChats } from "@/components/admin-dashboard/types";
+import updateAdminChatStoreHelper from "@/helpers/admin/updateAdminChatStoreHelper";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface useUpdateAllAdminChatsProps {
-  newMessage: ClientSideChatType;
+  newMessages: ClientSideChatType[];
   userId: string;
   messagesStore: AllAdminChats[];
 }
@@ -15,23 +13,17 @@ const fromClientSideChatTypeToChatType = (
   ClientSideChatType: ClientSideChatType
 ) => {
   return {
-    // message: ClientSideChatType.message,
-    // timeStamp: ClientSideChatType.timeStamp,
-    // recipientsId: ClientSideChatType.recipientsId,
-    // author: ClientSideChatType.author,
-    // chatId: uuidv4(),
     ...ClientSideChatType,
     chatId: uuidv4()
   };
 };
 
 const updateAllAdminChats = ({
-  newMessage,
+  newMessages,
   userId,
   messagesStore,
 }: useUpdateAllAdminChatsProps) => {
-  console.log("messages store gotten ", messagesStore);
-  const chatStatecopy: AllAdminChats[] = [];
+  console.log("received Message", newMessages,"messages store gotten ", messagesStore);
 
   const generateNewAdminChatState = () => {
     const messagesStoreCopy = [...messagesStore];
@@ -45,13 +37,15 @@ const updateAllAdminChats = ({
       }
     });
 
-
+  for(let i = 0; i < newMessages.length; i++){
+    
     toBeMapped.map((message, index) => {
+      console.log("in mapppppeeddddd 0000000 ", `message.userId${message.userId}`, `userId is ${userId}`);
+
       if (message.userId === userId) {
-        console.log("in mapppppeeddddd 0000000");
         let updatedChatsArray = updateAdminChatStoreHelper(
           message.chats,
-          fromClientSideChatTypeToChatType(newMessage)
+          fromClientSideChatTypeToChatType(newMessages[i])
         );
 
         if (indexOfSavedEntry !== -1) {
@@ -81,6 +75,7 @@ const updateAllAdminChats = ({
         // });
       } 
     });
+  }
 
     console.log("chat State copy is ", messagesStoreCopy);
 

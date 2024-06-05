@@ -2,7 +2,7 @@
 
 import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { AllAdminChats } from "@/components/admin-dashboard/types";
-import { deleteChatFromAdminChatStore } from "@/helpers/updateAdminChatStore";
+import { deleteChatFromAdminChatStore } from "@/helpers/admin/updateAdminChatStore";
 import { trpc } from "@/trpc-client/client";
 import { Trash2Icon } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";

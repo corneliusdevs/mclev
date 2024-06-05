@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {
   AdminLoginSchemaType,
   adminLoginSchema,
-} from "@/helpers/adminLoginSchema";
+} from "@/helpers/admin/adminLoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/trpc-client/client";
 import AlertDialogComponent from "../AlertDialogComponent";
@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import {
   AdminSignupSchemaType,
   adminSignupSchema,
-} from "@/helpers/adminSignupSchema";
+} from "@/helpers/admin/adminSignupSchema";
 
 const AdminSignup: FC = (props): React.ReactNode => {
   const [showPassword, setShowPassword] = useState<boolean>(false);

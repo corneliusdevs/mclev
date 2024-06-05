@@ -14,15 +14,16 @@ import { Bird, Loader2, Rabbit, RefreshCcw } from "lucide-react";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
 import { getRegisterAdminSecret } from "@/lib/utils";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
-import updateAllAdminChats from "@/helpers/useUpdateAllAdminChats";
+// import updateAllAdminChats from "@/helpers/useUpdateAllAdminChats";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 import { formatTimeDuration } from "@/helpers/utilities";
-import { formatAdminChats } from "@/helpers/formatAdminChatState";
+import { formatAdminChats } from "@/helpers/admin/formatAdminChatState";
 import { AllAdminChats, DashboardStateType } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import Feedbacks from "./Feedbacks";
+import updateAllAdminChats from "@/helpers/admin/useUpdateAllAdminChats";
 
 interface AdminDashboardUiProps {
   isAdminLoggedIn: boolean;
@@ -46,13 +47,17 @@ const AdminDashboardUi = ({
   );
   const [shouldUpdateAllChats, setShouldUpdateAllChats] = useState<{
     isNew: boolean;
+    allNewMessages: ClientSideChatType[];
     message: ClientSideChatType;
     userId: string;
   }>({
     isNew: false,
+    allNewMessages: [],
     message: initialMessageState,
     userId: "",
   });
+
+  const isConnectedToMsgServerRef = useRef<boolean>(false);
 
   const [currentChat, setCurrentChat] = useState<AllAdminChats>({
     userId: "",
@@ -161,31 +166,123 @@ const AdminDashboardUi = ({
   }, [shouldMarkAsRead.markAsRead]);
 
   useEffect(() => {
-    // register admin socket Id
-    if (emitToMessagesServer) {
+    // register user socket Id
+    if (!isConnectedToMsgServerRef.current) {
+      toast("attempting to connect");
+      console.log("registering... admin ");
+
       console.log("emmitting... chat input ", getRegisterAdminSecret());
+
+      // get the session from localStorage if one exists
+      const sessionId = localStorage.getItem("sessionId");
+
+      // add the admin userId and secret to the auth object and connect
+      socket.auth = {
+        sessionId,
+        userId: "admin",
+        adminSecret: getRegisterAdminSecret(),
+      };
+      socket.connect();
+
       socket.emit("register-admin", {
-        // fix this and ensure that it is stored in process.env "908vql099ac9043WEE7x2ADSERREG",
-        adminSecret: getRegisterAdminSecret()
+        adminSecret: getRegisterAdminSecret(),
       });
+      isConnectedToMsgServerRef.current = true;
     }
+  }, [isConnectedToMsgServerRef.current]);
 
-    setEmitToMessagesServer(false);
-  }, [emitToMessagesServer]);
+  // useEffect(() => {
+  //   // register admin socket Id
+  //   if (emitToMessagesServer) {
+  //     console.log("emmitting... chat input ", getRegisterAdminSecret());
 
+  //     // get the session from localStorage if one exists
+  //     const sessionId = localStorage.getItem("sessionId")
+
+  //     // add the admin userId and secret to the auth object and connect
+  //     socket.auth = {sessionId, userId: "admin", adminSecret : getRegisterAdminSecret()};
+  //     socket.connect();
+
+  //     socket.emit("register-admin", {
+  //       adminSecret: getRegisterAdminSecret()
+  //     });
+  //   }
+
+  //   setEmitToMessagesServer(false);
+  // }, [emitToMessagesServer]);
+
+  // CLEANUP ALL EFFECTS IN THIS COMPONENT
+  useEffect(() => {
+    // attach the session id to the next reconnection attempts
+    socket.on("session", ({ sessionId, userId }) => {
+      socket.auth = { sessionId, userId };
+      //  store it in the localStorage
+      localStorage.setItem("sessionId", sessionId);
+
+      // save the Id of the user
+      // @ts-ignore
+      socket.userId = userId;
+    });
+
+    // clean up the effects
+  }, []);
+
+  // listen for socket.io connection error
+  useEffect(() => {
+    socket.on("connect_error", () => {
+      console.log("Could not connect to chat server");
+      toast("Temporarily unable to connect to chat server");
+
+      // set is connected to messages server to false
+      isConnectedToMsgServerRef.current = false;
+    });
+
+    socket.on("connect", () => {
+      toast("Back Online");
+      if (socket.recovered) {
+        toast("connection recovered");
+      }
+    });
+
+    socket.on("connection-recovered", (last80Msgs: any) => {
+      toast("connection recovered");
+      console.log("last 80 msgs are", last80Msgs);
+    });
+
+    // clean up the effects
+    return () => {
+      socket.off("connect_error");
+    };
+  }, []);
+
+  // cleanup ALL EFFECTS RETURN A FUNCTION THAT UNSUBSCRIBES TO THESE EVENTS
   useEffect(() => {
     console.log("listening to user");
     socket.on(
-      "user-message",
-      (message: ClientSideChatType | null, userId: string) => {
-        if (message && typeof userId === "string") {
-          console.log("reciving user message")
+      "new-user-message",
+      (receivedMessages: ClientSideChatType[] | null, userId: string) => {
+
+        console.log("reciving user message");
+
+        if (receivedMessages?.length && typeof userId === "string") {
           setShouldUpdateAllChats({
             isNew: true,
-            message: message,
+            allNewMessages: receivedMessages,
+            message: receivedMessages[receivedMessages.length - 1],
             userId: userId,
           });
+
+          let allReceivedMssgsId:string[] = receivedMessages.map((message)=>{
+            return message.id
+         })
+
+         // notify the server of recieved messages 
+         socket.emit("message-received", {
+           messageIds: allReceivedMssgsId,
+           userId: "admin"
+         });
         }
+
       }
     );
   }, []);
@@ -196,12 +293,14 @@ const AdminDashboardUi = ({
       shouldUpdateAllChats.message.message !== ""
     ) {
       if (allChats.length === 0) {
+        // send a toast notification to the admin to notify him of new chats when there is no chat so that admin can refresh the chats and see the new message
         toast(`${shouldUpdateAllChats.message.message.slice(0, 13)}`);
       }
       if (
         currentChatUserIdRef.current !== shouldUpdateAllChats.userId &&
         dashboardState === "chatDialog"
       ) {
+        // if admin has a new message from a user while in a chat with another user, notify the admin via toast notifications
         toast(
           `${shouldUpdateAllChats.message.message.slice(0, 13)}${
             shouldUpdateAllChats.message.message.length > 13 ? "..." : ""
@@ -213,14 +312,14 @@ const AdminDashboardUi = ({
 
   useEffect(() => {
     if (shouldUpdateAllChats.isNew) {
-      console.log("i ranmnnnnnnnnn ");
+      console.log("i rannnnnnnnnn ");
 
       let newAllChatsState: AllAdminChats[] = [];
 
       if (allUpdatedChats.length === 0) {
         console.log("executing allUpdatedChats === 0 ");
         newAllChatsState = updateAllAdminChats({
-          newMessage: shouldUpdateAllChats.message,
+          newMessages: shouldUpdateAllChats.allNewMessages,
           messagesStore: allChats,
           userId: shouldUpdateAllChats.userId,
         });
@@ -231,7 +330,7 @@ const AdminDashboardUi = ({
         }
       } else {
         newAllChatsState = updateAllAdminChats({
-          newMessage: shouldUpdateAllChats.message,
+          newMessages: shouldUpdateAllChats.allNewMessages,
           messagesStore: allChatsRef.current,
           userId: shouldUpdateAllChats.userId,
         });
@@ -242,11 +341,12 @@ const AdminDashboardUi = ({
       }
 
       //  do not edit unless you know what you're doing
-
       allChatsRef.current = [...newAllChatsState];
     }
+
     setShouldUpdateAllChats({
       isNew: false,
+      allNewMessages: [],
       message: initialMessageState,
       userId: "",
     });
@@ -323,7 +423,6 @@ const AdminDashboardUi = ({
                           onClearSearchResults={() => {
                             setIsDataSearched(false);
                           }}
-
                           placeholder={"client or chat name"}
                         />
 
@@ -495,8 +594,8 @@ const AdminDashboardUi = ({
   );
 };
 
-const registerAdminSecret = ()=>{
-  return process.env.REGISTER_ADMIN_TO_MSG_SERVER_SECRET
-}
+const registerAdminSecret = () => {
+  return process.env.REGISTER_ADMIN_TO_MSG_SERVER_SECRET;
+};
 
 export default AdminDashboardUi;

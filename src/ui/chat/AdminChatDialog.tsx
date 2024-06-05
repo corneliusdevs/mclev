@@ -13,14 +13,10 @@ import "./styles.css";
 import "@/helpers/styles.css";
 import { v4 as uuidv4 } from "uuid";
 import SaveChatUi from "./SaveChatUi";
-import { Chats } from "@/db/models/chat-model";
 import AdminChatInput from "./AdminChatInput";
-import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
 import { ClientSideChatType } from "./UserChatDialog";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
 import SaveUserName from "./SaveUserName";
-import { generateAdminChatState } from "@/helpers/formatAdminChatState";
-import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
+import { AllAdminChats } from "@/components/admin-dashboard/types";
 
 export const initialMessageState: ClientSideChatType = {
   id: uuidv4(),

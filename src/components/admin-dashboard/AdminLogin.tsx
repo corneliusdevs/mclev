@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {
   AdminLoginSchemaType,
   adminLoginSchema,
-} from "@/helpers/adminLoginSchema";
+} from "@/helpers/admin/adminLoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/trpc-client/client";
 import AlertDialogComponent from "../AlertDialogComponent";

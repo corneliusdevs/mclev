@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { trpc } from "@/trpc-client/client";
 import { socket } from "@/lib/socket.io/connectToMsgServer";
 import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
-import updateAllAdminChatsStoreHelper from "@/helpers/updateAdminChatStore";
+import updateAllAdminChatsStoreHelper from "@/helpers/admin/updateAdminChatStore";
 
 interface AdminChatInputProps {
   updateAllChatsStore: Dispatch<SetStateAction<AllAdminChats[]>>;

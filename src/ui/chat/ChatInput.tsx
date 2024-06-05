@@ -117,10 +117,11 @@ const ChatInput: FC<ChatInputProps> = ({
                 // setIsLoading(false);
                 if (!data.success) {
                   updateChatStore((prevState) => {
-                    const nextState = updateChatStoreHelper(prevState, {
+                    const nextState = updateChatStoreHelper(prevState, [{
                       ...message,
                       status: "failed",
-                    });
+                    }]
+                  );
 
                     return [...nextState];
                   });
@@ -128,10 +129,10 @@ const ChatInput: FC<ChatInputProps> = ({
                   if (!isUpdatingLocalChatStoreState) {
                     console.log("out .........");
                     updateLocalChatStoreStatefxn(() => {
-                      const nextState = updateChatStoreHelper(chatStore, {
+                      const nextState = updateChatStoreHelper(chatStore, [{
                         ...message,
                         status: "failed",
-                      });
+                      }]);
 
                       return [...nextState];
                     });
@@ -142,19 +143,19 @@ const ChatInput: FC<ChatInputProps> = ({
                 console.log("mutate messages error ", error);
                 // setIsLoading(false);
                 updateChatStore((prevState) => {
-                  const nextState = updateChatStoreHelper(prevState, {
+                  const nextState = updateChatStoreHelper(prevState, [{
                     ...message,
                     status: "failed",
-                  });
+                  }]);
                   return [...nextState];
                 });
 
                 if (!isUpdatingLocalChatStoreState) {
                   updateLocalChatStoreStatefxn(() => {
-                    const nextState = updateChatStoreHelper(chatStore, {
+                    const nextState = updateChatStoreHelper(chatStore, [{
                       ...message,
                       status: "failed",
-                    });
+                    }]);
 
                     return [...nextState];
                   });
@@ -166,14 +167,16 @@ const ChatInput: FC<ChatInputProps> = ({
           updateChatStore((prevState) => {
             return [...prevState, message];
           });
+         
+          console.log("this is updating local chat store state", isUpdatingLocalChatStoreState)
 
           if (!isUpdatingLocalChatStoreState) {
             updateLocalChatStoreStatefxn(() => {
-              const nextState = updateChatStoreHelper(chatStore, {
+              const nextState = updateChatStoreHelper(chatStore, [{
                 ...message,
                 status: "success",
-              });
-
+              }]);
+              console.log("nextb state ", nextState)
               return [...nextState];
             });
           }
