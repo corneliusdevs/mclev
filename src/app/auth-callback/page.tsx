@@ -4,11 +4,10 @@ import { trpc } from "@/trpc-client/client";
 import { Loader2 } from "lucide-react";
 import { navigate } from "../actions";
 import { useEffect } from "react";
+import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
 
 const Page = () => {
-
-
-  const { isLoading, data, error } = trpc.auth.authCallback.useQuery()
+  const { isLoading, data, error } = trpc.auth.authCallback.useQuery();
 
   useEffect(() => {
     if (error) {
@@ -21,28 +20,26 @@ const Page = () => {
         navigate("/sign-in");
       }
       if (success) {
-        if(userRole === "admin"){
-          navigate("admin-dashboard")
-        }else{
-          navigate("/")
+        if (userRole === "admin") {
+          navigate("admin-dashboard");
+        } else {
+          navigate("/");
         }
       }
     }
-    
-
   }, [isLoading, data, error]);
 
   return (
-    <div className='w-full h-[65vh] flex justify-center items-center'>
-      <div className='flex flex-col items-center gap-2 text-center px-12'>
-        <Loader2 className='h-8 w-8 animate-spin text-zinc-800' />
-        <h3 className='font-semibold text-xl'>
-          Signing you in...
-        </h3>
-        <p>You will be redirected automatically.</p>
+    <MaxwidthWrapper>
+      <div className="w-full h-[65vh] flex justify-center items-center">
+        <div className="flex flex-col items-center gap-2 text-center px-12">
+          <Loader2 className="h-8 w-8 animate-spin text-zinc-800" />
+          <h3 className="font-semibold text-xl">Signing you in...</h3>
+          <p>You will be redirected automatically.</p>
+        </div>
       </div>
-    </div>
-  )
+    </MaxwidthWrapper>
+  );
 };
 
 export default Page;

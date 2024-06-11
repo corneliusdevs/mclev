@@ -133,12 +133,13 @@ const Bookings: FC<BookingsProps> = () => {
             }}
           />
         </div>
+
       )}
       {isLoading ? (
         <div className="relative w-full h-[50vh] flex justify-center items-center">
           <div className="flex flex-col">
-            <div className="flex justify-center text-gray-500 animate-spin">
-              <Loader2 size={100} strokeWidth={1} />{" "}
+            <div className="flex justify-center text-slate-500 animate-spin">
+              <Loader2 size={24} strokeWidth={1} />{" "}
             </div>
             <p className="flex items-center justify-center text-gray-600 text-xl">
               Fetching...
@@ -184,7 +185,7 @@ const Bookings: FC<BookingsProps> = () => {
           </div>
 
           {/* SEARCH UI */}
-          <div className="flex justify-center items-center max-w[400px] w-full p-2">
+          <div className="flex justify-center items-center w-full p-2">
           <SearchUi
             dataToBeSearched={bookings}
             dataName={"bookings"}

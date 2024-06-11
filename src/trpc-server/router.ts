@@ -5,6 +5,7 @@ import { authRouter } from "@/routers/auth";
 import { userChatRouter } from "@/routers/chats/userChats";
 import { bookingRouter } from "@/routers/bookings";
 import { adminChatRouter } from "@/routers/chats/adminChats";
+import { contactUsRouter } from "@/routers/contact";
 
 const bcrypt = require("bcrypt");
 
@@ -15,6 +16,7 @@ export const appRouter = router({
   adminChats: adminChatRouter,
   bookings: bookingRouter,
   feedback: feedbackRouter,
+  contact: contactUsRouter,
   // // admin procedure
   // publishFeedbackToWebsite: publicProcedure
   // .input((v) => {

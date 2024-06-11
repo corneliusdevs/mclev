@@ -1,4 +1,4 @@
-import { Bird, Loader2, MailCheck, MailMinus, MoveLeft, Rabbit, RefreshCcw, Ticket } from "lucide-react";
+import { Bird, Loader2, MoveLeft, Rabbit, RefreshCcw } from "lucide-react";
 import { FC, useEffect, useState } from "react";
 import "./bookings/bookings.css";
 import { trpc } from "@/trpc-client/client";
@@ -7,40 +7,38 @@ import { formatTimeDuration } from "@/helpers/utilities";
 import { formatDistanceToNowStrict } from "date-fns";
 import toast from "react-hot-toast";
 import { Button } from "../ui/button";
-import { TFeedback } from "@/db/models/feedback-model";
-import AdminFeedbackUi from "./AdminFeedbackUi";
-import FeedbackList from "@/ui/admin-dashboard/FeedbackList";
+import ContactInfo from "./ContactInfo";
 import SearchUi from "@/ui/admin-dashboard/Search";
 import { SearchUiPayload } from "./types";
+import { TContactUs } from "@/db/models/contact-us-model";
+import ContactList from "@/ui/admin-dashboard/ContactList";
 
-interface FeedbacksProps {}
+interface ContactsUsProps {}
 
-type FeedbacksState = {
-  isViewingFeedbacks: boolean;
-  feedbackId: string;
-  isPublished: boolean;
+type ContactUsState = {
+  isViewingContacts: boolean;
+  contactId: string;
 };
 
-const Feedbacks: FC<FeedbacksProps> = ({}) => {
-  const [feedbacksState, setFeedbacksState] = useState<FeedbacksState>({
-    isViewingFeedbacks: false,
-    feedbackId: "",
-    isPublished: false
+const Contacts: FC<ContactsUsProps> = ({}) => {
+  const [contactUsState, setContactUsState] = useState<ContactUsState>({
+    isViewingContacts: false,
+    contactId: "",
   });
 
-  const [feedbacks, setFeedbacks] = useState<TFeedback[]>([]);
+  const [contacts, setContacts] = useState<TContactUs[]>([]);
   const {
     data,
-    isLoading: isFetchingFeedbacks,
+    isLoading: isFetchingContacts,
     error,
-    refetch: refetchFeedbacks,
-  } = trpc.feedback.get.useQuery();
+    refetch: refetchContacts,
+  } = trpc.contact.get.useQuery();
 
   const {
-    mutate: markFeedBackAsReadMutation,
-    isLoading: isMarkingChatAsRead,
-    error: errorMarkingChatAsRead,
-  } = trpc.feedback.markAsRead.useMutation({
+    mutate: markContactAsReadMutation,
+    isLoading: isMarkingContactAsRead,
+    error: errorMarkingContactAsRead,
+  } = trpc.contact.markAsRead.useMutation({
     networkMode: "always",
   });
 
@@ -50,13 +48,13 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
 
   const [shouldMarkAsRead, setShouldMarkAsRead] = useState<{
     markAsRead: boolean;
-    feedbackId: string;
+    contactId: string;
   }>({
     markAsRead: false,
-    feedbackId: "",
+    contactId: "",
   });
 
-  const [isRefetchingFeedbacks, setIsRefetchingFeedbacks] =
+  const [isRefetchingContacts, setIsRefetchingContacts] =
     useState<boolean>(false);
 
   const [isDataSearched, setIsDataSearched] = useState<boolean>(false);
@@ -64,78 +62,72 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
   const [searchResults, setSearchResults] = useState<SearchUiPayload>([]);
  
 
-
-
- 
-
   useEffect(() => {
-    if (isRefetchingFeedbacks) {
-      const fetchPromise = refetchFeedbacks();
+    if (isRefetchingContacts) {
+      const fetchPromise = refetchContacts();
 
       // show toast notifications
       toast.promise(fetchPromise, {
-        loading: "Updating feedbacks",
-        success: "feedbacks up to date",
-        error: "Could not update feedbacks",
+        loading: "Updating Contacts",
+        success: "Contacts up to date",
+        error: "Could not update contacts",
       });
 
-      setIsRefetchingFeedbacks(false);
+      setIsRefetchingContacts(false);
     }
 
-    if (data && data?.feedbacks.length !== 0) {
-      setFeedbacks(data.feedbacks);
+    if (data && data?.contacts.length !== 0) {
+      setContacts(data.contacts);
       setIsLoading(false);
     }
-    if (!isFetchingFeedbacks) {
+    if (!isFetchingContacts) {
       setIsLoading(false);
     }
-  }, [isFetchingFeedbacks, data, isRefetchingFeedbacks]);
+  }, [isFetchingContacts, data, isRefetchingContacts]);
 
-  const getFeedbackInfoFromState = (state: TFeedback[], feedbackId: string) => {
+  const getContactInfoFromState = (state: TContactUs[], contactId: string) => {
     for (let i = 0; i < state.length; i++) {
-      if (state[i]._id === feedbackId) {
-        return <AdminFeedbackUi feedbackInfo={state[i]} />;
+      if (state[i]._id === contactId) {
+        return <ContactInfo contactInfo={state[i]} />;
       }
     }
 
-    return <AdminFeedbackUi feedbackInfo={state[0]} />;
+    return <ContactInfo contactInfo={state[0]} />;
   };
 
   useEffect(() => {
     // register admin socket Id
     if (shouldMarkAsRead.markAsRead) {
       console.log("marking as read...");
-      markFeedBackAsReadMutation({
-        feedbackId: shouldMarkAsRead.feedbackId,
+      markContactAsReadMutation({
+        contactId: shouldMarkAsRead.contactId,
       });
     }
 
     setShouldMarkAsRead({
       markAsRead: false,
-      feedbackId: "",
+      contactId: "",
     });
   }, [shouldMarkAsRead.markAsRead]);
 
 
-  let feedbacksToBeRendered = isDataSearched ? searchResults : feedbacks
+  let contactsToBeRendered = isDataSearched ? searchResults : contacts
 
   return (
     <div>
-      {feedbacksState.isViewingFeedbacks && (
+      {contactUsState.isViewingContacts && (
         <div className="sticky z-20 top-[50px] left-0 flex w-full">
           {/* BACK BUTTON */}
           <ButtonWithIcons
             icon={<MoveLeft size={20} />}
-            text={"All Feedbacks"}
+            text={"All Contacts"}
             extraInfo=""
             className={`w-full rounded-none font-xl`}
             variant={"outline"}
             clickHandler={() => {
-              setFeedbacksState({
-                isViewingFeedbacks: false,
-                feedbackId: "",
-                isPublished: false
-
+              setContactUsState({
+                isViewingContacts: false,
+                contactId: "",
               });
             }}
           />
@@ -163,38 +155,38 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
             </p>
           </div>
         </div>
-      ) : feedbacks.length === 0 && !isFetchingFeedbacks ? (
+      ) : contacts.length === 0 && !isFetchingContacts ? (
         <div className="w-full h-[50vh] flex justify-center items-center">
           <div className="flex flex-col">
             <div className="flex justify-center text-gray-500 transform rotateYOnHover">
               <Bird size={170} strokeWidth={1} />{" "}
             </div>
             <p className="flex items-center justify-center text-gray-600 text-xl">
-              No Feedback yet
+              No Contacts yet
             </p>
             <p className="flex items-center justify-center text-gray-600 text-xl pt-2">
               <Button
                 variant={"outline"}
                 onClick={() => {
-                  setIsRefetchingFeedbacks(true);
+                  setIsRefetchingContacts(true);
                 }}
               >
                 <span className="pr-2">Refresh</span>
                 <RefreshCcw
-                  className={`${isRefetchingFeedbacks && "animate-spin"}`}
+                  className={`${isRefetchingContacts && "animate-spin"}`}
                 />
               </Button>
             </p>
           </div>
         </div>
-      ) : data && !feedbacksState.isViewingFeedbacks ? (
+      ) : data && !contactUsState.isViewingContacts ? (
         <div className="">
           <div className="sticky z-20 top-[50px] bg-white/95 text-black flex items-center justify-center text-xl border-b-[1px] border-greenaccentcol/15 py-1 text-center">
-            <span className="mr-4">All Feedbacks</span>
+            <span className="mr-4">All Contacts</span>
             <Button
               variant={"outline"}
               onClick={() => {
-                setIsRefetchingFeedbacks(true);
+                setIsRefetchingContacts(true);
               }}
             >
               <span>
@@ -204,10 +196,10 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
           </div>
 
           {/* SEARCH UI */}
-          <div className="flex justify-center items-center max-w[400px] w-full p-2">
+          <div className="flex justify-center items-center w-full p-2">
             <SearchUi
-              dataToBeSearched={feedbacks}
-              dataName={"feedbacks"}
+              dataToBeSearched={contacts}
+              dataName={"contacts"}
               setSearchResults={setSearchResults}
               onSearch={() => {
                 setIsDataSearched(true);
@@ -218,7 +210,7 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
               placeholder={"client's name"}
             />
           </div>
-          {isDataSearched && feedbacksToBeRendered.length === 0 && (
+          {isDataSearched && contactsToBeRendered.length === 0 && (
             <div className="relative w-full h-[50vh] flex justify-center items-center">
               <div className="flex flex-col">
                 <div className="flex justify-center text-gray-500">
@@ -231,36 +223,37 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
             </div>
           )}
           <div className="flex px-2 flex-col">
-            {feedbacksToBeRendered.map((feedback, index) => {
+            {contactsToBeRendered.map((contact, index) => {
               return (
-                <FeedbackList
-                  key={feedback._id + index}
-                  feedbackId={feedback._id}
+                <ContactList
+                  key={contact._id + index}
+                  contactId={contact._id}
                   title={
-                    feedback.name.length > 12
-                      ? feedback.name.slice(0, 11) + "..."
-                      : feedback.name
+                    contact.name.length > 12
+                      ? contact.name.slice(0, 11) + "..."
+                      : contact.name
                   }
-                  subTitle={""}
-                  unread={!feedback.isViewed}
-                  description={feedback.experience}
-                  refreshFeedbackState={setIsRefetchingFeedbacks}
+                  subTitle={contact.email}
+                  unread={!contact.isViewed}
+                  description={contact.message.length > 20
+                    ? contact.message.slice(0, 19) + "..."
+                    : contact.message}
+                  refreshContactState={setIsRefetchingContacts}
                   timeStamp={formatTimeDuration(
-                    formatDistanceToNowStrict(new Date(feedback.timeStamp), {
+                    formatDistanceToNowStrict(new Date(contact.timeStamp), {
                       addSuffix: true,
                     })
                   )}
                   clickHandler={() => {
-                    setFeedbacksState({
-                      isViewingFeedbacks: true,
-                      feedbackId: feedback._id,
-                      isPublished: feedback.publishToFrontend
+                    setContactUsState({
+                      isViewingContacts: true,
+                      contactId: contact._id,
                     });
 
-                    if (!feedback.isViewed) {
+                    if (!contact.isViewed) {
                       setShouldMarkAsRead({
                         markAsRead: true,
-                        feedbackId: feedback._id,
+                        contactId: contact._id,
                       });
                     }
                   }}
@@ -269,9 +262,9 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
             })}
           </div>
         </div>
-      ) : feedbacksState.isViewingFeedbacks ? (
+      ) : contactUsState.isViewingContacts ? (
         <div>
-          {getFeedbackInfoFromState(feedbacks, feedbacksState.feedbackId)}
+          {getContactInfoFromState(contacts, contactUsState.contactId)}
         </div>
       ) : (
         <div></div>
@@ -280,4 +273,4 @@ const Feedbacks: FC<FeedbacksProps> = ({}) => {
   );
 };
 
-export default Feedbacks;
+export default Contacts;

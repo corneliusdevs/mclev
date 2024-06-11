@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { ContactUsFormSchemaType, contactUsFormSchema } from "@/helpers/contactUsFormSchema";
+import { validatePhoneNumber } from "@/helpers/utilities";
 
 interface ContactUsFormProps {
 
@@ -24,7 +25,7 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
     resolver: zodResolver(contactUsFormSchema),
   });
 
-  const { mutate, isLoading } = trpc.bookings.create.useMutation({
+  const { mutate, isLoading } = trpc.contact.create.useMutation({
     networkMode: "always",
   });
 
@@ -32,37 +33,33 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
   const [httpStatus, setHttpStatus] = useState<number>();
 
 
-  const [customerMessage, setCustomerMessage] = useState<string>("");
+  const [contactMessage, setContactMessage] = useState<string>("");
+  const [phoneNumber, setPhoneNumber ] = useState<string>("");
 
 
   const onSubmit = async (info: ContactUsFormSchemaType) => {
-
-
-    // send the request to the api
-    if (
-       customerMessage
-    ) {
-    //   mutate(
-    //     {
-    //       ...info,
-    //       prefferedTime: selectedTime,
-    //       customerMessage,
-    //       selectedService: servicesToSelectLookup[selectedService],
-    //       bookingInfo,
-    //     },
-    //     {
-    //       onSuccess: (data) => {
-    //         console.log("submit success ", data);
-    //         setHttpStatus(data.httpStatus);
-    //         // router.push("/admin-dashboard");
-    //       },
-    //       onError: (error) => {
-    //         setHttpStatus(error.data?.httpStatus);
-    //         console.log("error creating booking ", error);
-    //       },
-    //     }
-    //   );
+    if(!(phoneNumber !== "" && !validatePhoneNumber(phoneNumber)) && contactMessage !== ""){
+      
+      // send the request to the api
+        mutate(
+          {
+            ...info,
+            message: contactMessage ? contactMessage : ""
+          },
+          {
+            onSuccess: (data) => {
+              console.log("submit contact form success ", data);
+              setHttpStatus(data.httpStatus);
+              // router.push("/admin-dashboard");
+            },
+            onError: (error) => {
+              setHttpStatus(error.data?.httpStatus);
+              console.log("error creating booking ", error);
+            },
+          }
+        );
     }
+    
   };
 
   return (
@@ -97,6 +94,22 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
               <input className="p-2" type="text" {...register("email")} />
             </div>
+
+            <p>
+              {" "}
+              <span>Phone</span>
+            </p>
+            <div className="flex items-start mb-4">
+              <input
+                className="p-2 border-[1.5px] border-primarycol/10 w-full"
+                onChange={(e) => {setPhoneNumber(e.target.value)}}
+                value={phoneNumber}
+                type={"number"}
+                // example uk number
+                placeholder="e.g 020 3092 4468"
+              />
+            </div>
+
             {errors.subject && (
               <p className="text-red-500 text-sm">{errors.subject.message}</p>
             )}
@@ -123,8 +136,8 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
               <textarea
                 className="p-2 border-[1.5px] border-primarycol/10"
                 {...register("yourMessage")}
-                onChange={(e) => {setCustomerMessage(e.target.value)}}
-                value={customerMessage}
+                onChange={(e) => {setContactMessage(e.target.value)}}
+                value={contactMessage}
                 rows={10}
                 cols={50}
                 name="additional-details"
@@ -138,8 +151,12 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
                     ? Object.values(errors)[0].message
                     : isLoading === true
                     ? "Processing..."
+                    : (phoneNumber !== "" && !validatePhoneNumber(phoneNumber)) 
+                    ? "Invalid Phone Number"
+                    : contactMessage === "" 
+                    ? "Message cannot be empty"
                     : httpStatus === 201
-                    ? "Thank you for your reservation!"
+                    ? "Thanks for reaching out."
                     : "Ooops! Something went wrong. Please try again later"
                 }
                 buttonClassname=""

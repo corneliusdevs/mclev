@@ -24,6 +24,7 @@ import { AllAdminChats, DashboardStateType } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import Feedbacks from "./Feedbacks";
 import updateAllAdminChats from "@/helpers/admin/useUpdateAllAdminChats";
+import Contacts from "./Contacts";
 
 interface AdminDashboardUiProps {
   isAdminLoggedIn: boolean;
@@ -261,7 +262,6 @@ const AdminDashboardUi = ({
     socket.on(
       "new-user-message",
       (receivedMessages: ClientSideChatType[] | null, userId: string) => {
-
         console.log("reciving user message");
 
         if (receivedMessages?.length && typeof userId === "string") {
@@ -272,17 +272,16 @@ const AdminDashboardUi = ({
             userId: userId,
           });
 
-          let allReceivedMssgsId:string[] = receivedMessages.map((message)=>{
-            return message.id
-         })
+          let allReceivedMssgsId: string[] = receivedMessages.map((message) => {
+            return message.id;
+          });
 
-         // notify the server of recieved messages 
-         socket.emit("message-received", {
-           messageIds: allReceivedMssgsId,
-           userId: "admin"
-         });
+          // notify the server of recieved messages
+          socket.emit("message-received", {
+            messageIds: allReceivedMssgsId,
+            userId: "admin",
+          });
         }
-
       }
     );
   }, []);
@@ -395,15 +394,15 @@ const AdminDashboardUi = ({
           <div>
             {isFetchingChats ? (
               <div className="relative w-full h-[50vh] flex justify-center items-center">
-                <div className="flex flex-col">
-                  <div className="flex justify-center text-gray-500 animate-spin">
-                    <Loader2 size={100} strokeWidth={1} />{" "}
-                  </div>
-                  <p className="flex items-center justify-center text-gray-600 text-xl">
-                    Fetching...
-                  </p>
+              <div className="flex flex-col">
+                <div className="flex justify-center text-slate-500 animate-spin">
+                  <Loader2 size={24} strokeWidth={1} />{" "}
                 </div>
+                <p className="flex items-center justify-center text-gray-600 text-xl">
+                  Fetching...
+                </p>
               </div>
+            </div>
             ) : (
               <Tab
                 defaultTabValue={"chats"}
@@ -412,7 +411,7 @@ const AdminDashboardUi = ({
                     tabName: "All Chats",
                     value: "chats",
                     tabUi: (
-                      <div className="">
+                      <div className="w-full mt-4">
                         <SearchUi
                           dataToBeSearched={allChats}
                           dataName={"adminChats"}
@@ -493,7 +492,7 @@ const AdminDashboardUi = ({
                               />
                             );
                           })}
-                        <div className="absolute top-[50px] right-0 flex items-center justify-center w-[50%] p-1.5">
+                        <div className="absolute top-[50px] lg:top-0 right-0 flex items-center justify-center w-[50%] max-w-[600px] p-1.5">
                           <Button
                             className="h-[27px] bg-white w-full hover:bg-slate-200 shadow"
                             variant={"ghost"}
@@ -529,12 +528,6 @@ const AdminDashboardUi = ({
           <div className="w-full">
             <AdminChatDialog
               chats={currentChat}
-              // otherChatsStore={
-              //   allUpdatedChats.length === 0 ? allChats : allUpdatedChats
-              // }
-              // allChatsStore={
-              //   allUpdatedChats.length === 0 ? allChats : allUpdatedChats
-              // }
               allChatsStore={allChats}
               updateAllChatsStore={setAllChats}
               updatedChatsStore={allUpdatedChats}
@@ -547,6 +540,13 @@ const AdminDashboardUi = ({
         dashboardUi = (
           <div>
             <Feedbacks />
+          </div>
+        );
+        break;
+      case "contacts":
+        dashboardUi = (
+          <div>
+            <Contacts />
           </div>
         );
         break;
@@ -568,12 +568,16 @@ const AdminDashboardUi = ({
       </div>
       <div className="">
         {isFetchingChats && (
-          <div className="w-full h-[65vh] flex justify-center items-center">
-            <div className="flex flex-col items-center gap-2 text-center px-12">
-              <Loader2 className="h-8 w-8 animate-spin text-slate-500" />
-              <h3 className="font-semibold text-xl">Fetching...</h3>
+          <div className="relative w-full h-[50vh] flex justify-center items-center">
+          <div className="flex flex-col">
+            <div className="flex justify-center text-slate-500 animate-spin">
+              <Loader2 size={24} strokeWidth={1} />{" "}
             </div>
+            <p className="flex items-center justify-center text-gray-600 text-xl">
+              Fetching...
+            </p>
           </div>
+        </div>
         )}
         {!isFetchingChats && error && (
           <div className="w-full h-[50vh] flex justify-center items-center">
@@ -588,7 +592,7 @@ const AdminDashboardUi = ({
           </div>
         )}
 
-        {!isFetchingChats && !error && determineDashboardUi()}
+        {!isFetchingChats && !error && <div className="lg:relative">{determineDashboardUi()}</div>}
       </div>
     </main>
   );

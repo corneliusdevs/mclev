@@ -1,5 +1,6 @@
 import React from "react";
 import HomeheroButton from "./ui/HomeheroButton";
+import Link from "next/link";
 
 const HomeHero = () => {
   return (
@@ -25,7 +26,9 @@ const HomeHero = () => {
               Lorem Ipsum Dolor Sit <br/> amet dolor sit amet lorem ipsum. Lorem Ipsum
               Dolor <br/> Sit amet dolor sit amet lorem ipsum.
             </div>
-            <HomeheroButton variant={"outline"} className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-slate-600" size={"default"} text="REQUEST A QUOTE"/>
+            <Link href={"/book-now"}>
+            <HomeheroButton variant={"outline"} className="mt-4 bg-accentcol text-white rounded-none hover:bg-transparent hover:border-slate-600" size={"default"} text="BOOK NOW"/>
+            </Link>
           </div>
         </div>
       </section>

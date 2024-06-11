@@ -2,7 +2,9 @@
 
 import { ChevronsDown, ChevronsRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 interface ServicesCollapsiblesProps {
   headerText: string;
@@ -48,9 +50,24 @@ const ServicesCollapsible = ({
             />
           </div>
         )}
-        <div className="mt-4 w-full text-justify">
-          {expandService && contentText}
-        </div>
+
+        {expandService && (
+          <div>
+            <div className="mt-4 w-full text-justify">
+              {expandService && contentText}
+            </div>
+            <div className="flex pt-4 justify-center items-center mb-2">
+              <Link href={"/book-a-cleaner"}>
+                <Button
+                  className="bg-secondarycol text-white hover:text-black"
+                  variant={"outline"}
+                >
+                  Book Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

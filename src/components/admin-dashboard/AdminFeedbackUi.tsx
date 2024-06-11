@@ -1,7 +1,7 @@
 "use client";
 import { TFeedback } from "@/db/models/feedback-model";
 import { FC, useEffect, useState } from "react";
-import AlertDialogComponent from "./AlertDialogComponent";
+import AlertDialogComponent from "../AlertDialogComponent";
 import AdminButton from "@/ui/admin-dashboard/AdminButton";
 import { trpc } from "@/trpc-client/client";
 import toast from "react-hot-toast";

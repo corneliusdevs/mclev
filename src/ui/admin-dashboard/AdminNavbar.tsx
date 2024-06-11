@@ -1,6 +1,6 @@
 "use-client";
 
-import { CalendarDays, Mail, MailCheck } from "lucide-react";
+import { CalendarDays, Contact2, Mail, MailCheck } from "lucide-react";
 import ButtonWithIcons from "./ButtonWithIcon";
 import Image from "next/image";
 import Sidebar from "./Sidebar";
@@ -30,6 +30,12 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
     data: feedbacksCount,
     error: feedbacksCountError,
   } = trpc.feedback.count.useQuery();
+
+  const {
+    isLoading: isCountingContacts,
+    data: contactsCount,
+    error: contactsCountError,
+  } = trpc.contact.count.useQuery();
 
   return (
     <div className="w-full flex justify-between items-center sticky top-0 z-40 bg-white">
@@ -67,7 +73,10 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
               <ButtonWithIcons
                 icon={<CalendarDays size={20} />}
                 text={"Bookings"}
-                extraInfo={`${bookingsCount?.httpStatus === 200 && bookingsCount.bookingsCount}`}
+                extraInfo={`${
+                  bookingsCount?.httpStatus === 200 &&
+                  bookingsCount.bookingsCount
+                }`}
                 className={`w-full mt-3 ${
                   props.dashBoardState === "bookings" &&
                   "bg-accentcol hover:bg-accentcol"
@@ -83,7 +92,10 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
               <ButtonWithIcons
                 icon={<MailCheck size={20} />}
                 text={"Feedbacks"}
-                extraInfo={`${feedbacksCount?.httpStatus === 200 && feedbacksCount.feedbacksCount}`}
+                extraInfo={`${
+                  feedbacksCount?.httpStatus === 200 &&
+                  feedbacksCount.feedbacksCount
+                }`}
                 className={`w-full mt-3 ${
                   props.dashBoardState === "feedbacks" &&
                   "bg-accentcol hover:bg-accentcol"
@@ -94,6 +106,25 @@ const AdminNavbar: FC<AdminNavbarProps> = (props) => {
                 clickHandler={() => {
                   console.log("feedbacks  clicked");
                   props.handleDashboardState("feedbacks");
+                }}
+              />
+              <ButtonWithIcons
+                icon={<Contact2 size={20} />}
+                text={"Contacts"}
+                extraInfo={`${
+                  contactsCount?.httpStatus === 200 &&
+                  contactsCount.contactsCount
+                }`}
+                className={`w-full mt-3 ${
+                  props.dashBoardState === "contacts" &&
+                  "bg-accentcol hover:bg-accentcol"
+                }`}
+                variant={`${
+                  props.dashBoardState === "contacts" ? "default" : "outline"
+                }`}
+                clickHandler={() => {
+                  console.log("contacts  clicked");
+                  props.handleDashboardState("contacts");
                 }}
               />
               <Link href={"/"}>

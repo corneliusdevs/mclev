@@ -81,7 +81,7 @@ const Navbar: FC<NavbarProps> = () => {
             {/* Mobile device Menu Items */}
             {/* Use framer motion to control navbar animation */}
             {openNavbar && (
-              <div className="bg-white/70  transition-all duration-[2000] z-100">
+              <div className="bg-white/85  transition-all duration-[2000ms] z-100 animate-accordion-down ease-in-out">
                 {navbarItems.map((item, index) => {
                   return (
                     <Link
@@ -90,6 +90,7 @@ const Navbar: FC<NavbarProps> = () => {
                       onClick={() => {
                         setOpenNavbar((v) => !v);
                       }}
+                      className=""
                     >
                       <div 
                        key={"div" + item.text + index}

@@ -1,4 +1,3 @@
-
 "use client"
 import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { trpc } from "@/trpc-client/client";
@@ -6,39 +5,39 @@ import { Trash2Icon } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-interface FeedbackListProps {
+interface ContactListProps {
   title: string;
   subTitle: string;
   description: string;
   timeStamp: string;
   unread?: boolean;
   clickHandler?: Function,
-  feedbackId: string;
-  refreshFeedbackState: Dispatch<SetStateAction<boolean>>;  // must return a promise
+  contactId: string;
+  refreshContactState: Dispatch<SetStateAction<boolean>>;  // must return a promise
 }
 
-const FeedbackList: FC<FeedbackListProps> = ({
+const ContactList: FC<ContactListProps> = ({
   title,
   subTitle,
   description,
   timeStamp,
   unread,
   clickHandler,
-  feedbackId,
-  refreshFeedbackState,
+  contactId,
+  refreshContactState,
   ...props
 }) => {
 
-  const [deleteFeedback, setDeleteFeedback] = useState<boolean>(false);
+  const [deleteContact, setDeleteContact] = useState<boolean>(false);
 
   const {
     data,
-    isLoading: isDeletingFeedbacks,
+    isLoading: isDeletingContacts,
     error,
-    refetch: deleteFeedbackFromDb,
-  } = trpc.feedback.delete.useQuery(
+    refetch: deleteContactFromDb,
+  } = trpc.contact.delete.useQuery(
     {
-      feedbackId: feedbackId,
+      contactId: contactId,
     },
     {
       enabled: false,
@@ -46,25 +45,25 @@ const FeedbackList: FC<FeedbackListProps> = ({
   );
 
   useEffect(() => {
-    if (deleteFeedback) {
-      const deleteFeedbackPromise = deleteFeedbackFromDb();
+    if (deleteContact) {
+      const deleteContactPromise = deleteContactFromDb();
 
       //  toast notification
       toast
-        .promise(deleteFeedbackPromise, {
+        .promise(deleteContactPromise, {
           loading: `Deleting ${title}`,
-          success: `Feedback ${title} deleted`,
-          error: `Failed to delete feedback ${title}`,
+          success: `Contact ${title} deleted`,
+          error: `Failed to delete Contact ${title}`,
         })
         .then(() => {
-          refreshFeedbackState(true);
+          refreshContactState(true);
         });
       }
 
 
-    setDeleteFeedback(false);
+    setDeleteContact(false);
     // refreshChatState(true)
-  }, [deleteFeedback]);
+  }, [deleteContact]);
   return (
     <div className="relative flex flex-col items-center justify-center w-full py-2 ">
     <div className="border-2 rounded-sm p-2 relative hover:bg-slate-200 min-w-full pb-3">
@@ -96,7 +95,7 @@ const FeedbackList: FC<FeedbackListProps> = ({
       </div>
       <AlertDialogComponent
         title={`Delete`}
-        description={`Delete Feedback ${title}?`}
+        description={`Delete Contact ${title}?`}
         actionText={"Delete"}
         cancelText={"Cancel"}
         buttonClassname={
@@ -106,7 +105,7 @@ const FeedbackList: FC<FeedbackListProps> = ({
         buttonVariant={"ghost"}
         actionButtonClassName={"bg-red-500 hover:bg-red-600"}
         onActionButtonClickHandler={() => {
-          setDeleteFeedback(true);
+          setDeleteContact(true);
         }}
       />
     </div>
@@ -114,4 +113,4 @@ const FeedbackList: FC<FeedbackListProps> = ({
   );
 };
 
-export default FeedbackList;
+export default ContactList;

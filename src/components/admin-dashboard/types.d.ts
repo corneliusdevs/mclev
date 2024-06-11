@@ -1,3 +1,4 @@
+import { TContactUs } from "@/db/models/contact-us-model";
 import { ChatStatus } from "@/ui/chat/AdminChatDialog";
 
 export type AdminChats = {
@@ -11,7 +12,7 @@ export type AdminChats = {
   type: "showChat" | "saveChat";
 };
 
-export type DashboardStateType = "chats" | "dashboard" | "bookings" | "chatDialog" | "feedbacks";
+export type DashboardStateType = "chats" | "dashboard" | "bookings" | "chatDialog" | "feedbacks" | "contacts";
 
 export type AllAdminChats = {
   userId: string;
@@ -20,9 +21,11 @@ export type AllAdminChats = {
   name: string;
 };
 
-export type SearchUiPayload = TFeedback[] | AllAdminChats[] | DummyBookingType[];
+export type SearchUiPayload = AllAdminChats[] | TFeedback[] | DummyBookingType[] | TContactUs[];
 
-export type SearchUiPayloadName = "feedbacks" | "adminChats" | "bookings"
+export type SearchUiSetStateSignature = Dispatch<SetStateAction<AllAdminChats[]>> | Dispatch<SetStateAction<TFeedback[]>> | Dispatch<SetStateAction<DummyBookingType[]>> | Dispatch<SetStateAction<TContactUs[]>>;
+
+export type SearchUiPayloadName = "feedbacks" | "adminChats" | "bookings" | "contacts"
 
 export interface FeedbackFromCustomer {
   _id: string;

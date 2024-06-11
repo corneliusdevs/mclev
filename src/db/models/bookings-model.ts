@@ -1,6 +1,5 @@
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 import mongoose, { model, Schema } from "mongoose";
-import { string } from "zod";
 
 export interface Booking {
   name: string;

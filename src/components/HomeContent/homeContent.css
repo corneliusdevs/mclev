@@ -1,0 +1,5 @@
+
+.blur-bg-img{
+    filter: blur(10px);
+    z-index: -1;
+}

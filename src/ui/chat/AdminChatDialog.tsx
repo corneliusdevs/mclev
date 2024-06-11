@@ -50,10 +50,8 @@ interface AdminChatDialogProps {
 
 const AdminChatDialog: FC<AdminChatDialogProps> = ({
   chats: messages,
-  chatStoreRef,
   updateAllChatsStore,
   allChatsStore,
-  updatedChatsStore
 }) => {
 
 const [toggleScrollDiv, setToggleScrolldiv] = useState<boolean>(false)
@@ -74,7 +72,7 @@ const [toggleScrollDiv, setToggleScrolldiv] = useState<boolean>(false)
             status={chat.status && chat.status}
             message={chat.message}
             timeStamp={chat.timeStamp}
-            className={"w-[70%]"}
+            className={"w-[70%] md:w-[45%]"}
             author={chat.author}
             isAdmin={true}
           />
@@ -85,7 +83,7 @@ const [toggleScrollDiv, setToggleScrolldiv] = useState<boolean>(false)
           key={uuidv4()}
           message={chat.message}
           timeStamp={chat.timeStamp}
-          className={"w-[70%]"}
+          className={"w-[70%] md:w-[45%]"}
           isAdmin={true}
           author={chat.author}
         />

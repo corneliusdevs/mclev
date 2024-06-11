@@ -1,3 +1,5 @@
+import { phoneNumberRegex } from "./contactUsFormSchema";
+
 export const removeCharactersFromString = (str:string, charactersToRemove:string[]) => {
     const regexPattern = new RegExp(`[${charactersToRemove.join('')}]`, 'g');
     return str.replace(regexPattern, '');
@@ -18,4 +20,18 @@ export const formatTimeDuration = (time: string)=>{
   }
 
   return time
+}
+
+
+export const validatePhoneNumber = (phoneNumber: string):boolean =>{
+  let result:RegExpMatchArray | null = null;
+   if(phoneNumber){
+     result = phoneNumber.match(phoneNumberRegex)
+   }
+
+   if(result){
+     return true
+   }
+
+   return false
 }

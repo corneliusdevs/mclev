@@ -1,20 +1,19 @@
-import Pricing from "@/components/pricing/Pricing"
-import PricingBanner from "@/components/pricing/PricingBannner"
-import { pricings } from "@/helpers/pricingList"
+import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
+import Pricing from "@/components/pricing/Pricing";
+import PricingBanner from "@/components/pricing/PricingBannner";
+import { pricings } from "@/helpers/pricingList";
 
+const PricesPage = () => {
+  return (
+    <main>
+      <MaxwidthWrapper>
+        <div>
+          <PricingBanner />
+          <Pricing pricingList={pricings} />
+        </div>
+      </MaxwidthWrapper>
+    </main>
+  );
+};
 
-const PricesPage = ()=>{
-    return(
-     <main>
-       <div>
-         <PricingBanner />
-         <Pricing  pricingList={ pricings }/>
-       </div>
-     </main>
-    )
- }
- 
- export default PricesPage
- 
- 
- 
+export default PricesPage;

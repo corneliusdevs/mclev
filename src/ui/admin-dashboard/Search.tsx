@@ -4,15 +4,16 @@ import InputElement from "@/components/Input";
 import {
   SearchUiPayload,
   SearchUiPayloadName,
+  SearchUiSetStateSignature,
 } from "@/components/admin-dashboard/types";
 import { Button } from "@/components/ui/button";
 import { filterSearchData } from "@/helpers/filterData";
 
 import { Search, X } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 interface SearchUiProps {
-  setSearchResults: Dispatch<SetStateAction<SearchUiPayload>>;
+  setSearchResults: SearchUiSetStateSignature;
   dataName: SearchUiPayloadName;
   dataToBeSearched: SearchUiPayload;
   onSearch?: Function;
@@ -34,9 +35,9 @@ const SearchUi = ({
   return (
     <div className="w-full">
       <div className="border-2 rounded-md flex justify-begin h-10">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center w-full">
           <InputElement
-            className="ring-0 border-none p-0 min-w-[80%] pl-2"
+            className="ring-0 border-none p-0 w-full pl-2"
             size={50}
             value={searchTerm}
             onChange={(e) => {
@@ -67,7 +68,6 @@ const SearchUi = ({
           <Search strokeWidth={1.5} size={18} />
         </div>
         {/* implement a cancel search button that runs onClearSearchResults function when Clicked */}
-
         <div className="text-slate-700">
           <Button
             variant={"outline"}

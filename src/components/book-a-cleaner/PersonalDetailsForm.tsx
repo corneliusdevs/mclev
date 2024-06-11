@@ -226,7 +226,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                     : isLoading === true
                     ? "Processing..."
                     : httpStatus === 201
-                    ? "Thank you for your reservation!"
+                    ? "Thanks for Booking!"
                     : "Ooops! Something went wrong. Please try again later"
                 }
                 buttonClassname=""
