@@ -7,8 +7,8 @@ import AblyProviderComponent from "@/lib/ably/ably";
 import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
 
 const AdminDashboard = () => {
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(true);
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   // trpc.auth.getUserSession.useQuery(undefined, {
   //   onSuccess: ({ httpStatus, userRole, kindeDetails }) => {
@@ -55,11 +55,11 @@ const AdminDashboard = () => {
             </div>
           </div>
         )}
-        {/* {isAdminLoggedIn && !isAuthenticating && !isLoading && (
+        {isAdminLoggedIn && !isAuthenticating && !isLoading && (
         <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} />
-      )} */}
+      )}
 
-        <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} />
+        {/* <AdminDashboardUi isAdminLoggedIn={isAdminLoggedIn} /> */}
         {/* <AblyProviderComponent>
       </AblyProviderComponent> */}
       </MaxwidthWrapper>
