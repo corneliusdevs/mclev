@@ -13,7 +13,7 @@ const HomeImageGallery = () => {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-x-[10%] gap-y-[20px] md:gap-y-[10%] smd:gap-x-[8%] md:gap-x-[10%] w-[90%] smd:w-[80%] mb-10 max-w-[410px] md:w-[80%] md:max-w-[80%]">
         {homeImageGalleryPayload.map((imageInfo, index) => {
           return (
-            <div className="border-b-[1px] mt-3 md:mt-8  rounded-md overflow-hidden smd:h-full shadow-md" key={imageInfo.text + index + "parent div"}>
+            <div className="border-b-[1px] mt-3 md:mt-8  rounded-md overflow-hidden smd:h-full shadow-sm" key={imageInfo.text + index + "parent div"}>
               <ImageCard
                 key={imageInfo.text + index}
                 src={`/assets/home/${imageInfo.url}`}

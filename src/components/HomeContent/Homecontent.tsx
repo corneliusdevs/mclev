@@ -246,7 +246,7 @@ const Homecontent = () => {
           <div className="text-center">Could not display feedbacks. </div>
         ) : (
           fetchFeedbacksData.feedbacks.length > 0 && (
-            <div className="relative w-full flex flex-col items-center justify-center h-[72vh] overflow-hidden">
+            <div className="relative w-full flex flex-col items-center justify-center overflow-hidden">
               <div className="w-full h-full overflow-hidden">
                 <Image
                   className="w-full h-full object-cover"

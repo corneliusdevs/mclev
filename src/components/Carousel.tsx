@@ -156,7 +156,7 @@ export const HomeCarousel: React.FC<HomeCarouselProps> = ({
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
   return (
-    <div className="flex relative justify-center h-[70vh] w-full">
+    <div className="flex relative justify-center h-[52vh]  md:h-[70vh] w-full">
       <Carousel
         setApi={setApi}
         plugins={[

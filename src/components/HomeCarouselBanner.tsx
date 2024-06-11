@@ -27,7 +27,7 @@ const HomeCarouselBanner: FC<HomeCarouselBannerProps> = ({
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center w-full">
-        <div className="flex justify-center w-full h-[70vh]">
+        <div className="flex justify-center w-full h-[52vh] md:h-[70vh]">
           <Image
             src={src}
             alt={alt}
