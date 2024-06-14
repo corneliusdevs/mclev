@@ -34,12 +34,14 @@ const HomeCarouselBanner: FC<HomeCarouselBannerProps> = ({
             width={700}
             height={500}
             quality={100}
-            className={`${imageStyling && imageStyling} w-full object-cover md:object-fill`}
+            className={`${
+              imageStyling && imageStyling
+            } w-full object-cover md:object-fill`}
             {...restProps}
           />
         </div>
       </div>
-      <div className="absolute top-0 text-center flex items-center text-2xl py-1 whitespace-pre-line bg-black/40 transition-all w-full h-full text-white">
+      <div className="absolute top-0 py-1 md:pt-[70px] text-center flex items-center text-2xl   whitespace-pre-line bg-black/40 transition-all w-full h-full text-white">
         <div className="flex flex-col justify-center mx-[10%] md:mx-[10%] text-left">
           {captionPreText && (
             <div className="text-[16px] smd:text-[18px] md:text-[1rem] mb-2">
@@ -53,7 +55,9 @@ const HomeCarouselBanner: FC<HomeCarouselBannerProps> = ({
             </div>
           )}
           {captionText && (
-            <div className="text-[14px] smd:[17px] mr-[50px]">{captionText}</div>
+            <div className="text-[14px] smd:[17px] mr-[50px]">
+              {captionText}
+            </div>
           )}
           <div className="md:mt-4 relative w-fit">
             <Link href={"/book-now"} className="w-fit">
@@ -63,15 +67,15 @@ const HomeCarouselBanner: FC<HomeCarouselBannerProps> = ({
                 size={"default"}
                 text="BOOK NOW"
               />
+              <div className="absolute top-0 left-0 w-fit">
+                <HomeheroButton
+                  variant={"outline"}
+                  className="mt-6 bg-white text-black rounded-xl font-bold hover:text-white hover:bg-transparent hover:border-white outline-white outline outline-offset-2 outline-1 animate-ping duration-[3000ms] delay-1000 px-10 ml-4 py-1"
+                  size={"default"}
+                  text=""
+                />
+              </div>
             </Link>
-            <div className="absolute top-0 left-0 w-fit">
-            <HomeheroButton
-                variant={"outline"}
-                className="mt-6 bg-white text-black rounded-xl font-bold hover:text-white hover:bg-transparent hover:border-white outline-white outline outline-offset-2 outline-1 animate-ping duration-[3000ms] delay-1000 px-10 ml-4 py-1"
-                size={"default"}
-                text=""
-              />
-            </div>
           </div>
         </div>
       </div>

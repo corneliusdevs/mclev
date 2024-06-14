@@ -11,7 +11,7 @@ const AboutPage = ()=>(
     <AboutBanner />
     <FewWordsAbout />
     <TheCompanyYouCanTrust />
-    <HistoryComponent />
+    {/* <HistoryComponent /> */}
     <OurTeam />
     <AboutCallToAction />
   </main>

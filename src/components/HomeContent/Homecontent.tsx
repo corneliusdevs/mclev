@@ -88,25 +88,13 @@ const Homecontent = () => {
       </div>
 
       {/* Domestic cleaning service in London */}
-        <div className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-home-domestic-cleaning1  md:bg-home-domestic-cleaning2 bg-no-repeat bg-cover md:bg-right-bottom">
-          <div className="flex flex-col items-center top-0 bg-black/50 w-full h-full p-2">
-            <div className="bg-white/25 hover:scale-[0.98]">
-              <article className="py-4 px-6">
-                <div className="text-white text-2xl">
-                  Domestic Cleaning Service in London
-                </div>
-                <p className="mt-3 text-white text-sm leading-6">
-                  We take pride in creating spotless environments that improve
-                  the quality of life of and work of our clients. <br />
-                  We know you are busy, we are here to take care of your home,
-                  restaurant office, event centre and community. We offer a wide
-                  range of cleaning services from domestic to commercial to
-                  clients in London and South East London.
-                </p>
-              </article>
-            </div>
-            <article className="py-4 px-6 bg-white/25 mt-1 md:mt-1 hover:scale-[0.98]">
-              <div className="text-white text-2xl">About Our Cleaners</div>
+      <div className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-home-domestic-cleaning1  md:bg-home-domestic-cleaning2 bg-no-repeat bg-cover bg-center md:bg-right-bottom">
+        <div className="flex flex-col items-center top-0 bg-black/60 w-full h-full p-2">
+          <div className="bg-white/30 hover:scale-[0.98]">
+            <article className="py-4 px-6">
+              <div className="text-white text-2xl">
+                Domestic Cleaning Service in London
+              </div>
               <p className="mt-3 text-white text-sm leading-6">
                 We take pride in creating spotless environments that improve the
                 quality of life of and work of our clients. <br />
@@ -117,7 +105,19 @@ const Homecontent = () => {
               </p>
             </article>
           </div>
+          <article className="py-4 px-6 bg-white/30 mt-1 md:mt-1 hover:scale-[0.98]">
+            <div className="text-white text-2xl">About Our Cleaners</div>
+            <p className="mt-3 text-white text-sm leading-6">
+              We take pride in creating spotless environments that improve the
+              quality of life of and work of our clients. <br />
+              We know you are busy, we are here to take care of your home,
+              restaurant office, event centre and community. We offer a wide
+              range of cleaning services from domestic to commercial to clients
+              in London and South East London.
+            </p>
+          </article>
         </div>
+      </div>
 
       {/* happy clients carousel */}
       <div className="pt-4 pb-2">
@@ -156,9 +156,9 @@ const Homecontent = () => {
       </div> */}
 
       {/* why choose mcLev section */}
-      <div className="bg-homemidshadegray">
+      <div className="bg-homemidshadegray text-center">
         <article className="py-4 px-6">
-          <div className="text-slate-600 text-xl">
+          <div className="text-slate-600 text-xl md:text-2xl">
             Why Choose McLev Cleaning Company?
           </div>
           <p className="mt-3 text-black/85 text-sm leading-6">
@@ -170,71 +170,77 @@ const Homecontent = () => {
             London and South East London.
           </p>
         </article>
-        <article className="py-4 px-6">
+        <article className="py-4 px-2">
           <div className="text-black/95 text-md mb-2 text-xl">
             Here are a few more reasons to call us right now:
           </div>
-          <IconText
-            key={Date.now.toString() + 7}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 6}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 5}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 4}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 3}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 1}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            key={Date.now.toString() + 2}
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
-          <IconText
-            icon={<Check size={15} strokeWidth={4} />}
-            text="Lorem ipsum dolor sit amet dolor dolor sit"
-            textStyle="text-sm leading-6 font-[450]"
-            iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-          />
+          <div className="flex flex-col items-center lgmd:flex-row lgmd:justify-evenly">
+            <div className="px-2">
+              <IconText
+                key={Date.now.toString() + 7}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                key={Date.now.toString() + 6}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                key={Date.now.toString() + 5}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                key={Date.now.toString() + 4}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+            </div>
+            <div className="px-2">
+              <IconText
+                key={Date.now.toString() + 3}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                key={Date.now.toString() + 1}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                key={Date.now.toString() + 2}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+            </div>
+          </div>
         </article>
       </div>
       {/* What our customers say about us */}
       <div className="py-4 px-3">
-        <div className="text-xl text-black/80 mb-2 text-center p-2">
-          <div className="bg-white/95 p-2">
+        <div className="text-xl text-black/80 mb-2 text-center px-2">
+          <div className="bg-white/95 p-2 text-slate-600">
             What our customers say about us{" "}
           </div>
         </div>
@@ -247,9 +253,9 @@ const Homecontent = () => {
         ) : (
           fetchFeedbacksData.feedbacks.length > 0 && (
             <div className="relative w-full flex flex-col items-center justify-center overflow-hidden">
-              <div className="w-full h-full overflow-hidden">
+              <div className="w-full h-full min-h-[400px] max-h-[500px] overflow-hidden">
                 <Image
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain scale-[1.6] lgmd:scale-[1.0]"
                   src={"/assets/img/new9.jpg"}
                   alt="cleaners"
                   width={500}
@@ -257,7 +263,7 @@ const Homecontent = () => {
                   quality={80}
                 />
               </div>
-              <div className="flex flex-col justify-center items-center absolute top-0 bg-black/40 w-full h-full p-2">
+              <div className="flex flex-col justify-center items-center absolute top-0 bg-black/40 w-full h-full p-4">
                 <FeedbackCarousel items={[...generateFeedbacksUi()]} />
               </div>
             </div>

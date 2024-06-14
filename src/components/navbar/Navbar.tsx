@@ -35,7 +35,7 @@ const Navbar: FC<NavbarProps> = () => {
     },
     {
       text: "Book Now",
-      link: "book-a-cleaner",
+      link: "book-now",
     },
   ];
 
@@ -54,7 +54,7 @@ const Navbar: FC<NavbarProps> = () => {
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
       return (
-        <nav className="sticky h-14 top-0 z-50 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full border-b-[0.1px] border-slate-200">
+        <nav className="md:hidden sticky h-14 top-0 z-50 bg-white/90 inset-x-0 backdrop-blur-lg transition-all w-full border-b-[0.1px] border-slate-200">
           <MaxwidthWrapper>
             <div className="flex justify-between items-center ">
               {/* logo */}

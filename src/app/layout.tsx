@@ -6,6 +6,7 @@ import Tools from "@/components/Tools";
 import Footer from "@/components/footer/Footer";
 import { Provider } from "@/lib/reactQuery-provider";
 import ToastNotifProvider from "@/components/ToastNotifProvider";
+import DesktopNavbar from "@/components/navbar/DesktopNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider>
           <ToastNotifProvider>
+            <DesktopNavbar />
             <Navbar />
             {children}
             <Tools />

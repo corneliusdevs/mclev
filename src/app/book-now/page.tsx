@@ -6,7 +6,7 @@ const BooknowPage = () => {
     <main>
       <MaxwidthWrapper>
         {/* choose a service section */}
-        <div>
+        <div className="md:pt-12">
           <BookACleaner />
         </div>
       </MaxwidthWrapper>

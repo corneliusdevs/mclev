@@ -16,7 +16,7 @@ const TheCompanyYouCanTrust = () => {
         </div>
       </div>
       <div className="flex justify-center mt-8">
-         <Image  width={400} height={400} src="/assets/home/cleaning6.jpg"className="w-full md:max-w-[400]" quality={100} alt="workers" />
+         <Image  width={400} height={400} src="/assets/home/cleaning6.jpg"className="w-full md:max-w-[400px]" quality={100} alt="workers" />
       </div>
     </div>
   );

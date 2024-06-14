@@ -32,7 +32,7 @@ const config = {
         'construction' : "url('/assets/construc.jpg')",
         // 'home-hero': "url('/assets/home/cleaning13.jpeg')",
         'home-hero': "url('/assets/img/new1.jpg')",
-        'home-domestic-cleaning1': "url('/assets/home/homehero1.jpg')",
+        'home-domestic-cleaning1': "url('/assets/img/new3.jpg')",
         'home-domestic-cleaning2': "url('/assets/home/cleaning12.jpeg')",
         'home-feedbacks': "url('/assets/img/new9.jpg')",
       },
@@ -40,6 +40,7 @@ const config = {
         "xsm":"300px",
         "smd": "400px",
         "lgmd": "450px",
+        "xlmd": "600px",
       },
       colors: {
         border: "hsl(var(--border))",

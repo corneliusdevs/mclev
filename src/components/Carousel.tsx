@@ -69,12 +69,12 @@ export const CarouselWithArrows: React.FC<CarouselWithArrowsProps> = ({
 }) => {
   return (
     <div className="flex justify-center">
-      <Carousel className="w-[80%] xsm:w-[240px] sm:w-[280px]">
+      <Carousel className="w-[80%] xsm:w-[240px] sm:w-[280px] md:w-[80%] max-w-[600px]">
         <CarouselContent className="">
           {items &&
             items.map((item, index) => (
               <CarouselItem
-                className="flex justify-center"
+                className="flex justify-center md:basis-1/2"
                 key={index + "carousel item" + Date.now().toString}
               >
                 {item}
@@ -89,6 +89,7 @@ export const CarouselWithArrows: React.FC<CarouselWithArrowsProps> = ({
           }`}
         />
         <CarouselNext
+
           className={`${
             nextArrowClassName
               ? nextArrowClassName
@@ -113,7 +114,7 @@ export const FeedbackCarousel: React.FC<FeedbackCarouselProps> = ({
 }) => {
   return (
     <div className="flex justify-center relative w-full">
-      <Carousel className="w-[80%] xsm:w-[240px] smd:w-[280px] md:w-[80%] max-w-[600px] pb-8">
+      <Carousel className="w-[80%] xsm:w-[240px] smd:w-[280px] md:w-[80%] max-w-[600px] pb-12">
         <CarouselContent className="">
           {items &&
             items.map((item, index) => (
@@ -125,7 +126,7 @@ export const FeedbackCarousel: React.FC<FeedbackCarouselProps> = ({
               </CarouselItem>
             ))}
         </CarouselContent>
-        <div className="absolute flex bottom-1 right-[49%] justify-center items-center">
+        <div className="absolute flex bottom-1 right-[49%] justify-center items-center mt-8">
             <CarouselPrevious
               className={`${
                 previousArrowClassName ? previousArrowClassName : ""

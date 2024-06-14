@@ -6,7 +6,7 @@ const ContactPage = () => {
   return (
     <main className="px-4">
       <MaxwidthWrapper>
-        <div className="w-full mt-4 p-4 font-bold text-2xl">
+        <div className="w-full mt-4 p-4 font-bold text-2xl md:pt-12">
           <header>
             <span
               className="underline underline-offset-[8px]"

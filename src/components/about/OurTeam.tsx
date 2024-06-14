@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CarouselWithArrows } from "../Carousel";
 
+// correct the sliding behaviour of your carousel
 const OurTeam = () => {
   return (
     <div className="bg-homegray px-4 py-4 flex flex-col items-center">
