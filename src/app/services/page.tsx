@@ -11,7 +11,10 @@ const ServicesPage = () => {
         <div className="w-full flex items-center flex-col mb-12">
           {servicesPayload.map((service, index) => {
             return (
-              <div id={service.link} className="w-full max-w-[560px] px-4 mb-4 mt-4">
+              <div id={service.link} className="w-full max-w-[560px] px-4 mb-4 mt-4"
+              key={service.text + index + "container"}
+              
+              >
                 <ServicesCollapsible
                   key={service.text + index + "service"}
                   headerText={service.headerText}
