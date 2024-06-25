@@ -54,6 +54,8 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 }) => {
 
   const [localMessagesState, setLocalMessagesState] = useState<ClientSideChatType[]>([])
+
+ 
   const messagesRef: MutableRefObject<ClientSideChatType[]> = useRef([
     ...messages,
   ]);
@@ -194,11 +196,9 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   }, [isNewMessage.isNew]);
 
   useEffect(() => {
-    toast("should call reconnect")
     // register user socket Id
     if (!isConnectedToMsgServerRef.current && typeof userId === "string" && userId !== "") {
       console.log("registering... user ");
-
 
       // get the session from localStorage if one exists
       const sessionId = localStorage.getItem("sessionId")
@@ -247,23 +247,19 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   useEffect(()=>{
     socket.on("connect_error", ()=>{
       console.log("Could not connect to chat server");
-      toast("Temporarily unable to connect to chats")
 
       // set is connected to messages server to false
       isConnectedToMsgServerRef.current = false
    })
 
    socket.on("connect", ()=>{
-    toast("Back Online")
     if(socket.recovered){
-      toast("connection recovered")
       // @ts-ignore
       console.log("recovered messagesssssssssss")
     }
   })
 
   socket.on("connection-recovered", (last20Msgs:any)=>{
-    toast("connection recovered")
     console.log("last 20 msgs are", last20Msgs)
   })
 
@@ -277,7 +273,7 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     <section className="bg-homegray w-full h-full">
       {/* main chat */}
       <div
-        className="bg-homegray max-w-full h-[80%] overflow-y-scroll p-6"
+        className="bg-homegray max-w-full h-[75%] overflow-y-scroll p-6 md:max-h-[350px]"
         ref={chatMessagesRef}
       >
         {messagesRef.current.length === 0 ? (

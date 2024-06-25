@@ -54,36 +54,45 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
     }
   }, [isLoading, data]);
 
-  useEffect(()=>{
+  useEffect(() => {
+    const handleScrollY = () => {
+      console.log("scroll position ", window.scrollY);
+      setScrollYposition(window.scrollY);
+      scrollYPositionRef.current = window.scrollY;
+    };
 
-    const handleScrollY = ()=>{
-         console.log("scroll position ", window.scrollY);
-         setScrollYposition(window.scrollY)
-         scrollYPositionRef.current = window.scrollY
-    }
-
-  
     window.addEventListener("scroll", handleScrollY);
-  
 
-    return ()=>{
-      window.removeEventListener("scroll", handleScrollY)
+    return () => {
+      window.removeEventListener("scroll", handleScrollY);
+    };
+  }, [scrollYPositionRef.current]);
+
+  const shouldBgBeWhite = (currentPath: string) => {
+    if (
+      currentPath?.toLowerCase().indexOf("contact") !== -1 ||
+      currentPath?.toLowerCase().indexOf("book") !== -1 ||
+      currentPath?.toLowerCase().indexOf("admin") !== -1 ||
+      currentPath?.toLowerCase().indexOf("sign") !== -1 ||
+      currentPath?.toLowerCase().indexOf("log") !== -1 ||
+      currentPath?.toLowerCase().indexOf("auth") !== -1
+    ) {
+      return true;
     }
+    return false;
+  };
 
-  }, [scrollYPositionRef.current])
-
-  const shouldBgBeWhite = (currentPath:string)=>{
-    if(currentPath?.toLowerCase().indexOf("contact") !== -1 || currentPath?.toLowerCase().indexOf("book") !== -1 || currentPath?.toLowerCase().indexOf("admin") !== -1 || currentPath?.toLowerCase().indexOf("sign") !== -1 || currentPath?.toLowerCase().indexOf("log") !== -1){
-      return true
-    }
-    return false
-  }
-
-// change the background color when the scroll position gets updated
+  // change the background color when the scroll position gets updated
   const uiTools = (): React.ReactNode => {
     if (currentPath && currentPath !== "/admin-dashboard") {
       return (
-        <nav className={`hidden md:flex items-center fixed ${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath)) ? "bg-white/90" : "bg-transparent"} h-14 top-0 z-[100] inset-x-0 backdrop-blur-sm transition-all w-full border-b-[0.1px] border-slate-20`}>
+        <nav
+          className={`hidden md:flex items-center fixed ${
+            scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath)
+              ? "bg-white/90"
+              : "bg-transparent"
+          } h-14 top-0 z-[100] inset-x-0 backdrop-blur-sm transition-all w-full border-b-[0.1px] border-slate-20`}
+        >
           <MaxwidthWrapper className="bg-transparent">
             <div className="flex justify-between items-center bg-transparent">
               {/* logo */}
@@ -96,7 +105,7 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
                   className="object-fill opacity-100 transform scale-[0.85]"
                 />
               </div>
-    
+
               <div
                 className="flex items-center justify-center mx-4 hover:cursor-pointer w-full bg-transparent"
                 onClick={() => {}}
@@ -110,13 +119,23 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
                         onClick={() => {
                           setOpenNavbar((v) => !v);
                         }}
-                        className={`mr-2 ${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) )? "bg-none" : "bg-transparent"}`}
+                        className={`mr-2 ${
+                          scrollYPositionRef.current > 240 ||
+                          shouldBgBeWhite(currentPath)
+                            ? "bg-none"
+                            : "bg-transparent"
+                        }`}
                       >
                         <div
                           key={"div" + item.text + index}
-                          className={`${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none text-black/80 hover:text-secondarycol" : "bg-transparent hover:bg-secondarycol hover:text-white"} text-center py-2 transition-all duration-300 px-2`}
+                          className={`${
+                            scrollYPositionRef.current > 240 ||
+                            shouldBgBeWhite(currentPath)
+                              ? "bg-none text-black/80 hover:text-secondarycol"
+                              : "bg-transparent hover:bg-secondarycol hover:text-white"
+                          } text-center py-2 transition-all duration-300 px-2`}
                         >
-                            {/* change the home icon toa better one */}
+                          {/* change the home icon toa better one */}
                           {/* {item.text === "Home" ? <Home /> : item.text} */}
                           {item.text}
                         </div>
@@ -124,11 +143,22 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
                     );
                   })}
                   {isUser ? (
-                    <LogoutLink key={Date.now() + "link 1"}
-                    className={`mr-2 ${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none" : "bg-transparent"}`}
+                    <LogoutLink
+                      key={Date.now() + "link 1"}
+                      className={`mr-2 ${
+                        scrollYPositionRef.current > 240 ||
+                        shouldBgBeWhite(currentPath)
+                          ? "bg-none"
+                          : "bg-transparent"
+                      }`}
                     >
                       <div
-                        className={`${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none text-black/80 hover:text-secondarycol" : "bg-transparent hover:bg-secondarycol hover:text-white"} text-center py-2 transition-all duration-300 px-2`}
+                        className={`${
+                          scrollYPositionRef.current > 240 ||
+                          shouldBgBeWhite(currentPath)
+                            ? "bg-none text-black/80 hover:text-secondarycol"
+                            : "bg-transparent hover:bg-secondarycol hover:text-white"
+                        } text-center py-2 transition-all duration-300 px-2`}
                         onClick={() => {
                           setOpenNavbar((v) => !v);
                         }}
@@ -139,14 +169,26 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
                   ) : (
                     <Link
                       href={"/sign-in"}
-                      className={`mr-2 ${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none" : "bg-transparent"}`}
+                      className={`mr-2 ${
+                        scrollYPositionRef.current > 240 ||
+                        shouldBgBeWhite(currentPath)
+                          ? "bg-none"
+                          : "bg-transparent"
+                      }`}
                       key={Date.now() + "link 2"}
                       onClick={() => {
                         setOpenNavbar((v) => !v);
                       }}
                     >
-                      <div className={`${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) )? "bg-none text-black/80 hover:text-secondarycol" : "bg-transparent hover:bg-secondarycol hover:text-white"} text-center py-2 transition-all duration-300 px-2`}>
-                       {`Sign In`}
+                      <div
+                        className={`${
+                          scrollYPositionRef.current > 240 ||
+                          shouldBgBeWhite(currentPath)
+                            ? "bg-none text-black/80 hover:text-secondarycol"
+                            : "bg-transparent hover:bg-secondarycol hover:text-white"
+                        } text-center py-2 transition-all duration-300 px-2`}
+                      >
+                        {`Sign In`}
                       </div>
                     </Link>
                   )}
@@ -156,9 +198,21 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
                     onClick={() => {
                       setOpenNavbar((v) => !v);
                     }}
-                    className={`mr-2 ${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none" : "bg-transparent"}`}
+                    className={`mr-2 ${
+                      scrollYPositionRef.current > 240 ||
+                      shouldBgBeWhite(currentPath)
+                        ? "bg-none"
+                        : "bg-transparent"
+                    }`}
                   >
-                    <div className={`${(scrollYPositionRef.current > 240 || shouldBgBeWhite(currentPath) ) ? "bg-none text-black/80 hover:text-secondarycol" : "bg-transparent hover:bg-secondarycol hover:text-white"} text-center py-2 transition-all duration-300 px-2`}>
+                    <div
+                      className={`${
+                        scrollYPositionRef.current > 240 ||
+                        shouldBgBeWhite(currentPath)
+                          ? "bg-none text-black/80 hover:text-secondarycol"
+                          : "bg-transparent hover:bg-secondarycol hover:text-white"
+                      } text-center py-2 transition-all duration-300 px-2`}
+                    >
                       Dashboard
                     </div>
                   </Link>

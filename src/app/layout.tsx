@@ -26,11 +26,16 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider>
           <ToastNotifProvider>
-            <DesktopNavbar />
-            <Navbar />
-            {children}
-            <Tools />
-            <Footer />
+            <div className="relative">
+              <div className="">
+                <DesktopNavbar />
+                <Navbar />
+                {children}
+                <Tools />
+                <Footer />
+              </div>
+              <div id="userchat-portal-root" className="fixed top-0 w-[100fr] h-full z-[40] md:top-[60px] md:right-0 "></div>
+            </div>
           </ToastNotifProvider>
         </Provider>
       </body>
