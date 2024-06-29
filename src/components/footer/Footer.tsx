@@ -143,7 +143,6 @@ const Footer = () => {
                 }
                 info="twitter"
               />
-
               <TooltipComponent
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
@@ -154,7 +153,7 @@ const Footer = () => {
               />
 
               <TooltipComponent
-                info="Pinterest"
+                info="pinterest"
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl w-8 h-8 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
                     <FontAwesomeIcon

@@ -53,7 +53,7 @@ const SaveUserName = ({ userId, nameOfUser }: SaveUserNameProps) => {
   }, [submitted]);
 
   return (
-    <div className="sticky z-20 top-0 bg-white shadow">
+    <div className="sticky z-20 top-[38px] bg-white shadow">
       <div className="relative flex-col justify-center items-center">
         {!openInput ? (
           <div

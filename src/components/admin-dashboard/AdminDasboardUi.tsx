@@ -90,6 +90,7 @@ const AdminDashboardUi = ({
 
   const [isDataSearched, setIsDataSearched] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<AllAdminChats[]>([]);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const {
     mutate: markChatAsReadMutation,
@@ -232,21 +233,25 @@ const AdminDashboardUi = ({
   useEffect(() => {
     socket.on("connect_error", () => {
       console.log("Could not connect to chat server");
-      toast("Temporarily unable to connect to chat server");
+      // set is connected to messages server to false
+      setIsConnected(false);
 
       // set is connected to messages server to false
       isConnectedToMsgServerRef.current = false;
     });
 
     socket.on("connect", () => {
-      toast("Back Online");
+      // set is connected to messages server to true
+      setIsConnected(true);
+
       if (socket.recovered) {
-        toast("connection recovered");
       }
     });
 
     socket.on("connection-recovered", (last80Msgs: any) => {
-      toast("connection recovered");
+      // set is connected to messages server to true
+      setIsConnected(true);
+
       console.log("last 80 msgs are", last80Msgs);
     });
 
@@ -392,17 +397,24 @@ const AdminDashboardUi = ({
       case "chats":
         dashboardUi = (
           <div>
+            {!isFetchingChats && (
+              <div className="bg-accentcol text-white px-4 flex items-center justify-center py-2 sticky top-[50px] z-[30]">
+                <span className="">
+                  {isConnected ? "Connected" : "Connecting..."}
+                </span>
+              </div>
+            )}
             {isFetchingChats ? (
               <div className="relative w-full h-[50vh] flex justify-center items-center">
-              <div className="flex flex-col">
-                <div className="flex justify-center text-slate-500 animate-spin">
-                  <Loader2 size={24} strokeWidth={1} />{" "}
+                <div className="flex flex-col">
+                  <div className="flex justify-center text-slate-500 animate-spin">
+                    <Loader2 size={24} strokeWidth={1} />{" "}
+                  </div>
+                  <p className="flex items-center justify-center text-gray-600 text-xl">
+                    Fetching...
+                  </p>
                 </div>
-                <p className="flex items-center justify-center text-gray-600 text-xl">
-                  Fetching...
-                </p>
               </div>
-            </div>
             ) : (
               <Tab
                 defaultTabValue={"chats"}
@@ -492,7 +504,7 @@ const AdminDashboardUi = ({
                               />
                             );
                           })}
-                        <div className="absolute top-[50px] lg:top-0 right-0 flex items-center justify-center w-[50%] max-w-[600px] p-1.5">
+                        <div className="absolute top-[50px] lg:top-[38px] right-0 flex items-center justify-center w-[50%] max-w-[700px] p-1.5">
                           <Button
                             className="h-[27px] bg-white w-full hover:bg-slate-200 shadow"
                             variant={"ghost"}
@@ -526,6 +538,11 @@ const AdminDashboardUi = ({
       case "chatDialog":
         dashboardUi = (
           <div className="w-full">
+            <div className="bg-accentcol text-white px-4 flex items-center justify-center py-2 sticky top-[50px] z-[30]">
+              <span className="">
+                {isConnected ? "Connected" : "Connecting..."}
+              </span>
+            </div>
             <AdminChatDialog
               chats={currentChat}
               allChatsStore={allChats}
@@ -569,15 +586,15 @@ const AdminDashboardUi = ({
       <div className="">
         {isFetchingChats && (
           <div className="relative w-full h-[50vh] flex justify-center items-center">
-          <div className="flex flex-col">
-            <div className="flex justify-center text-slate-500 animate-spin">
-              <Loader2 size={24} strokeWidth={1} />{" "}
+            <div className="flex flex-col">
+              <div className="flex justify-center text-slate-500 animate-spin">
+                <Loader2 size={24} strokeWidth={1} />{" "}
+              </div>
+              <p className="flex items-center justify-center text-gray-600 text-xl">
+                Fetching...
+              </p>
             </div>
-            <p className="flex items-center justify-center text-gray-600 text-xl">
-              Fetching...
-            </p>
           </div>
-        </div>
         )}
         {!isFetchingChats && error && (
           <div className="w-full h-[50vh] flex justify-center items-center">
@@ -592,7 +609,9 @@ const AdminDashboardUi = ({
           </div>
         )}
 
-        {!isFetchingChats && !error && <div className="lg:relative">{determineDashboardUi()}</div>}
+        {!isFetchingChats && !error && (
+          <div className="lg:relative">{determineDashboardUi()}</div>
+        )}
       </div>
     </main>
   );

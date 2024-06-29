@@ -14,6 +14,7 @@ import Link from "next/link";
 import "./homeContent.css";
 import Image from "next/image";
 import React from "react";
+import { Button } from "../ui/button";
 
 const Homecontent = () => {
   const {
@@ -96,24 +97,28 @@ const Homecontent = () => {
                 Domestic Cleaning Service in London
               </div>
               <p className="mt-3 text-white text-sm leading-6">
-                We take pride in creating spotless environments that improve the
-                quality of life of and work of our clients. <br />
-                We know you are busy, we are here to take care of your home,
-                restaurant office, event centre and community. We offer a wide
-                range of cleaning services from domestic to commercial to
-                clients in London and South East London.
+                At McLev Cleaning&#44; we offer comprehensive domestic cleaning
+                services across London&#44; tailored to meet the unique needs of
+                your home&#46; Our dedicated team of cleaning professionals is
+                committed to delivering exceptional service and ensuring your
+                space is spotless and hygienic&#46;
               </p>
             </article>
           </div>
           <article className="py-4 px-6 bg-white/30 mt-1 md:mt-1 hover:scale-[0.98]">
             <div className="text-white text-2xl">About Our Cleaners</div>
             <p className="mt-3 text-white text-sm leading-6">
-              We take pride in creating spotless environments that improve the
-              quality of life of and work of our clients. <br />
-              We know you are busy, we are here to take care of your home,
-              restaurant office, event centre and community. We offer a wide
-              range of cleaning services from domestic to commercial to clients
-              in London and South East London.
+              At McLev Cleaning&#44; our dedicated team of professional cleaners
+              is committed to delivering exceptional service&#46; <br /> With
+              years of expertise in the industry&#44; our cleaners uphold high
+              standards of professionalism and integrity&#46; They are
+              extensively trained&#44; ensuring they can handle various cleaning
+              challenges with ease&#46; We prioritize customer satisfaction&#44;
+              offering personalized cleaning solutions tailored to your
+              needs&#46; Our cleaners use eco&#45;friendly products and
+              practices to promote sustainability while providing outstanding
+              results&#46; Trust our reliable team for transparent service and a
+              cleaner&#44; healthier environment&#46;
             </p>
           </article>
         </div>
@@ -159,82 +164,79 @@ const Homecontent = () => {
       <div className="bg-homemidshadegray text-center">
         <article className="py-4 px-6">
           <div className="text-slate-600 text-xl md:text-2xl">
-            Why Choose McLev Cleaning Company?
+            Why Choose McLev Cleaning?
           </div>
-          <p className="mt-3 text-black/85 text-sm leading-6">
+          {/* <p className="mt-3 text-black/85 text-sm leading-6">
             We take pride in creating spotless environments that improve the
             quality of life of and work of our clients. <br />
             We know you are busy, we are here to take care of your home,
             restaurant office, event centre and community. We offer a wide range
             of cleaning services from domestic to commercial to clients in
             London and South East London.
-          </p>
+          </p> */}
         </article>
-        <article className="py-4 px-2">
-          <div className="text-black/95 text-md mb-2 text-xl">
-            Here are a few more reasons to call us right now:
+        <article className="py-1 pb-4 px-2">
+          <div className="text-black/95  mb-2 text-[16px]">
+            Discover the McLev Cleaning difference:
           </div>
           <div className="flex flex-col items-center lgmd:flex-row lgmd:justify-evenly">
             <div className="px-2">
               <IconText
                 key={Date.now.toString() + 7}
                 icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                text="Professional Excellence&#58; Years of industry expertise ensuring top&#45;quality service&#46;"
                 textStyle="text-sm leading-6 font-[450]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+                generalStyle="animate-in"
               />
               <IconText
                 key={Date.now.toString() + 6}
                 icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                text="Tailored Solutions&#58; Customized cleaning plans for homes and businesses&#46;"
                 textStyle="text-sm leading-6 font-[450]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+                generalStyle="animate-in"
               />
               <IconText
                 key={Date.now.toString() + 5}
                 icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
-                textStyle="text-sm leading-6 font-[450]"
-                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-              />
-              <IconText
-                key={Date.now.toString() + 4}
-                icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                text="Commitment to Quality&#58; Eco&#45;friendly products and meticulous cleaning methods&#46;"
                 textStyle="text-sm leading-6 font-[450]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
             </div>
             <div className="px-2">
               <IconText
+                key={Date.now.toString() + 4}
+                icon={<Check size={15} strokeWidth={4} />}
+                text="Trusted Reputation&#58; Reliable&#44; transparent&#44; and customer&#45;focused service&#46;"
+                textStyle="text-sm leading-6 font-[450]"
+                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
+              />
+              <IconText
                 key={Date.now.toString() + 3}
                 icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                text="Competitive Pricing&#58; Fair rates with no hidden costs&#46;"
                 textStyle="text-sm leading-6 font-[450]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
               <IconText
                 key={Date.now.toString() + 1}
                 icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
-                textStyle="text-sm leading-6 font-[450]"
-                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-              />
-              <IconText
-                key={Date.now.toString() + 2}
-                icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
-                textStyle="text-sm leading-6 font-[450]"
-                iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
-              />
-              <IconText
-                icon={<Check size={15} strokeWidth={4} />}
-                text="Lorem ipsum dolor sit amet dolor dolor sit"
+                text="Convenient Scheduling&#58; Flexible options to fit your busy lifestyle&#46;"
                 textStyle="text-sm leading-6 font-[450]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
             </div>
           </div>
+          <p className="italic mb-2">
+            Experience cleanliness redefined with McLev Cleaning. <br />
+          </p>
+          <p>
+            <Link href="/contact-us">
+            <Button className="bg-primarycol text-white px-4 py-1  hover:bg-transparent hover:text-primarycol hover:border-[1px] border-primarycol tracking-wide" variant="default">Contact us today!</Button>
+            </Link>
+          </p>
         </article>
       </div>
       {/* What our customers say about us */}
