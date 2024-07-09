@@ -35,6 +35,7 @@ const config = {
         'home-domestic-cleaning1': "url('/assets/img/new3.jpg')",
         'home-domestic-cleaning2': "url('/assets/home/cleaning12.jpeg')",
         'home-feedbacks': "url('/assets/img/new9.jpg')",
+        'admin-signup-bg': "url('/assets/banner/banner14.jpeg')",
       },
       screens: {
         "xsm":"300px",

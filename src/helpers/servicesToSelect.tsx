@@ -1,8 +1,13 @@
 import { SelectItem } from "@/components/SelectComponent";
 
+
+// The services to select are created in this fashion so as to separate what is rendered on the ui with what will be sent and stored in the database
+
+// name field is what is rendered in the ui
+// value field is what is used to access and store the service in the state and in database
 export const servicesToSelect: SelectItem[] = [
   {
-    "name": "Antiviral Sanitisation",
+    "name": "Antiviral Sanitisation", 
     "value": "antiviralSanitisation",
   },
   {
@@ -14,10 +19,6 @@ export const servicesToSelect: SelectItem[] = [
     "value": "carpetRugCleaning",
   },
   {
-    "name": "Uphostery Cleaning",
-    "value": "uphosteryCleaning",
-  },
-  {
     "name": "Window Cleaning",
     "value": "windowCleaning",
   },
@@ -25,37 +26,38 @@ export const servicesToSelect: SelectItem[] = [
     "name": "Oven Cleaning",
     "value": "ovenCleaning",
   },
-  // {
-  //   "name": "One off Cleaning",
-  //   "value": "oneOffCleaning",
-  // },
-  // {
-  //   "name": "Regular / Fortnightly Cleaning",
-  //   "value": "regularFortnightlyCleaning",
-  // },
-  // {
-  //   "name": "Office Cleaning",
-  //   "value": "officeCleaning",
-  // },
-
-  // {
-  //   "name": "After Builders Cleaning",
-  //   "value": "afterBuildersCleaning",
-  // },
-  // {
-  //   "name": "Mattress Cleaning",
-  //   "value": "mattressCleaning",
-  // },
-  // {
-  //   "name": "Sofa Cleaning",
-  //   "value": "sofaCleaaning",
-  // },
+  {
+    "name": "Deep Cleaning",
+    "value": "deepCleaning",
+  },
+  {
+    "name": "Standard Cleaning",
+    "value": "standardCleaning",
+  },
+  {
+    "name": "Office Cleaning",
+    "value": "officeCleaning",
+  },
+  {
+    "name": "Regular Cleaning",
+    "value": "regularCleaning",
+  },
+  {
+    "name": "Move-in/out Cleaning",
+    "value": "moveInOutCleaning",
+  },
+  {
+    "name": "Specific Area Cleaning",
+    "value": "specificAreaCleaning",
+  },
 ];
 
 
 interface servicesToSelectLookupType {
   [index: string] : string
 }
+
+// takes in the name and value of the selected service e.g { name: "office clean", value: "officeClean" }, transforms the input and return it in the format { value: name} so { name: "office clean", value: "officeClean" } becomes {officeClean: "office clean"}
 
 const servicesToSelectLookupGenerator = (servicesToSelect: SelectItem[]) => {
   let servicesToSelectLookup:servicesToSelectLookupType = {};
@@ -85,7 +87,10 @@ export type ServiceQuestionaireOptions = {
 export type ServiceQuestionaire = {
   questionaireType: "ImageWithCaption" | "TextSelect" | "ImageWithLongCaption" | "UserInput";
   question: string;
+  inputType?: "string" | "number"
   required: boolean;
+  placeholderText?: string;
+  titleText?: string;
   options?: ServiceQuestionaireOptions[];
 };
 
@@ -104,6 +109,61 @@ export const antiviralServiceQuestionaire: ServiceQuestionaire[] = [
         caption: "House/Flat",
       },
     ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
   },
 ];
 
@@ -184,46 +244,860 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
     ],
   },
   {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+export const officeCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
     questionaireType: "ImageWithCaption",
-    question: "Would you like any uphostery to be cleaned?",
-    required: false,
+    question: "Please tell us about your office",
+    required: true,
     options: [
       {
-        imageSrc: "sofa.png",
-        caption: "Sofa",
+        imageSrc: "house.png",
+        caption: "Single",
       },
       {
-        imageSrc: "armchair.png",
-        caption: "Armchair",
-      },
-      {
-        imageSrc: "mattress.png",
-        caption: "Mattress",
-      },
-      {
-        imageSrc: "curtains.png",
-        caption: "Curtains",
+        imageSrc: "flats.png",
+        caption: "Double",
       },
     ],
   },
   {
     questionaireType: "ImageWithCaption",
-    question: "Most of our clients who book end of tenancy cleaning also add",
-    required: false,
+    question: "Which of the following applies to your property",
+    required: true,
     options: [
       {
-        imageSrc: "oven3.png",
-        caption: "Window cleaning",
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
       },
       {
-        imageSrc: "oven3.png",
-        caption: "Balcony Cleaning",
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
       },
       {
-        imageSrc: "oven3.png",
-        caption: "Garage Cleaning",
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
       },
     ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+export const regularCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Please tell us about your office",
+    required: true,
+    options: [
+      {
+        imageSrc: "house.png",
+        caption: "Single",
+      },
+      {
+        imageSrc: "flats.png",
+        caption: "Double",
+      },
+    ],
+  },
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Which of the following applies to your property",
+    required: true,
+    options: [
+      {
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
+      },
+      {
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
+      },
+      {
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+export const specificAreaCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Please tell us about your office",
+    required: true,
+    options: [
+      {
+        imageSrc: "house.png",
+        caption: "Single",
+      },
+      {
+        imageSrc: "flats.png",
+        caption: "Double",
+      },
+    ],
+  },
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Which of the following applies to your property",
+    required: true,
+    options: [
+      {
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
+      },
+      {
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
+      },
+      {
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+export const moveInOutCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Please tell us about your office",
+    required: true,
+    options: [
+      {
+        imageSrc: "house.png",
+        caption: "Single",
+      },
+      {
+        imageSrc: "flats.png",
+        caption: "Double",
+      },
+    ],
+  },
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Which of the following applies to your property",
+    required: true,
+    options: [
+      {
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
+      },
+      {
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
+      },
+      {
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+
+
+export const standardCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Please tell us about your place standard",
+    required: true,
+    options: [
+      {
+        imageSrc: "house.png",
+        caption: "Single",
+      },
+      {
+        imageSrc: "flats.png",
+        caption: "Double",
+      },
+    ],
+  },
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Which of the following applies to your property",
+    required: true,
+    options: [
+      {
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
+      },
+      {
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
+      },
+      {
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
+];
+
+
+export const deepCleaningQuestionaire: ServiceQuestionaire[] = [
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Please tell us about your place deep clean",
+    required: true,
+    options: [
+      {
+        imageSrc: "house.png",
+        caption: "Single",
+      },
+      {
+        imageSrc: "flats.png",
+        caption: "Double",
+      },
+    ],
+  },
+  {
+    questionaireType: "ImageWithCaption",
+    question: "Which of the following applies to your property",
+    required: true,
+    options: [
+      {
+        imageSrc: "kitchen-table.png",
+        caption: "Combined kitchen/living",
+      },
+      {
+        imageSrc: "kitchen2.png",
+        caption: "Separated kitchen/living",
+      },
+      {
+        imageSrc: "washing-machine.png",
+        caption: "Utility room",
+      },
+      {
+        imageSrc: "studyroom-office.png",
+        caption: "Study room/office",
+      },
+      {
+        imageSrc: "conservatory.png",
+        caption: "Conservatory",
+      },
+      {
+        imageSrc: "additional-areas.png",
+        caption: "Additional areas",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "How would you like your carpets/rugs to be cleaned?",
+    required: true,
+    options: [
+      {
+        caption: "Hoovered only",
+      },
+      {
+        caption: "Professionally cleaned",
+      },
+      {
+        caption: "I don't have carpets",
+      },
+    ],
+  },
+  {
+    questionaireType: "TextSelect",
+    question: "Are there any blinds, which would require dusting?",
+    required: true,
+    options: [
+      {
+        caption: "Yes",
+      },
+      {
+        caption: "No",
+      },
+    ],
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
+    required: true,
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
   },
 ];
 
@@ -293,27 +1167,59 @@ export const carpetOrRugCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     ],
   },
   {
-    questionaireType: "ImageWithCaption",
-    question: "Most of our clients who book carpet cleaning also add:",
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
     required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Window Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Carpet Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Uphostery Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "One off Cleaning",
-      },
-    ],
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
   },
 ];
 
@@ -362,6 +1268,7 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
   },
   {
     questionaireType: "UserInput",
+    inputType: "number",
     question: "How many windows do you have?",
     required: true,
   },
@@ -385,141 +1292,62 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     ],
   },
   {
-    questionaireType: "ImageWithCaption",
-    question: "Most of our clients who book window cleaning also add:",
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
     required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Window Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Carpet Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Uphostery Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "One off Cleaning",
-      },
-    ],
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
   },
-
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
+  },
 ];
 
-
-export const uphosteryCleaningServiceQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "What kind of Sofas/Chairs would you like cleaned?",
-    required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Dining chair",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Arm chair",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Two seater",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Three seater",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Four seater",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Five seater",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "What kind of materials are your items?",
-    required: true,
-    options: [
-      {
-        caption: "Fabric",
-      },
-      {
-        caption: "Velvet",
-      },
-      {
-        caption: "Delicate",
-      },
-      {
-        caption: "Other",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Would you like to add mattress cleaning?",
-    required: false,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Double",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "King size",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Would you like to add curtain cleaning?",
-    required: false,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Half length",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Full length",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Most of our clients who book uphostery cleaning also add:",
-    required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Oven Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Carpet Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "One off Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "window Cleaning",
-      },
-    ],
-  },
-];
 
 export const ovencleaningServiceQuestionaire: ServiceQuestionaire[] = [
   {
@@ -592,26 +1420,58 @@ export const ovencleaningServiceQuestionaire: ServiceQuestionaire[] = [
     ],
   },
   {
-    questionaireType: "ImageWithCaption",
-    question: "Most of our clients who book oven cleaning also add:",
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Frequency",
+    question: "How often do you need cleaning?",
     required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Window Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Carpet Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Uphostery Cleaning",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "One off Cleaning",
-      },
-    ],
+    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Location",
+    question: "Where is the cleaning needed?",
+    required: true,
+    placeholderText: "e.g full address including any specific instruction or access details."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Size of the Space",
+    question: "What is the size of the area to be cleaned?",
+    required: true,
+    placeholderText: "e.g number of bedrooms, bathrooms, square footage."
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Special Requests",
+    question: "Are there any areas or tasks you want us to focus on?",
+    required: true,
+    placeholderText: "e.g particular rooms, appliances or surfaces"
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Pets",
+    question: "Are there any pets in the household that our cleaners should be aware of?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    titleText: "Parking and Access",
+    question: "Is there any parking available nearby?",
+    required: true,
+    placeholderText: ""
+  },
+  {
+    questionaireType: "UserInput",
+    inputType: "string",
+    question: "Are there any parking access or restrictions or instructions for our cleaners?",
+    required: true,
+    placeholderText: ""
   },
 ];

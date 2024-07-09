@@ -74,7 +74,7 @@ export const CarouselWithArrows: React.FC<CarouselWithArrowsProps> = ({
           {items &&
             items.map((item, index) => (
               <CarouselItem
-                className="flex justify-center md:basis-1/2"
+                className="flex justify-center"
                 key={index + "carousel item" + Date.now().toString}
               >
                 {item}

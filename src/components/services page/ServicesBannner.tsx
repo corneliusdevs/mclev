@@ -7,7 +7,7 @@ const ServicesBanner = () => {
     <div className="relative mb-8">
       <div>
         <Image
-          src="/assets/img/new5.jpg"
+          src="/assets/banner/banner13.jpeg"
           width={500}
           height={500}
           quality={100}
@@ -15,7 +15,7 @@ const ServicesBanner = () => {
           className="w-full h-[60vh] object-fill"
         />
       </div>
-      <div className="absolute top-0 bg-black/50 text-white w-full h-full text-3xl flex flex-col justify-center items-center">
+      <div className="absolute top-0 bg-black/40 text-white w-full h-full text-3xl flex flex-col justify-center items-center">
         <span>Our Services</span>
         <div className="md:mt-4 relative w-fit">
           <Link href={"/book-now"} className="w-fit">

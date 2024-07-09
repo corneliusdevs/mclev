@@ -1,14 +1,20 @@
+"use client"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   ArrowRightIcon,
-  ChevronRight,
   Facebook,
   Mail,
   Youtube,
 } from "lucide-react";
 import React from "react";
 import { faPinterestP, faXTwitter } from "@fortawesome/free-brands-svg-icons";
-import { companyPhoneNumber, companyEmail, companyAddress } from "@/helpers/siteInfo";
+import {
+  companyPhoneNumber,
+  companyEmail,
+  companyAddress,
+  facebookPageUrl,
+} from "@/helpers/siteInfo";
 import TooltipComponent from "@/components/Tooltip";
 import Link from "next/link";
 
@@ -16,6 +22,10 @@ const usefulLinks = [
   {
     name: "Home",
     link: "/",
+  },
+  {
+    name: "Book Now",
+    link: "/book-now",
   },
   {
     name: "Contact Us",
@@ -29,10 +39,6 @@ const usefulLinks = [
     name: "Prices",
     link: "/pricing",
   },
-  {
-    name: "Book Now",
-    link: "/book",
-  },
 ];
 
 const ourServicesLinks = [
@@ -41,14 +47,12 @@ const ourServicesLinks = [
   "One Off Deep Cleaning",
   "Carpet Cleaning",
   "Rug Cleaning",
-  "Upholstery Cleaning",
   "Oven Cleaning",
   "Window Cleaning",
   "After Builders Cleaning",
   "Domestic Cleaning",
   "ALL Cleaning Services",
 ];
-
 
 const Footer = () => {
   return (
@@ -125,13 +129,16 @@ const Footer = () => {
             <div className="flex font-bolder mt-8 text-secondarycol mb-4">
               <TooltipComponent
                 childComponent={
-                  <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer transition-all duration-200 hover:text-textwhitecol hover:bg-secondarycol">
-                    <Facebook className="" size={20} />
-                  </div>
+                  <Link href={facebookPageUrl}>
+                    <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer transition-all duration-200 hover:text-textwhitecol hover:bg-secondarycol">
+                      <Facebook className="" size={20} />
+                    </div>
+                  </Link>
                 }
                 info="facebook"
               />
 
+              {/* TWITTER X ICON */}
               <TooltipComponent
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol transform-[1.2]">
@@ -143,15 +150,16 @@ const Footer = () => {
                 }
                 info="twitter"
               />
-              <TooltipComponent
+              {/* <TooltipComponent
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
                     <Youtube className="" size={20} />
                   </div>
                 }
                 info="youtube"
-              />
+              /> */}
 
+              {/* PINTEREST ICON */}
               <TooltipComponent
                 info="pinterest"
                 childComponent={
@@ -164,29 +172,21 @@ const Footer = () => {
                 }
               />
 
-              <TooltipComponent
-                info="email"
-                childComponent={
-                  <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
-                    <Mail className="" size={20} />
-                  </div>
-                }
-              />
+              {/* EMAIL ICON */}
+                <TooltipComponent
+                  info="email"
+                  childComponent={
+                    <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
+                    onClick={()=>{
+                      window.location.href = `mailto:${companyEmail}`
+                   }}>
+                      <Mail className="" size={20} />
+                    </div>
+                  }
+                />
             </div>
           </div>
-          {/* customer's first section */}
-          {/* <div className="text-secondarycol pt-8 pb-4">
-            <span>Customer&apos;s first</span>
-          </div>
-          <p className="text-white text-smallCustom font-thin pb-8">
-            We at McLev Cleaning provide high-quality cleaning services to
-            residents and business owners in London. <br />
-            Our local cleaners are vetted and insured, trained to deal with any
-            task – from carpet or domestic cleaning to end of tenancy cleaning.{" "}
-            <br />
-            Our simple booking process allows you to get a cleaner fast and
-            easy. Emergency booking and same day cleaning now available
-          </p> */}
+          
         </div>
       </div>
       {/* copyright */}

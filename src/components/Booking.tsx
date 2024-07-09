@@ -1,4 +1,3 @@
-// import { TBooking } from "@/db/models/bookings-model";
 import { DummyBookingType } from "@/helpers/dummyBooking";
 import { removeCharactersFromString } from "@/helpers/utilities";
 import { FC } from "react";

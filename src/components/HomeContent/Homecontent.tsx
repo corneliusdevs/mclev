@@ -78,7 +78,7 @@ const Homecontent = () => {
       <HomeImageGallery />
 
       {/* certifications */}
-      <div className="border-[1px] p-3">
+      {/* <div className="border-[1px] p-3">
         <span className="font-bold ">
           Our professional cleaners are certified and accredited by:
         </span>
@@ -86,7 +86,7 @@ const Homecontent = () => {
         <div className="flex text-center italic">
           Your certifications go here
         </div>
-      </div>
+      </div> */}
 
       {/* Domestic cleaning service in London */}
       <div className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-home-domestic-cleaning1  md:bg-home-domestic-cleaning2 bg-no-repeat bg-cover bg-center md:bg-right-bottom">
@@ -96,7 +96,7 @@ const Homecontent = () => {
               <div className="text-white text-2xl">
                 Domestic Cleaning Service in London
               </div>
-              <p className="mt-3 text-white text-sm leading-6">
+              <p className="mt-3 text-white text-sm md:text-base leading-6">
                 At McLev Cleaning&#44; we offer comprehensive domestic cleaning
                 services across London&#44; tailored to meet the unique needs of
                 your home&#46; Our dedicated team of cleaning professionals is
@@ -107,7 +107,7 @@ const Homecontent = () => {
           </div>
           <article className="py-4 px-6 bg-white/30 mt-1 md:mt-1 hover:scale-[0.98]">
             <div className="text-white text-2xl">About Our Cleaners</div>
-            <p className="mt-3 text-white text-sm leading-6">
+            <p className="mt-3 text-white text-sm leading-6 md:text-base">
               At McLev Cleaning&#44; our dedicated team of professional cleaners
               is committed to delivering exceptional service&#46; <br /> With
               years of expertise in the industry&#44; our cleaners uphold high
@@ -185,7 +185,7 @@ const Homecontent = () => {
                 key={Date.now.toString() + 7}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Professional Excellence&#58; Years of industry expertise ensuring top&#45;quality service&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
                 generalStyle="animate-in"
               />
@@ -193,7 +193,7 @@ const Homecontent = () => {
                 key={Date.now.toString() + 6}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Tailored Solutions&#58; Customized cleaning plans for homes and businesses&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
                 generalStyle="animate-in"
               />
@@ -201,7 +201,7 @@ const Homecontent = () => {
                 key={Date.now.toString() + 5}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Commitment to Quality&#58; Eco&#45;friendly products and meticulous cleaning methods&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
             </div>
@@ -210,21 +210,21 @@ const Homecontent = () => {
                 key={Date.now.toString() + 4}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Trusted Reputation&#58; Reliable&#44; transparent&#44; and customer&#45;focused service&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
               <IconText
                 key={Date.now.toString() + 3}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Competitive Pricing&#58; Fair rates with no hidden costs&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
               <IconText
                 key={Date.now.toString() + 1}
                 icon={<Check size={15} strokeWidth={4} />}
                 text="Convenient Scheduling&#58; Flexible options to fit your busy lifestyle&#46;"
-                textStyle="text-sm leading-6 font-[450]"
+                textStyle="text-sm leading-6 font-[450] md:text-[15px]"
                 iconStyle="text-white rounded-full bg-primarycol p-1 mr-2"
               />
             </div>
@@ -251,7 +251,7 @@ const Homecontent = () => {
             <Loader2 className="animate-spin" />
           </div>
         ) : fetchFeedbacksError ? (
-          <div className="text-center">Could not display feedbacks. </div>
+          <div className="text-center">Service temporarily unavailable&#46;</div>
         ) : (
           fetchFeedbacksData.feedbacks.length > 0 && (
             <div className="relative w-full flex flex-col items-center justify-center overflow-hidden">
@@ -280,13 +280,9 @@ const Homecontent = () => {
             <div className="text-slate-600 text-2xl text-center">
               How to Get in Touch
             </div>
-            <p className="mt-3 text-black/85 text-sm leading-6 text-center">
-              Book a service with <b>McLev Cleaning Company</b> on{" "}
-              <span className="text-secondarycol">{companyPhoneNumber}</span>.
-              You can call us <b>24/7</b> now. We will be more than happy to
-              provide you with all the information you need about our services.
-              Don’t hesitate to take advantage competitive rates! We cover all
-              major London areas and no job is too big or too small for us.
+            <p className="mt-3 text-black/85 leading-6 text-center">
+              Experience the difference with McLev Cleaning&#46; Contact us on{" "}
+              <span className="text-secondarycol">{companyPhoneNumber}</span> today to schedule your cleaning service and discover a cleaner&#44; healthier space&#46;
             </p>
           </article>
 

@@ -4,7 +4,7 @@ import { CarouselWithArrows } from "../Carousel";
 // correct the sliding behaviour of your carousel
 const OurTeam = () => {
   return (
-    <div className="bg-homegray px-4 py-4 flex flex-col items-center">
+    <div className="bg-white px-4 py-4 flex flex-col items-center">
       <div className="flex justify-center">
         <header className="font-bold text-2xl">Our Team</header>
       </div>
@@ -15,15 +15,15 @@ const OurTeam = () => {
           items={[
             <div 
              key={"team1"}
-            className="shadow-lg max-w-[300px] my-8"
+            className="shadow-lg my-8"
             >
-              <div className="flex width-[300px]">
+              <div className="flex">
                 <Image
                   src={"/assets/team/team1.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"
-                  className=""
+                  className="w-full"
                 />
               </div>
               <div className="bg-white text-center p-4">
@@ -32,14 +32,14 @@ const OurTeam = () => {
             </div>,
             <div 
             key={"team2"}
-            className="shadow-lg max-w-[300px] my-8">
-              <div className="flex width-[300px]">
+            className="shadow-lg my-8">
+              <div className="flex">
                 <Image
                   src={"/assets/team/team4.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"
-                  className=""
+                  className="w-full"
                 />
               </div>
               <div className="bg-white text-center p-4">
@@ -48,14 +48,14 @@ const OurTeam = () => {
             </div>,
             <div
              key={"team3"}
-            className="shadow-lg max-w-[300px] my-8">
-              <div className="flex width-[300px]">
+            className="shadow-lg my-8">
+              <div className="flex">
                 <Image
                   src={"/assets/team/team3.jpg"}
                   width={300}
                   height={300}
                   alt="Team member"
-                  className=""
+                  className="w-full"
                 />
               </div>
               <div className="bg-white text-center p-4">

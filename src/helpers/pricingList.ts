@@ -12,84 +12,101 @@ export type PricingList = Pricing[];
 
 export const pricings: PricingList = [
   {
-    service: "Carpet cleaning",
+    service: "Antiviral sanitation",
     prices: [
       {
-        detail: "1 bedroom",
-        price: 23,
-      },
-      {
-        detail: "2 bedroom",
-        price: 32,
-      },
-      {
-        detail: "3 bedroom",
-        price: 34,
-      },
-    ],
-  },{
-    service: "Rug cleaning",
-    prices: [
-      {
-        detail: "1 bedroom",
-        price: 23,
-      },
-      {
-        detail: "2 bedroom",
-        price: 32,
-      },
-      {
-        detail: "3 bedroom",
-        price: 34,
-      },
-    ],
-  },{
-    service: "End Of Tenancy cleaning",
-    prices: [
-      {
-        detail: "1 bedroom",
-        price: 23,
-      },
-      {
-        detail: "2 bedroom",
-        price: 32,
-      },
-      {
-        detail: "3 bedroom",
-        price: 34,
-      },
-    ],
-  },{
-    service: "Uphostery cleaning",
-    prices: [
-      {
-        detail: "1 bedroom",
-        price: 23,
-      },
-      {
-        detail: "2 bedroom",
-        price: 32,
-      },
-      {
-        detail: "3 bedroom",
-        price: 34,
+        detail: "Cleaning service from",
+        price: 15,
       },
     ],
   },
   {
-    service: "Antiviral sanitation",
+    service: "Oven cleaning",
     prices: [
       {
-        detail: "1 bedroom",
-        price: 23,
+        detail: "Cleaning service from",
+        price: 15,
       },
+    ],
+  },
+  {
+    service: "Office cleaning",
+    prices: [
       {
-        detail: "2 bedroom",
-        price: 32,
+        detail: "Cleaning service from",
+        price: 15,
       },
+    ],
+  },
+  {
+    service: "Window cleaning",
+    prices: [
       {
-        detail: "3 bedroom",
-        price: 34,
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Domestic cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "End Of Tenancy cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Deep cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Standard cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Regular cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Move-in/out cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
+      },
+    ],
+  },
+  {
+    service: "Specific Area cleaning",
+    prices: [
+      {
+        detail: "Cleaning service from",
+        price: 15,
       },
     ],
   },

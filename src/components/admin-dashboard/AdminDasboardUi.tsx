@@ -170,7 +170,7 @@ const AdminDashboardUi = ({
   useEffect(() => {
     // register user socket Id
     if (!isConnectedToMsgServerRef.current) {
-      toast("attempting to connect");
+      setIsConnected(false);
       console.log("registering... admin ");
 
       console.log("emmitting... chat input ", getRegisterAdminSecret());

@@ -15,11 +15,13 @@ import { getServiceQuestionaire } from "@/helpers/getServiceQuestionaire";
 import { validateServiceQuestionaire } from "@/helpers/validateServiceQuestionaire";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 
+export type BookingSectionsType = "service type" | "details" | "personal information"
+
 const BookACleaner = () => {
-  // const section = ["choose a service", "details", "personal information"]
+
   const [currentSection, setCurrentSection] = useState<
-    "choose a service" | "details" | "personal information"
-  >("choose a service");
+  BookingSectionsType
+  >("service type");
 
   const [selectedService, setSelectedService] = useState<string>("");
 
@@ -53,7 +55,7 @@ const BookACleaner = () => {
     const dummyReturn = <div className="hidden"></div>;
     console.log("errors ", error, currentSection);
     // manage errors if current section is 'choose a service'
-    if (currentSection === "choose a service") {
+    if (currentSection === "service type") {
       // if a service has been selected and there is still an error message, clear the error message
       if (selectedService !== "" && error.message.title !== "") {
         setError({
@@ -154,18 +156,18 @@ const BookACleaner = () => {
     return <div className="hidden"></div>;
   };
 
-  const currentSectionUiGenerator = (sectionUiToGenerate: string) => {
-    if (sectionUiToGenerate === "choose a service") {
+  const currentSectionUiGenerator = (sectionUiToGenerate: BookingSectionsType) => {
+    if (sectionUiToGenerate === "service type") {
       currentSectionUi = (
         <div className="px-8">
           <div className="pt-4">
             <span>
-              Choose a service<span className="text-red-500">&#42;</span>
+              Service Type<span className="text-red-500">&#42;</span>
             </span>
           </div>
           <div className="flex justify-start pb-8 border-b-[1px] border-greenaccentcol/15">
             <SelectComponent
-              placeholder={"choose a service"}
+              placeholder={"Select a service"}
               label={"Services"}
               itemsToSelect={servicesToSelect}
               onValueChange={setSelectedService}
@@ -209,7 +211,7 @@ const BookACleaner = () => {
   // GENERATE THE CURRENT SECTION
   currentSectionUiGenerator(currentSection);
   {
-    /* DETERMINE IF THERE ARE NO ERROR */
+    /* DETERMINE IF THERE ARE NO ERRORS */
   }
   {
     sectionErrorManager();
@@ -221,10 +223,10 @@ const BookACleaner = () => {
       <div className="p-8 pb-2 text-greenaccentcol">
         <div
           className={`text-[17px] ${
-            currentSection === "choose a service" ? "opacity-100" : "opacity-30"
+            currentSection === "service type" ? "opacity-100" : "opacity-30"
           }`}
         >
-          <span className="text-2xl">&#49;</span> Choose a service
+          <span className="text-2xl">&#49;</span>Service type
         </div>
         <div
           className={`text-[17px] ${
@@ -292,7 +294,7 @@ const BookACleaner = () => {
               </div>
             }
             onClick={() => {
-              if (currentSection === "choose a service") {
+              if (currentSection === "service type") {
                 persistedSelectedServiceRef.current = selectedService;
                 setSelectedService("");
                 setCurrentSection("details");
@@ -306,7 +308,7 @@ const BookACleaner = () => {
         )}
 
         {/* PREVIOUS BUTTON LOGIC */}
-        {currentSection !== "choose a service" && (
+        {currentSection !== "service type" && (
           <HomeheroButton
             text={"Previous"}
             variant={"outline"}
@@ -325,7 +327,7 @@ const BookACleaner = () => {
             onClick={() => {
               setSelectedService("");
               if (currentSection === "details") {
-                setCurrentSection("choose a service");
+                setCurrentSection("service type");
                 setError({
                   isError: true,
                   detailsValidated: false,

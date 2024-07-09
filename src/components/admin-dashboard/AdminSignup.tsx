@@ -4,10 +4,6 @@ import { FC, useEffect, useState } from "react";
 import AdminButton from "@/ui/admin-dashboard/AdminButton";
 import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
-import {
-  AdminLoginSchemaType,
-  adminLoginSchema,
-} from "@/helpers/admin/adminLoginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { trpc } from "@/trpc-client/client";
 import AlertDialogComponent from "../AlertDialogComponent";
@@ -65,14 +61,14 @@ const AdminSignup: FC = (props): React.ReactNode => {
   }, [httpStatus, router])
 
   return (
-    <main className="bg-white">
-      <div className="flex justify-center items-center w-full h-[100vh] bg-primarycol/20">
+    <main className="">
+      <div className="flex justify-center items-center w-full h-[100vh] bg-black/70">
         <div className="flex flex-col w-fit bg-white p-4 py-6 pb-4 rounded-md shadow-xl max-w-[260px]">
           <div className="flex justify-center mb-4 ">
             <span className="font-semibold">Sign Up</span>
           </div>
 
-          {/* LOGIN FORM */}
+          {/* SIGNUP FORM */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>

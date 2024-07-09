@@ -35,10 +35,10 @@ const PricingCollapsible = ({ details }: PricingCollapsibleProps) => {
           return (
             <div
               key={price.detail + price.price + "iuytre"}
-              className="flex justify-between px-2 border-[1px] border-footergray/40"
+              className="flex px-2 border-[1px] border-footergray/40"
             >
-              <div>{price.detail}</div>
-              <div className="text-red-500">&#x24;{price.price}</div>
+              <div className="mr-4">{price.detail}</div>
+              <div className="text-red-500">&#xA3;{price.price}</div>
             </div>
           );
         })}

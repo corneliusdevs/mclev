@@ -14,6 +14,7 @@ import TextSelectQuestionaire from "@/components/book-a-cleaner/TextSelectQuesti
 import AlertDialogComponent from "@/components/AlertDialogComponent";
 import { SelectedOptionWithAnswers } from "@/helpers/updateSelectedOptions";
 import { servicesToSelectLookup } from "@/helpers/servicesToSelect";
+import { companyEmail, companyPhoneNumber } from "@/helpers/siteInfo";
 
 interface PersonalDetailsFormProps {
   bookingInfo?: SelectedOptionWithAnswers[];
@@ -36,36 +37,22 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
     networkMode: "always",
   });
 
-  const router = useRouter();
   const [httpStatus, setHttpStatus] = useState<number>();
 
-  const [selectedTime, setSelectedTime] = useState<string>("");
   const [additionalNotes, setAdditionalNotes] = useState<string>("");
 
-  const controlAm = () => {
-    if (selectedTime === "" || selectedTime === "PM") {
-      return true;
-    }
-    return false;
-  };
-
-  const controlPm = () => {
-    if (selectedTime === "" || selectedTime === "AM") {
-      return true;
-    }
-    return false;
-  };
-
   const onSubmit = async (info: PersonalDetailsSchemaType) => {
-    console.log("selected service is ", servicesToSelectLookup[selectedService]);
+    console.log(
+      "selected service is ",
+      servicesToSelectLookup[selectedService]
+    );
     console.log({
       ...info,
-      selectedTime,
       additionalNotes,
       bookingInfo,
     });
 
-    console.log("this is booking info ", bookingInfo)
+    console.log("this is booking info ", bookingInfo);
 
     // send the request to the api
     if (
@@ -75,7 +62,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
       mutate(
         {
           ...info,
-          prefferedTime: selectedTime,
           additionalNotes,
           selectedService: servicesToSelectLookup[selectedService],
           bookingInfo,
@@ -98,9 +84,11 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
   return (
     <main className="bg-white">
       <div className="flex justify-center items-center min-w-[100%] bg-primarycol/20">
-        <div className="flex flex-col w-full bg-white p-4 py-6">
+        <div className="flex flex-col w-full bg-white p-4 pt-6 pb-1">
           {/* PERSONAL DETAILS FORM */}
           <form onSubmit={handleSubmit(onSubmit)}>
+
+            {/* NAME SECTION */}
             {errors.name && (
               <p className="text-red-500 text-sm">{errors.name.message}</p>
             )}
@@ -110,9 +98,18 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 Name <span className="text-red-500">&#42;</span>
               </span>
             </p>
+            {/* NAME INPUT */}
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input className="p-2" type="text" {...register("name")} />
+              <input
+                className="p-2"
+                type="text"
+                {...register("name")}
+                placeholder="e.g Janet Johnson"
+              />
             </div>
+
+
+            {/* PHONE NUMBER SECTION */}
             {errors.phoneNumber && (
               <p className="text-red-500 text-sm">
                 {errors.phoneNumber.message}
@@ -124,13 +121,18 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 Phone Number <span className="text-red-500">&#42;</span>
               </span>
             </p>
+            {/* PHONE NUMBER INPUT */}
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
               <input
                 className="p-2"
                 type="phone"
+                placeholder={`e.g ${companyPhoneNumber}`}
                 {...register("phoneNumber")}
               />
             </div>
+
+
+            {/* EMAIL SECTION */}
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
@@ -140,9 +142,18 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 Email <span className="text-red-500">&#42;</span>
               </span>
             </p>
+            {/* EMAIL INPUT */}
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input className="p-2" type="text" {...register("email")} />
+              <input
+                className="p-2"
+                placeholder={`e.g ${companyEmail}`}
+                type="text"
+                {...register("email")}
+              />
             </div>
+
+
+            {/* POSTCODE SECTION */}
             {errors.postcode && (
               <p className="text-red-500 text-sm">{errors.postcode.message}</p>
             )}
@@ -152,9 +163,17 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 Postal Code <span className="text-red-500">&#42;</span>
               </span>
             </p>
+            {/* POST CODE INPUT */}
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input className="p-2" type="text" {...register("postcode")} />
+              <input
+                className="p-2"
+                placeholder={`e.g SE18 1LN`}
+                type="text"
+                {...register("postcode")}
+              />
             </div>
+
+            {/* PREFERRED DATE */}
             {errors.prefferedDate && (
               <p className="text-red-500 text-sm">
                 {errors.prefferedDate.message}
@@ -166,35 +185,41 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 Preffered Date <span className="text-red-500">&#42;</span>
               </span>
             </p>
+            {/* PREFERRED DATE INPUT */}
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
               <input
                 className="p-2"
                 type="text"
+                placeholder="e.g dd-mm-yy or dd/mm/yy"
                 {...register("prefferedDate")}
               />
             </div>
 
+
+            {/* PREFERRED TIME SECTION */}
+            {errors.prefferedTime && (
+              <p className="text-red-500 text-sm">
+                {errors.prefferedTime.message}
+              </p>
+            )}
             <p>
               {" "}
               <span>
                 Preffered Time <span className="text-red-500">&#42;</span>
               </span>
             </p>
-            <div className="flex mb-4 w-full">
-              <TextSelectQuestionaire
-                checkOff={controlAm()}
-                onSelected={setSelectedTime}
-                className={"max-w-[100px]"}
-                option={{ caption: "AM" }}
-              />
-              <div className="w-[100px]"></div>
-              <TextSelectQuestionaire
-                checkOff={controlPm()}
-                onSelected={setSelectedTime}
-                className={"max-w-[100px]"}
-                option={{ caption: "PM" }}
+            {/* PREFERRED TIME INPUT */}
+            <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
+              <input
+                className="p-2"
+                type="text"
+                placeholder="e.g 3:00am or 4:00pm"
+                {...register("prefferedTime")}
               />
             </div>
+
+
+            {/* ADDITIONAL NOTES SECTION */}
             {errors.additionalNotes && (
               <p className="text-red-500 text-sm">
                 {errors.additionalNotes.message}
@@ -204,11 +229,15 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
               {" "}
               <span>Additional Notes</span>
             </p>
+            {/* ADDITIONAL NOTES INPUT */}
             <div className="flex items-start">
               <textarea
                 className="p-2 border-[1.5px] border-primarycol/10"
+                placeholder="Do you have any additional instructions or information that would help us provide the best service?"
                 {...register("additionalNotes")}
-                onChange={(e) => {setAdditionalNotes(e.target.value)}}
+                onChange={(e) => {
+                  setAdditionalNotes(e.target.value);
+                }}
                 value={additionalNotes}
                 rows={10}
                 cols={50}
@@ -221,8 +250,6 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                 title={
                   typeof Object.values(errors)[0]?.message !== "undefined"
                     ? Object.values(errors)[0].message
-                    : selectedTime === ""
-                    ? "Please select a preferred time"
                     : isLoading === true
                     ? "Processing..."
                     : httpStatus === 201
@@ -245,7 +272,7 @@ const PersonalDetailsForm: FC<PersonalDetailsFormProps> = ({
                   <AdminButton
                     type="submit"
                     text="Submit"
-                    className="bg-secondarycol px-8 transform hover:scale-90"
+                    className="bg-secondarycol px-8 transform hover:bg-white hover:text-secondarycol hover:border-[2px] hover:border-secondarycol"
                     onClick={() => {
                       console.log("form state errors ", errors);
                     }}

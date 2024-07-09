@@ -7,16 +7,16 @@ import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import AlertDialogComponent from "@/components/AlertDialogComponent";
-import { ContactUsFormSchemaType, contactUsFormSchema } from "@/helpers/contactUsFormSchema";
+import {
+  ContactUsFormSchemaType,
+  contactUsFormSchema,
+} from "@/helpers/contactUsFormSchema";
 import { validatePhoneNumber } from "@/helpers/utilities";
+import { companyEmail, companyPhoneNumber } from "@/helpers/siteInfo";
 
-interface ContactUsFormProps {
+interface ContactUsFormProps {}
 
-}
-
-const ContactUsForm: FC<ContactUsFormProps> = ({
-
-}): React.ReactNode => {
+const ContactUsForm: FC<ContactUsFormProps> = ({}): React.ReactNode => {
   const {
     register,
     handleSubmit,
@@ -32,34 +32,33 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
   const router = useRouter();
   const [httpStatus, setHttpStatus] = useState<number>();
 
-
   const [contactMessage, setContactMessage] = useState<string>("");
-  const [phoneNumber, setPhoneNumber ] = useState<string>("");
-
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
 
   const onSubmit = async (info: ContactUsFormSchemaType) => {
-    if(!(phoneNumber !== "" && !validatePhoneNumber(phoneNumber)) && contactMessage !== ""){
-      
+    if (
+      !(phoneNumber !== "" && !validatePhoneNumber(phoneNumber)) &&
+      contactMessage !== ""
+    ) {
       // send the request to the api
-        mutate(
-          {
-            ...info,
-            message: contactMessage ? contactMessage : ""
+      mutate(
+        {
+          ...info,
+          message: contactMessage ? contactMessage : "",
+        },
+        {
+          onSuccess: (data) => {
+            console.log("submit contact form success ", data);
+            setHttpStatus(data.httpStatus);
+            // router.push("/admin-dashboard");
           },
-          {
-            onSuccess: (data) => {
-              console.log("submit contact form success ", data);
-              setHttpStatus(data.httpStatus);
-              // router.push("/admin-dashboard");
-            },
-            onError: (error) => {
-              setHttpStatus(error.data?.httpStatus);
-              console.log("error creating booking ", error);
-            },
-          }
-        );
+          onError: (error) => {
+            setHttpStatus(error.data?.httpStatus);
+            console.log("error creating booking ", error);
+          },
+        }
+      );
     }
-    
   };
 
   return (
@@ -78,10 +77,15 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
               </span>
             </p>
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input className="p-2" type="text" {...register("name")} />
+              <input
+                className="p-2"
+                placeholder="e.g Janet Johnson"
+                type="text"
+                {...register("name")}
+              />
             </div>
-           
-           
+
+            {/* EMAIL FIELD */}
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
@@ -92,9 +96,15 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
               </span>
             </p>
             <div className="flex flex-col mb-4 w-full border-[1px] border-primarycol/10">
-              <input className="p-2" type="text" {...register("email")} />
+              <input
+                className="p-2"
+                placeholder={`e.g ${companyEmail}`}
+                type="text"
+                {...register("email")}
+              />
             </div>
 
+            {/* PHONE FIELD */}
             <p>
               {" "}
               <span>Phone</span>
@@ -102,14 +112,17 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
             <div className="flex items-start mb-4">
               <input
                 className="p-2 border-[1.5px] border-primarycol/10 w-full"
-                onChange={(e) => {setPhoneNumber(e.target.value)}}
+                onChange={(e) => {
+                  setPhoneNumber(e.target.value);
+                }}
                 value={phoneNumber}
                 type={"number"}
                 // example uk number
-                placeholder="e.g 020 3092 4468"
+                placeholder={`e.g ${companyPhoneNumber}`}
               />
             </div>
 
+            {/* SUBJECT FIELD */}
             {errors.subject && (
               <p className="text-red-500 text-sm">{errors.subject.message}</p>
             )}
@@ -123,6 +136,7 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
               <input className="p-2" type="text" {...register("subject")} />
             </div>
 
+           {/* YOUR MESSAGE FIELD */}
             {errors.yourMessage && (
               <p className="text-red-500 text-sm">
                 {errors.yourMessage.message}
@@ -136,7 +150,9 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
               <textarea
                 className="p-2 border-[1.5px] border-primarycol/10"
                 {...register("yourMessage")}
-                onChange={(e) => {setContactMessage(e.target.value)}}
+                onChange={(e) => {
+                  setContactMessage(e.target.value);
+                }}
                 value={contactMessage}
                 rows={10}
                 cols={50}
@@ -151,9 +167,9 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
                     ? Object.values(errors)[0].message
                     : isLoading === true
                     ? "Processing..."
-                    : (phoneNumber !== "" && !validatePhoneNumber(phoneNumber)) 
+                    : phoneNumber !== "" && !validatePhoneNumber(phoneNumber)
                     ? "Invalid Phone Number"
-                    : contactMessage === "" 
+                    : contactMessage === ""
                     ? "Message cannot be empty"
                     : httpStatus === 201
                     ? "Thanks for reaching out."
@@ -175,7 +191,7 @@ const ContactUsForm: FC<ContactUsFormProps> = ({
                   <AdminButton
                     type="submit"
                     text="Submit"
-                    className="bg-secondarycol px-8 transform hover:scale-90"
+                    className="bg-secondarycol px-8 transform hover:border-[2px] hover:border-secondarycol hover:text-secondarycol hover:bg-white"
                     onClick={() => {
                       console.log("form state errors ", errors);
                     }}
