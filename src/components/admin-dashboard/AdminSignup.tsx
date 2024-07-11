@@ -53,12 +53,11 @@ const AdminSignup: FC = (props): React.ReactNode => {
     );
   };
 
-  useEffect(()=>{
-
-    if(httpStatus === 201){
+  useEffect(() => {
+    if (httpStatus === 201) {
       router.push("/sign-in");
     }
-  }, [httpStatus, router])
+  }, [httpStatus, router]);
 
   return (
     <main className="">

@@ -10,7 +10,7 @@ const PricingBanner = () => {
           height={500}
           quality={100}
           alt="Pricing banner"
-          className="w-full h-[60vh] object-fill"
+          className="w-full [52vh] md:h-[60vh] object-fill"
           // className="w-full h-[50vh] object-fill lg:object-cover lg:-bg-[bottom_100px]"
         />
       </div>

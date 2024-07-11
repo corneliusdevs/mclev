@@ -69,13 +69,16 @@ const DesktopNavbar: FC<DesktopNavbarProps> = () => {
   }, [scrollYPositionRef.current]);
 
   const shouldBgBeWhite = (currentPath: string) => {
+    // determines if the desktop nav bar should have a transparent or white background based on the current url
     if (
       currentPath?.toLowerCase().indexOf("contact") !== -1 ||
       currentPath?.toLowerCase().indexOf("book") !== -1 ||
       currentPath?.toLowerCase().indexOf("admin") !== -1 ||
       currentPath?.toLowerCase().indexOf("sign") !== -1 ||
       currentPath?.toLowerCase().indexOf("log") !== -1 ||
-      currentPath?.toLowerCase().indexOf("auth") !== -1
+      currentPath?.toLowerCase().indexOf("auth") !== -1 ||
+      currentPath?.toLowerCase().indexOf("policy") !== -1 ||
+      currentPath?.toLowerCase().indexOf("conditions") !== -1
     ) {
       return true;
     }

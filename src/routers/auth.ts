@@ -1,12 +1,18 @@
+import ClientSideCookiesManager from "@/app/cookieManager";
 import connectToDb from "@/db/connectToDb";
 import adminUserModel, { TAdminUser } from "@/db/models/admin-user-model";
 import userModel, { TUser } from "@/db/models/user-model";
-import { validateCreateAdminAccountPassword } from "@/lib/utils";
+import {
+  validateAdminSignInSecret,
+  validateCreateAdminAccountPassword,
+} from "@/lib/utils";
 import { publicProcedure, router } from "@/trpc-server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError } from "@trpc/server";
 import * as z from "zod";
 const bcrypt = require("bcrypt");
+
+// note, all these return values are returned as part of the data object so, you will most likely handle error in the onSuccess handler part of the mutate function of trpc
 
 export const authRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -80,6 +86,85 @@ export const authRouter = router({
     };
   }),
 
+  // this route sets a cookie when the necessary parameters are sent in
+  setCookie: publicProcedure
+    .input((v) => {
+      const schema = z.object({
+        cookieName: z.string(),
+        maxAgeInSeconds: z.number(),
+        cookieValue: z.string(),
+      });
+
+      const result = schema.safeParse(v);
+
+      if (!result.success) {
+        console.log(
+          "error while validating inputs for setCookie route in auth router"
+        );
+        throw result.error;
+      }
+
+      return result.data;
+    })
+    .mutation(async (params) => {
+      const cookieManager = new ClientSideCookiesManager();
+
+      let isCreated: boolean = cookieManager.setCookie(
+        params.input.cookieName,
+        params.input.cookieValue,
+        params.input.maxAgeInSeconds
+      );
+
+      if (isCreated) {
+        return {
+          httpStatus: 201,
+          success: true,
+        };
+      }
+
+      // note, all these return values are returned as part of the data object so, you will most likely handle error in the onSuccess handler part of the mutate function of trpc
+      return {
+        httpStatus: 500,
+        success: false,
+      };
+    }),
+
+  validateAdminSignInPass: publicProcedure
+    .input((v) => {
+      const schema = z.object({
+        password: z.string(),
+      });
+      const result = schema.safeParse(v);
+      if (!result.success) {
+        console.log("error validating admin sign in password ", result.error);
+        throw result.error;
+      }
+
+      return result.data;
+    })
+    .mutation(async (params) => {
+      console.log(params.input);
+
+      let isValid = false;
+      if (validateAdminSignInSecret(params.input.password)) {
+        isValid = true;
+      } else {
+        isValid = false;
+      }
+
+      if (isValid) {
+        return {
+          httpStatus: 200,
+          message: "Success",
+        };
+      }
+
+      return {
+        httpStatus: 500,
+        message: "Internal Server error",
+      };
+    }),
+
   signUpAdmin: publicProcedure
     .input((v) => {
       const schema = z.object({
@@ -96,10 +181,6 @@ export const authRouter = router({
     })
     .mutation(async (params) => {
       console.log(params.input);
-      //   const connect = async () => {
-      //     console.log("calling connect");
-      //     await dbConnect();
-      //   };
 
       if (!validateCreateAdminAccountPassword(params.input.password)) {
         return {

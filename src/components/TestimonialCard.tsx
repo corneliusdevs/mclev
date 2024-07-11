@@ -63,7 +63,7 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
           )}
         </CardHeader>
         <CardContent>
-          <div className="scroll h-[72px] leading-6 w-fit mt-1.5 text-black/75 px-[3px]">
+          <div className="scroll h-[72px] leading-6 w-[95%] mt-1.5 text-black/75 px-[3px]">
             {
               props.review
             }
@@ -72,7 +72,7 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
         <CardFooter>
           {
             props?.response && props&&
-          <div className="scroll h-[57px] box-border border-l-[1px] border-black px-1.5 text-[13px] ml-2 -mt-2 text-black/75">
+          <div className="scroll h-[57px] box-border border-l-[1px] border-black px-1.5 text-[13px] w-[95%] -mt-2 text-black/75">
             <span className="block text-black/75 font-[600] ">Response from the Owner</span>
              {props.response}
           </div>

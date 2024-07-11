@@ -8,6 +8,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import connectToDb from "@/db/connectToDb";
 import { TUser } from "@/db/models/user-model";
 import adminUserModel from "@/db/models/admin-user-model";
+import { liveChatCookie } from "@/helpers/cookies manager/cookieNames";
 
 // const t = initTRPC.context<typeof createContext>().create({
 //   transformer: superjson,
@@ -78,13 +79,13 @@ export const messagesProcedure = publicProcedure.use(async (opts) => {
 
   let chatCookie;
 
-  if (cookies().get("anon_id")) {
-    chatCookie = cookies().get("anon_id");
+  if (cookies().get(liveChatCookie)) {
+    chatCookie = cookies().get(liveChatCookie);
   } else {
     console.log("cookie expired, setting another one");
     const chatUUID = uuidv4();
     cookies().set({
-      name: "anon_id",
+      name: liveChatCookie,
       value: chatUUID,
       httpOnly: true,
       path: "/",
@@ -92,7 +93,7 @@ export const messagesProcedure = publicProcedure.use(async (opts) => {
       maxAge: maxCookieAgeInSeconds,
     });
 
-    chatCookie = cookies().get("anon_id");
+    chatCookie = cookies().get(liveChatCookie);
   }
 
   return opts.next({

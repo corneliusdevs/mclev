@@ -7,6 +7,7 @@ import Footer from "@/components/footer/Footer";
 import { Provider } from "@/lib/reactQuery-provider";
 import ToastNotifProvider from "@/components/ToastNotifProvider";
 import DesktopNavbar from "@/components/navbar/DesktopNavbar";
+import PrivacyTermsConditionsAcceptanceWrapper from "@/components/PrivacyTermsConditionsAcceptanceWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,7 +35,11 @@ export default function RootLayout({
                 <Tools />
                 <Footer />
               </div>
-              <div id="userchat-portal-root" className="fixed top-0 w-[100fr] h-full z-[40] md:top-[60px] md:right-0 "></div>
+              <div
+                id="userchat-portal-root"
+                className="fixed top-0 w-[100fr] h-full z-[40] md:top-[60px] md:right-0 "
+              ></div>
+              <PrivacyTermsConditionsAcceptanceWrapper />
             </div>
           </ToastNotifProvider>
         </Provider>

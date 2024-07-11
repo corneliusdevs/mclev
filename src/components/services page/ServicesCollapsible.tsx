@@ -54,7 +54,7 @@ const ServicesCollapsible = ({
         {expandService && (
           <div>
             <div className="mt-4 w-full text-justify">
-              {expandService && contentText}
+              {expandService && <pre className="text-base font-serif break-words text-wrap w-full md:w-[500px]">{contentText}</pre>}
             </div>
             <div className="flex pt-4 justify-center items-center mb-2">
               <Link href={"/book-a-cleaner"}>

@@ -193,25 +193,7 @@ const AdminDashboardUi = ({
     }
   }, [isConnectedToMsgServerRef.current]);
 
-  // useEffect(() => {
-  //   // register admin socket Id
-  //   if (emitToMessagesServer) {
-  //     console.log("emmitting... chat input ", getRegisterAdminSecret());
 
-  //     // get the session from localStorage if one exists
-  //     const sessionId = localStorage.getItem("sessionId")
-
-  //     // add the admin userId and secret to the auth object and connect
-  //     socket.auth = {sessionId, userId: "admin", adminSecret : getRegisterAdminSecret()};
-  //     socket.connect();
-
-  //     socket.emit("register-admin", {
-  //       adminSecret: getRegisterAdminSecret()
-  //     });
-  //   }
-
-  //   setEmitToMessagesServer(false);
-  // }, [emitToMessagesServer]);
 
   // CLEANUP ALL EFFECTS IN THIS COMPONENT
   useEffect(() => {
@@ -504,7 +486,7 @@ const AdminDashboardUi = ({
                               />
                             );
                           })}
-                        <div className="absolute top-[50px] lg:top-[38px] right-0 flex items-center justify-center w-[50%] max-w-[700px] p-1.5">
+                        <div className="absolute top-[38px] right-0 flex items-center justify-center w-[50%] max-w-[700px] p-1.5">
                           <Button
                             className="h-[27px] bg-white w-full hover:bg-slate-200 shadow"
                             variant={"ghost"}

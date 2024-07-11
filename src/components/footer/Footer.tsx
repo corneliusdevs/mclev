@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   ArrowRightIcon,
+  ChevronRight,
   Facebook,
   Mail,
   Youtube,
@@ -173,26 +174,38 @@ const Footer = () => {
               />
 
               {/* EMAIL ICON */}
-                <TooltipComponent
-                  info="email"
-                  childComponent={
-                    <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
-                    onClick={()=>{
-                      window.location.href = `mailto:${companyEmail}`
-                   }}>
-                      <Mail className="" size={20} />
-                    </div>
-                  }
-                />
+              <TooltipComponent
+                info="email"
+                childComponent={
+                  <div
+                    className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol"
+                    onClick={() => {
+                      window.location.href = `mailto:${companyEmail}`;
+                    }}
+                  >
+                    <Mail className="" size={20} />
+                  </div>
+                }
+              />
             </div>
           </div>
-          
         </div>
       </div>
       {/* copyright */}
       <div className="bg-white text-black/75 text-center font-smallCustom font-thin py-4 flex justify-center items-center">
         &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk | All
-        Rights Reserved | Terms & Conditions | Privacy Policy
+        Rights Reserved |{" "} 
+        <Link href={"/termsandconditions"} className="underline mx-2">
+          Terms & Conditions{" "}
+        </Link>{" "} 
+        |{" "} 
+        <Link href={"/privacypolicy"} className="underline mx-2">
+          Privacy Policy
+        </Link> 
+        | {" "} 
+        <Link href={"/cookiespolicy"} className="underline mx-2">
+          Cookies Policy
+        </Link>
       </div>
     </footer>
   );
