@@ -39,7 +39,7 @@ const PrivacyTermsConditionsAcceptance = () => {
         !isOpen ? "hidden" : "flex flex-col "
       } fixed bottom-4 right-2 z-[40] shadow-xl`}
     >
-      <div className="flex flex-col justify-center items-center w-[300px] relative bg-second">
+      <div className="flex flex-col justify-center items-center w-full md:w-[300px] relative bg-second">
         <div className="bg-secondarycol/100 text-white rounded-sm shadow-2xl px-4 py-6">
           By Using our site, you consent to our{" "}
           <span className="underline">

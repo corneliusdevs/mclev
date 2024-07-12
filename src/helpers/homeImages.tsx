@@ -256,7 +256,7 @@ Whether you need a focused deep clean in your kitchen, a refreshed bathroom, or 
 
 
 // slice first 6 items from services payload 
-export const homeServicesGalleryInfo = servicesPayload.slice(0, 5)
+export const homeServicesGalleryInfo = servicesPayload.slice(0, 6)
 
 
 export const happyCustomersImages = [
