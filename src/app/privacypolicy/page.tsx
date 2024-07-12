@@ -5,7 +5,7 @@ const PrivacyPolicyPage = () => {
   return (
     <MaxwidthWrapper>
       <main className="px-2 md:px-4">
-        <div className="mt-[70px]">
+        <div className="lg:mt-[70px]">
           <h1 className="font-bold text-xl">Privacy Policy</h1>
 
           {/* INTRODUCTION */}

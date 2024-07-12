@@ -3,7 +3,7 @@ import MaxwidthWrapper from "@/components/Max_Min_widthWrapper";
 const CookiesPolicyPage = () => {
   return (
     <MaxwidthWrapper>
-      <main className="mt-[70px] px-2 md:px-4">
+      <main className="lg:mt-[70px] px-2 md:px-4">
         <h1 className="text-xl font-bold">Cookies Policy</h1>
 
         {/* INTRODUCTION */}

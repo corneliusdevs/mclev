@@ -192,20 +192,24 @@ const Footer = () => {
         </div>
       </div>
       {/* copyright */}
-      <div className="bg-white text-black/75 text-center font-smallCustom font-thin py-4 flex justify-center items-center">
-        &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk | All
-        Rights Reserved |{" "} 
-        <Link href={"/termsandconditions"} className="underline mx-2">
-          Terms & Conditions{" "}
-        </Link>{" "} 
-        |{" "} 
-        <Link href={"/privacypolicy"} className="underline mx-2">
-          Privacy Policy
-        </Link> 
-        | {" "} 
-        <Link href={"/cookiespolicy"} className="underline mx-2">
-          Cookies Policy
-        </Link>
+      <div className="bg-white text-black/75 text-center font-smallCustom py-4 flex flex-col justify-center items-center break-words">
+        <div>
+          &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk |
+          All Rights Reserved |{" "}
+          <Link href={"/termsandconditions"} className="underline mx-2">
+            Terms & Conditions{" "}
+          </Link>{" "}
+          |{" "}
+        </div>
+        <div>
+          <Link href={"/privacypolicy"} className="underline mx-2">
+            Privacy Policy
+          </Link>
+          |{" "}
+          <Link href={"/cookiespolicy"} className="underline mx-2">
+            Cookies Policy
+          </Link>
+        </div>
       </div>
     </footer>
   );
