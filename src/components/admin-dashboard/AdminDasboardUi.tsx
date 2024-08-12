@@ -486,7 +486,7 @@ const AdminDashboardUi = ({
                               />
                             );
                           })}
-                        <div className="absolute top-[38px] right-0 flex items-center justify-center w-[50%] max-w-[700px] p-1.5">
+                        <div className="absolute top-[90px] lg:top-[38px] right-0 flex items-center justify-center w-[50%] max-w-[700px] p-1.5 z-[10]">
                           <Button
                             className="h-[27px] bg-white w-full hover:bg-slate-200 shadow"
                             variant={"ghost"}

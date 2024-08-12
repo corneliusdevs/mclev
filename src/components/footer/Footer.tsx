@@ -192,7 +192,7 @@ const Footer = () => {
         </div>
       </div>
       {/* copyright */}
-      <div className="bg-white text-black/75 text-center font-smallCustom py-4 flex flex-col justify-center items-center break-words">
+      <div className="bg-white text-black/75 text-center font-smallCustom py-4 flex flex-col justify-center items-center break-words px-2">
         <div>
           &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk |
           All Rights Reserved |{" "}

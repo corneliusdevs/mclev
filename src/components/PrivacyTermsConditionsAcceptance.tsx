@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { privacy_Terms_Cond_Cookies_Policies_Acceptance_Cookie } from "@/helpers/cookies manager/cookieNames";
 import { trpc } from "@/trpc-client/client";
@@ -37,11 +37,11 @@ const PrivacyTermsConditionsAcceptance = () => {
     <main
       className={`${
         !isOpen ? "hidden" : "flex flex-col "
-      } fixed bottom-4 right-2 z-[40] shadow-xl`}
+      } fixed bottom-0 smd:right-2 z-[40] shadow-xl px-4 bg-white smd:bg-transparent smd:bg-none`}
     >
-      <div className="flex flex-col justify-center items-center w-full md:w-[300px] relative bg-second">
-        <div className="bg-secondarycol/100 text-white rounded-sm shadow-2xl px-4 py-6">
-          By Using our site, you consent to our{" "}
+      <div className="flex flex-col justify-center items-center w-full -my-4 mb-2 smd:w-[300px] md:w-[300px] relative bg-second">
+        <div className="bg-secondarycol/100 text-white rounded-sm shadow-2xl px-4 py-6 text-sm  md:text-[14.5px] lg:text-[15px]">
+          By using our site, you agree to our{" "}
           <span className="underline">
             <Link href={"/termsandconditions"}>Terms and Conditions</Link>
           </span>

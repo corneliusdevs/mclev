@@ -95,28 +95,28 @@ export type ServiceQuestionaire = {
 };
 
 export const antiviralServiceQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your place",
-    required: true,
-    options: [
-      {
-        imageSrc: "working.png",
-        caption: "Studio",
-      },
-      {
-        imageSrc: "flats1.png",
-        caption: "House/Flat",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your place",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "working.png",
+  //       caption: "Studio",
+  //     },
+  //     {
+  //       imageSrc: "flats1.png",
+  //       caption: "House/Flat",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -168,88 +168,88 @@ export const antiviralServiceQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your place",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your place",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -301,88 +301,88 @@ export const endofTenancyCleaningQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const officeCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your office",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your office",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -434,88 +434,88 @@ export const officeCleaningQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const regularCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your office",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your office",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -567,88 +567,88 @@ export const regularCleaningQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const specificAreaCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your office",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+//   {
+//     questionaireType: "ImageWithCaption",
+//     question: "Please tell us about your office",
+//     required: true,
+//     options: [
+//       {
+//         imageSrc: "house.png",
+//         caption: "Single",
+//       },
+//       {
+//         imageSrc: "flats.png",
+//         caption: "Double",
+//       },
+//     ],
+//   },
+//   {
+//     questionaireType: "ImageWithCaption",
+//     question: "Which of the following applies to your property",
+//     required: true,
+//     options: [
+//       {
+//         imageSrc: "kitchen-table.png",
+//         caption: "Combined kitchen/living",
+//       },
+//       {
+//         imageSrc: "kitchen2.png",
+//         caption: "Separated kitchen/living",
+//       },
+//       {
+//         imageSrc: "washing-machine.png",
+//         caption: "Utility room",
+//       },
+//       {
+//         imageSrc: "studyroom-office.png",
+//         caption: "Study room/office",
+//       },
+//       {
+//         imageSrc: "conservatory.png",
+//         caption: "Conservatory",
+//       },
+//       {
+//         imageSrc: "additional-areas.png",
+//         caption: "Additional areas",
+//       },
+//     ],
+//   },
+//   {
+//     questionaireType: "TextSelect",
+//     question: "How would you like your carpets/rugs to be cleaned?",
+//     required: true,
+//     options: [
+//       {
+//         caption: "Hoovered only",
+//       },
+//       {
+//         caption: "Professionally cleaned",
+//       },
+//       {
+//         caption: "I don't have carpets",
+//       },
+//     ],
+//   },
+//   {
+//     questionaireType: "TextSelect",
+//     question: "Are there any blinds, which would require dusting?",
+//     required: true,
+//     options: [
+//       {
+//         caption: "Yes",
+//       },
+//       {
+//         caption: "No",
+//       },
+//     ],
+//   },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -700,88 +700,88 @@ export const specificAreaCleaningQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const moveInOutCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your office",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your office",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -835,88 +835,88 @@ export const moveInOutCleaningQuestionaire: ServiceQuestionaire[] = [
 
 
 export const standardCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your place standard",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your place standard",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -969,88 +969,88 @@ export const standardCleaningQuestionaire: ServiceQuestionaire[] = [
 
 
 export const deepCleaningQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your place deep clean",
-    required: true,
-    options: [
-      {
-        imageSrc: "house.png",
-        caption: "Single",
-      },
-      {
-        imageSrc: "flats.png",
-        caption: "Double",
-      },
-    ],
-  },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which of the following applies to your property",
-    required: true,
-    options: [
-      {
-        imageSrc: "kitchen-table.png",
-        caption: "Combined kitchen/living",
-      },
-      {
-        imageSrc: "kitchen2.png",
-        caption: "Separated kitchen/living",
-      },
-      {
-        imageSrc: "washing-machine.png",
-        caption: "Utility room",
-      },
-      {
-        imageSrc: "studyroom-office.png",
-        caption: "Study room/office",
-      },
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "additional-areas.png",
-        caption: "Additional areas",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "How would you like your carpets/rugs to be cleaned?",
-    required: true,
-    options: [
-      {
-        caption: "Hoovered only",
-      },
-      {
-        caption: "Professionally cleaned",
-      },
-      {
-        caption: "I don't have carpets",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "Are there any blinds, which would require dusting?",
-    required: true,
-    options: [
-      {
-        caption: "Yes",
-      },
-      {
-        caption: "No",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your place deep clean",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "house.png",
+  //       caption: "Single",
+  //     },
+  //     {
+  //       imageSrc: "flats.png",
+  //       caption: "Double",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which of the following applies to your property",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "kitchen-table.png",
+  //       caption: "Combined kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "kitchen2.png",
+  //       caption: "Separated kitchen/living",
+  //     },
+  //     {
+  //       imageSrc: "washing-machine.png",
+  //       caption: "Utility room",
+  //     },
+  //     {
+  //       imageSrc: "studyroom-office.png",
+  //       caption: "Study room/office",
+  //     },
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "additional-areas.png",
+  //       caption: "Additional areas",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "How would you like your carpets/rugs to be cleaned?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Hoovered only",
+  //     },
+  //     {
+  //       caption: "Professionally cleaned",
+  //     },
+  //     {
+  //       caption: "I don't have carpets",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "Are there any blinds, which would require dusting?",
+  //   required: true,
+  //   options: [
+  //     {
+  //       caption: "Yes",
+  //     },
+  //     {
+  //       caption: "No",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -1102,77 +1102,77 @@ export const deepCleaningQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const carpetOrRugCleaningServiceQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Which areas need carpet cleaning",
-    required: true,
-    options: [
-      {
-        imageSrc: "bedroom.png",
-        caption: "Bedroom",
-      },
-      {
-        imageSrc: "living-room.png",
-        caption: "Living room",
-      },
-      {
-        imageSrc: "diningroom.png",
-        caption: "Dining room",
-      },
-      {
-        imageSrc: "hallway.png",
-        caption: "Hallway",
-      },
-      {
-        imageSrc: "staircase.png",
-        caption: "Staircase",
-      },
-      {
-        imageSrc: "landing.png",
-        caption: "Landing",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Which areas need carpet cleaning",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "bedroom.png",
+  //       caption: "Bedroom",
+  //     },
+  //     {
+  //       imageSrc: "living-room.png",
+  //       caption: "Living room",
+  //     },
+  //     {
+  //       imageSrc: "diningroom.png",
+  //       caption: "Dining room",
+  //     },
+  //     {
+  //       imageSrc: "hallway.png",
+  //       caption: "Hallway",
+  //     },
+  //     {
+  //       imageSrc: "staircase.png",
+  //       caption: "Staircase",
+  //     },
+  //     {
+  //       imageSrc: "landing.png",
+  //       caption: "Landing",
+  //     },
+  //   ],
+  // },
 
-  {
-    questionaireType: "ImageWithLongCaption",
-    question: "If there are any rugs to be cleaned, please select below",
-    required: false,
-    options: [
-      {
-        imageSrc: "smallrug.png",
-        caption: "Small / up to 4sq.m",
-      },
-      {
-        imageSrc: "medium-rug.png",
-        caption: "Medium / up to 8sq.m",
-      },
-      {
-        imageSrc: "large-rug.png",
-        caption: "Large / up to 15sq.m",
-      },
-    ],
-  },
-  {
-    questionaireType: "TextSelect",
-    question: "What fibres are your carpets/rugs made of?",
-    required: false,
-    options: [
-      {
-        caption: "Standard / fabric, synthetic, etc",
-      },
-      {
-        caption: "Delicate / wool, cotton, etc",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithLongCaption",
+  //   question: "If there are any rugs to be cleaned, please select below",
+  //   required: false,
+  //   options: [
+  //     {
+  //       imageSrc: "smallrug.png",
+  //       caption: "Small / up to 4sq.m",
+  //     },
+  //     {
+  //       imageSrc: "medium-rug.png",
+  //       caption: "Medium / up to 8sq.m",
+  //     },
+  //     {
+  //       imageSrc: "large-rug.png",
+  //       caption: "Large / up to 15sq.m",
+  //     },
+  //   ],
+  // },
+  // {
+  //   questionaireType: "TextSelect",
+  //   question: "What fibres are your carpets/rugs made of?",
+  //   required: false,
+  //   options: [
+  //     {
+  //       caption: "Standard / fabric, synthetic, etc",
+  //     },
+  //     {
+  //       caption: "Delicate / wool, cotton, etc",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -1224,29 +1224,29 @@ export const carpetOrRugCleaningServiceQuestionaire: ServiceQuestionaire[] = [
 ];
 
 export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Please tell us about your place",
-    required: true,
-    options: [
-      {
-        imageSrc: "flats1.png",
-        caption: "Flat",
-      },
-      {
-        imageSrc: "terraced-house.png",
-        caption: "Terraced House",
-      },
-      {
-        imageSrc: "semi-detached-house.png",
-        caption: "Semi detached",
-      },
-      {
-        imageSrc: "detached-house.png",
-        caption: "Detached House",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Please tell us about your place",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "flats1.png",
+  //       caption: "Flat",
+  //     },
+  //     {
+  //       imageSrc: "terraced-house.png",
+  //       caption: "Terraced House",
+  //     },
+  //     {
+  //       imageSrc: "semi-detached-house.png",
+  //       caption: "Semi detached",
+  //     },
+  //     {
+  //       imageSrc: "detached-house.png",
+  //       caption: "Detached House",
+  //     },
+  //   ],
+  // },
 
   {
     questionaireType: "TextSelect",
@@ -1257,11 +1257,9 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
         caption: "Inside",
       },
       {
-        imageSrc: "oven3.png",
         caption: "Outside",
       },
       {
-        imageSrc: "oven3.png",
         caption: "Inside and Outside",
       },
     ],
@@ -1272,32 +1270,32 @@ export const windowCleaningServiceQuestionaire: ServiceQuestionaire[] = [
     question: "How many windows do you have?",
     required: true,
   },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "Would you also like us to clean",
-    required: false,
-    options: [
-      {
-        imageSrc: "conservatory.png",
-        caption: "Conservatory",
-      },
-      {
-        imageSrc: "glass-roof.png",
-        caption: "Glass roof",
-      },
-      {
-        imageSrc: "skylight-window.png",
-        caption: "Skylight",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "Would you also like us to clean",
+  //   required: false,
+  //   options: [
+  //     {
+  //       imageSrc: "conservatory.png",
+  //       caption: "Conservatory",
+  //     },
+  //     {
+  //       imageSrc: "glass-roof.png",
+  //       caption: "Glass roof",
+  //     },
+  //     {
+  //       imageSrc: "skylight-window.png",
+  //       caption: "Skylight",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",
@@ -1356,19 +1354,19 @@ export const ovencleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "oven4.png",
         caption: "Single",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "oven5.png",
         caption: "Double",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "range-cooker-oven.png",
         caption: "Range cooker",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "aga-cooker.png",
         caption: "AGA oven",
       },
     ],
@@ -1379,15 +1377,15 @@ export const ovencleaningServiceQuestionaire: ServiceQuestionaire[] = [
     required: true,
     options: [
       {
-        imageSrc: "oven3.png",
+        imageSrc: "hob.png",
         caption: "Hobs",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "tiles.png",
         caption: "Splashback",
       },
       {
-        imageSrc: "oven3.png",
+        imageSrc: "extractor.png",
         caption: "Extractor",
       },
       {
@@ -1396,36 +1394,36 @@ export const ovencleaningServiceQuestionaire: ServiceQuestionaire[] = [
       },
     ],
   },
-  {
-    questionaireType: "ImageWithCaption",
-    question: "For a spotless kitchen we also recommend/add:",
-    required: true,
-    options: [
-      {
-        imageSrc: "oven3.png",
-        caption: "Fridge",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Microwave",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Washing machine",
-      },
-      {
-        imageSrc: "oven3.png",
-        caption: "Dishwasher",
-      },
-    ],
-  },
+  // {
+  //   questionaireType: "ImageWithCaption",
+  //   question: "For a spotless kitchen we also recommend/add:",
+  //   required: true,
+  //   options: [
+  //     {
+  //       imageSrc: "oven3.png",
+  //       caption: "Fridge",
+  //     },
+  //     {
+  //       imageSrc: "oven3.png",
+  //       caption: "Microwave",
+  //     },
+  //     {
+  //       imageSrc: "oven3.png",
+  //       caption: "Washing machine",
+  //     },
+  //     {
+  //       imageSrc: "oven3.png",
+  //       caption: "Dishwasher",
+  //     },
+  //   ],
+  // },
   {
     questionaireType: "UserInput",
     inputType: "string",
     titleText: "Frequency",
     question: "How often do you need cleaning?",
     required: true,
-    placeholderText: "e.g weekly, bi-weekly, monthly,one-time."
+    placeholderText: "e.g weekly, bi-weekly, monthly, one-time."
   },
   {
     questionaireType: "UserInput",

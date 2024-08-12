@@ -1,11 +1,30 @@
-FROM node:lts-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+# Build stage
+FROM node:18-alpine AS builder
+WORKDIR /app
+
+# Copy the package files and install dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy the app code and build the application
 COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:18-alpine
+WORKDIR /app
+
+# Copy the built assets from the builder stage
+COPY --from=builder /app/.next /app/.next
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/package-lock.json /app/package-lock.json
+
+# Install production dependencies
+RUN npm ci --only=production
+
+# Expose the port
 EXPOSE 3000
-RUN chown -R node /usr/src/app
-USER node
+
+# Start the Next.js production server
 CMD ["npm", "start"]
 

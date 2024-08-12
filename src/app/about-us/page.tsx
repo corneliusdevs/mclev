@@ -12,7 +12,7 @@ const AboutPage = ()=>(
     <FewWordsAbout />
     <TheCompanyYouCanTrust />
     {/* <HistoryComponent /> */}
-    <OurTeam />
+    {/* <OurTeam /> */}
     <AboutCallToAction />
   </main>
 )

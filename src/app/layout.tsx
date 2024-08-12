@@ -9,6 +9,7 @@ import ToastNotifProvider from "@/components/ToastNotifProvider";
 import DesktopNavbar from "@/components/navbar/DesktopNavbar";
 import PrivacyTermsConditionsAcceptanceWrapper from "@/components/PrivacyTermsConditionsAcceptanceWrapper";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
