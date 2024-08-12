@@ -13,7 +13,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import Link from "next/link";
 import "./homeContent.css";
 import Image from "next/image";
-import React from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { Button } from "../ui/button";
 
 const Homecontent = () => {
@@ -22,6 +22,14 @@ const Homecontent = () => {
     error: fetchFeedbacksError,
     isLoading: isFetchingFeedbacks,
   } = trpc.feedback.get.useQuery();
+
+const [bgImageUrl, setBgImageUrl ] = useState("assets/home/cleaning12.jpeg");
+
+useLayoutEffect(()=>{
+  // determine if we are on mobilee or on desktop to know which image to render
+  window.matchMedia("(max-width: 767px)").matches ?  setBgImageUrl( "/assets/img/new3.jpg"): setBgImageUrl ("/assets/home/cleaning12.jpeg");
+}, [])
+
 
   const generateFeedbacksUi = (): React.JSX.Element[] => {
     const feebacksUi: React.JSX.Element[] = [];
@@ -89,7 +97,7 @@ const Homecontent = () => {
       </div> */}
 
       {/* Domestic cleaning service in London */}
-      <div className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-home-domestic-cleaning1  md:bg-home-domestic-cleaning2 bg-no-repeat bg-cover bg-center md:bg-right-bottom">
+      <div className="relative w-full flex flex-col items-center justify-center overflow-hidden bg-no-repeat bg-cover bg-center md:bg-right-bottom" style={{backgroundImage:`url(${bgImageUrl})`}}>
         <div className="flex flex-col items-center top-0 bg-black/60 w-full h-full p-2">
           <div className="bg-white/30 hover:scale-[0.98]">
             <article className="py-4 px-6">
@@ -125,7 +133,7 @@ const Homecontent = () => {
       </div>
 
       {/* happy clients carousel */}
-      <div className="pt-4 pb-2">
+      {/* <div className="pt-4 pb-2">
         <div className="text-slate-600 text-xl text-center">
           Our Happy Clients
         </div>
@@ -134,7 +142,7 @@ const Homecontent = () => {
             images={[...happyCustomersImages, ...happyCustomersImages]}
           />
         </div>
-        {/* All clients button
+        All clients button
         <div className="flex justify-center mb-2">
           <HomeheroButton
             text={"ALL CLIENTS"}
@@ -142,8 +150,8 @@ const Homecontent = () => {
             className="mt-4 rounded-none hover:bg-footergray hover:text-white border-black/75 text-black/75"
             size={"default"}
           />
-        </div> */}
-      </div>
+        </div>
+      </div> */}
 
       {/* Cant find service youre looking for section */}
       {/* <div className="bg-homegray flex flex-col items-center py-4">
