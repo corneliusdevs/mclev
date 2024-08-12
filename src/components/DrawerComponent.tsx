@@ -38,7 +38,7 @@ const DrawerComponent: FC<DrawerComponentProps> = ({
           triggerComponent && triggerComponent
         }
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="max-h-[90vh] z-[100]" >
         <DrawerHeader>
           <DrawerTitle>{titleText && titleText}</DrawerTitle>
           <DrawerDescription className="w-fit">
