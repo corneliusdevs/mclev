@@ -107,6 +107,8 @@ interface FeedbackCarouselProps {
   nextArrowClassName?: string;
 }
 
+// Carousel for the feedback displayed in home page
+
 export const FeedbackCarousel: React.FC<FeedbackCarouselProps> = ({
   items,
   previousArrowClassName,

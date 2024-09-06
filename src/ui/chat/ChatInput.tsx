@@ -7,7 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import { ClientSideChatType } from "./UserChatDialog";
 import { trpc } from "@/trpc-client/client";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
+import { getSocketInstance } from "@/lib/socket.io/connectToMsgServerAsync";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 
 
 interface ChatInputProps {
@@ -60,13 +61,17 @@ const ChatInput: FC<ChatInputProps> = ({
       status: "success",
     });
     if (emit) {
-      console.log("emmitting... chat input", " user id is ", userId);
-      socket.emit("send-to-admin", {
-        message: message,
-        userId: userId,
-      });
+      const setUpSocketServerConnection = async()=>{
+        const socket = await getSocketInstance();
+        console.log("emmitting... chat input", " user id is ", userId);
+        socket.emit("send-to-admin", {
+          message: message,
+          userId: userId,
+        });
+      }
+      setUpSocketServerConnection()
     }
-
+    
     setEmit(false);
   }, [emit]);
 

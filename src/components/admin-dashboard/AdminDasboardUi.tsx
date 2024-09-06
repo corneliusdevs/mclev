@@ -11,7 +11,7 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import Bookings from "./bookings/Bookings";
 import { trpc } from "@/trpc-client/client";
 import { Bird, Loader2, Rabbit, RefreshCcw } from "lucide-react";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 import { getRegisterAdminSecret } from "@/lib/utils";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
 // import updateAllAdminChats from "@/helpers/useUpdateAllAdminChats";
@@ -25,6 +25,7 @@ import { v4 as uuidv4 } from "uuid";
 import Feedbacks from "./Feedbacks";
 import updateAllAdminChats from "@/helpers/admin/useUpdateAllAdminChats";
 import Contacts from "./Contacts";
+import { getSocketInstance, isSocketConnected } from "@/lib/socket.io/connectToMsgServerAsync";
 
 interface AdminDashboardUiProps {
   isAdminLoggedIn: boolean;
@@ -177,100 +178,109 @@ const AdminDashboardUi = ({
 
       // get the session from localStorage if one exists
       const sessionId = localStorage.getItem("sessionId");
+      const setUpSocketServerConnection = async () => {
+        const socket = await getSocketInstance();
+        // add the admin userId and secret to the auth object and connect
+        socket.auth = {
+          sessionId,
+          userId: "admin",
+          adminSecret: getRegisterAdminSecret(),
+        };
+        socket.connect();
 
-      // add the admin userId and secret to the auth object and connect
-      socket.auth = {
-        sessionId,
-        userId: "admin",
-        adminSecret: getRegisterAdminSecret(),
+        socket.emit("register-admin", {
+          adminSecret: getRegisterAdminSecret(),
+        });
       };
-      socket.connect();
 
-      socket.emit("register-admin", {
-        adminSecret: getRegisterAdminSecret(),
-      });
+      setUpSocketServerConnection();
+
       isConnectedToMsgServerRef.current = true;
     }
   }, [isConnectedToMsgServerRef.current]);
 
-
-
   // CLEANUP ALL EFFECTS IN THIS COMPONENT
   useEffect(() => {
-    // attach the session id to the next reconnection attempts
-    socket.on("session", ({ sessionId, userId }) => {
-      socket.auth = { sessionId, userId };
-      //  store it in the localStorage
-      localStorage.setItem("sessionId", sessionId);
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+      // attach the session id to the next reconnection attempts
+      socket.on("session", ({ sessionId, userId }) => {
+        socket.auth = { sessionId, userId };
+        //  store it in the localStorage
+        localStorage.setItem("sessionId", sessionId);
 
-      // save the Id of the user
-      // @ts-ignore
-      socket.userId = userId;
-    });
+        // save the Id of the user
+        // @ts-ignore
+        socket.userId = userId;
+      });
+    };
+
+    setUpSocketServerConnection();
 
     // clean up the effects
   }, []);
 
   // listen for socket.io connection error
   useEffect(() => {
-    socket.on("connect_error", () => {
-      console.log("Could not connect to chat server");
-      // set is connected to messages server to false
-      setIsConnected(false);
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+      socket.on("connect_error", () => {
+        console.log("Could not connect to chat server");
+        // set is connected to messages server to false
+        setIsConnected(socket.connected);
 
-      // set is connected to messages server to false
-      isConnectedToMsgServerRef.current = false;
-    });
+        // set is connected to messages server to false
+        isConnectedToMsgServerRef.current = false;
+      });
+    };
 
-    socket.on("connect", () => {
-      // set is connected to messages server to true
-      setIsConnected(true);
+    const checkSocketConnection = () => {
+      const isConnected = isSocketConnected();
+      setIsConnected(isConnected);
+    };
 
-      if (socket.recovered) {
-      }
-    });
+    const interval = setInterval(checkSocketConnection, 5000);
 
-    socket.on("connection-recovered", (last80Msgs: any) => {
-      // set is connected to messages server to true
-      setIsConnected(true);
-
-      console.log("last 80 msgs are", last80Msgs);
-    });
-
-    // clean up the effects
     return () => {
-      socket.off("connect_error");
+      clearInterval(interval);
     };
   }, []);
 
   // cleanup ALL EFFECTS RETURN A FUNCTION THAT UNSUBSCRIBES TO THESE EVENTS
   useEffect(() => {
     console.log("listening to user");
-    socket.on(
-      "new-user-message",
-      (receivedMessages: ClientSideChatType[] | null, userId: string) => {
-        console.log("reciving user message");
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+      socket.on(
+        "new-user-message",
+        (receivedMessages: ClientSideChatType[] | null, userId: string) => {
+          console.log("reciving user message");
 
-        if (receivedMessages?.length && typeof userId === "string") {
-          setShouldUpdateAllChats({
-            isNew: true,
-            allNewMessages: receivedMessages,
-            message: receivedMessages[receivedMessages.length - 1],
-            userId: userId,
-          });
+          if (receivedMessages?.length && typeof userId === "string") {
+            setShouldUpdateAllChats({
+              isNew: true,
+              allNewMessages: receivedMessages,
+              message: receivedMessages[receivedMessages.length - 1],
+              userId: userId,
+            });
 
-          let allReceivedMssgsId: string[] = receivedMessages.map((message) => {
-            return message.id;
-          });
+            let allReceivedMssgsId: string[] = receivedMessages.map(
+              (message) => {
+                return message.id;
+              }
+            );
 
-          // notify the server of recieved messages
-          socket.emit("message-received", {
-            messageIds: allReceivedMssgsId,
-            userId: "admin",
-          });
+            // notify the server of recieved messages
+            socket.emit("message-received", {
+              messageIds: allReceivedMssgsId,
+              userId: "admin",
+            });
+          }
         }
-      }
-    );
+      );
+    };
+
+    setUpSocketServerConnection();
   }, []);
 
   useEffect(() => {

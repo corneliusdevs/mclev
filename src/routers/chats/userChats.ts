@@ -17,6 +17,23 @@ generateUserId: messagesProcedure.query(async (params)=>{
     userId:""
   }
 }),
+// fetchChatServerAddress: publicProcedure.query(async (params)=>{
+//   const chatServerAddress = process.env.CHAT_SERVER_ADDRESS
+//   const fallbackChatServerAddress = process.env.NEXT_PUBLIC_FALLBACK_CHAT_SERVER_ADDRESS
+
+//   let result = ""
+
+//   if(chatServerAddress){
+//     result = chatServerAddress
+//   }else if(fallbackChatServerAddress){
+//     result = fallbackChatServerAddress
+//   }
+
+//   return{
+//     httpStatus: 200,
+//     chatServerAddress: result
+//   }
+// }),
 getAllUserChats: messagesProcedure.query(async (params) => {
 //   const connect = async () => {
 //     console.log("calling connect");

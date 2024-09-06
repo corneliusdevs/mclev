@@ -16,9 +16,10 @@ import ShowChatUi from "./ShowChatUi";
 import SaveChatUi from "./SaveChatUi";
 import ChatInput from "./ChatInput";
 import { Send } from "lucide-react";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 import updateChatStoreHelper from "@/helpers/updateChatStoreHelper";
 import toast from "react-hot-toast";
+import { getSocketInstance } from "@/lib/socket.io/connectToMsgServerAsync";
 
 export type ChatStatus = "failed" | "success";
 export type ChatType = {
@@ -52,10 +53,10 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   isUpdatingLocalChatStoreState,
   updateLocalChatStoreStatefxn,
 }) => {
+  const [localMessagesState, setLocalMessagesState] = useState<
+    ClientSideChatType[]
+  >([]);
 
-  const [localMessagesState, setLocalMessagesState] = useState<ClientSideChatType[]>([])
-
- 
   const messagesRef: MutableRefObject<ClientSideChatType[]> = useRef([
     ...messages,
   ]);
@@ -74,12 +75,12 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 
   const [isNewMessage, setIsNewMessage] = useState<{
     isNew: boolean;
-    allNewMessages: ClientSideChatType[],
+    allNewMessages: ClientSideChatType[];
     newMessage: ClientSideChatType;
   }>({
     isNew: false,
     newMessage: initialMessageState,
-    allNewMessages: []
+    allNewMessages: [],
   });
 
   const chatMessagesRef = useRef<HTMLDivElement>(null);
@@ -87,38 +88,38 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   const isConnectedToMsgServerRef = useRef<boolean>(false);
 
   const generateChatUi = () => {
-    let result:React.ReactNode[] = [];
+    let result: React.ReactNode[] = [];
 
     let toBeMapped = messages;
-    console.log("messages to be mapped generate chat ui", messages)
-     toBeMapped.map((chat, index) => {
+    console.log("messages to be mapped generate chat ui", messages);
+    toBeMapped.map((chat, index) => {
       if (chat.author === "client") {
         result.push(
           <SaveChatUi
-          key={uuidv4()}
-          status={chat.status && chat.status}
-          message={chat.message}
-          timeStamp={chat.timeStamp}
-          className={"w-[70%]"}
-          author={chat.author}
-          isAdmin={false}
-        />
-        )
-      }else{
+            key={uuidv4()}
+            status={chat.status && chat.status}
+            message={chat.message}
+            timeStamp={chat.timeStamp}
+            className={"w-[70%]"}
+            author={chat.author}
+            isAdmin={false}
+          />
+        );
+      } else {
         result.push(
           <ShowChatUi
-          key={uuidv4()}
-          message={chat.message}
-          timeStamp={chat.timeStamp}
-          className={"w-[70%]"}
-          isAdmin={false}
-          author={chat.author}
-        />
-        )
+            key={uuidv4()}
+            message={chat.message}
+            timeStamp={chat.timeStamp}
+            className={"w-[70%]"}
+            isAdmin={false}
+            author={chat.author}
+          />
+        );
       }
     });
 
-    console.log("result of generateChatUi ", result)
+    console.log("result of generateChatUi ", result);
     return result;
   };
 
@@ -127,11 +128,9 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
     setIsNewMessage({
       isNew: true,
       newMessage: messages[messages.length - 1],
-      allNewMessages: []
-    })
+      allNewMessages: [],
+    });
   }, [messages]);
-
-
 
   useEffect(() => {
     // scroll the messages div to the bottom automatically when user sends a message
@@ -141,25 +140,35 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
   }, [updatedChats]);
 
   useEffect(() => {
-    socket.on("admin-message", (receivedMessages: ClientSideChatType[] | null) => {
-      if (receivedMessages?.length) {
-        // console.log("i rannnnnnnnnnnnn");
-        setIsNewMessage({
-          isNew: true,
-          allNewMessages: receivedMessages,
-          newMessage: receivedMessages[receivedMessages.length - 1],
-        });
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+      socket.on(
+        "admin-message",
+        (receivedMessages: ClientSideChatType[] | null) => {
+          if (receivedMessages?.length) {
+            // console.log("i rannnnnnnnnnnnn");
+            setIsNewMessage({
+              isNew: true,
+              allNewMessages: receivedMessages,
+              newMessage: receivedMessages[receivedMessages.length - 1],
+            });
 
-        let allReceivedMssgsId:string[] = receivedMessages.map((message)=>{
-           return message.id
-        })
-        // notify the server of recieved messages 
-        socket.emit("message-received", {
-          messageIds: allReceivedMssgsId,
-          userId: userId
-        });
-      }
-    });
+            let allReceivedMssgsId: string[] = receivedMessages.map(
+              (message) => {
+                return message.id;
+              }
+            );
+            // notify the server of recieved messages
+            socket.emit("message-received", {
+              messageIds: allReceivedMssgsId,
+              userId: userId,
+            });
+          }
+        }
+      );
+    };
+
+    setUpSocketServerConnection();
   }, []);
 
   useEffect(() => {
@@ -186,7 +195,7 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
       messagesRef.current = [...newChatState];
 
       // update the local chat state
-      setLocalMessagesState(newChatState)
+      setLocalMessagesState(newChatState);
     }
     setIsNewMessage({
       isNew: false,
@@ -197,77 +206,96 @@ const UserChatDialog: FC<UserChatDialogProps> = ({
 
   useEffect(() => {
     // register user socket Id
-    if (!isConnectedToMsgServerRef.current && typeof userId === "string" && userId !== "") {
+    if (
+      !isConnectedToMsgServerRef.current &&
+      typeof userId === "string" &&
+      userId !== ""
+    ) {
       console.log("registering... user ");
 
-      // get the session from localStorage if one exists
-      const sessionId = localStorage.getItem("sessionId")
-      console.log(sessionId, userId)
-      // add the userId and socketId to the socket and connect
-      socket.auth = {sessionId, userId}
-      socket.connect()
-
+      const setUpSocketServerConnection = async()=>{
+        const socket = await getSocketInstance();
+        // get the session from localStorage if one exists
+        const sessionId = localStorage.getItem("sessionId");
+        console.log(sessionId, userId);
+        // add the userId and socketId to the socket and connect
+      socket.auth = { sessionId, userId };
+      socket.connect();
 
       socket.emit("register-user", {
         userId: userId,
       });
-      isConnectedToMsgServerRef.current = true;
     }
 
+    setUpSocketServerConnection()
+      isConnectedToMsgServerRef.current = true;
+  }
   }, [isConnectedToMsgServerRef.current]);
 
   // CLEANUP ALL EFFECTS IN THIS COMPONENT
-  useEffect(()=>{
-    // attach the session id to the next reconnection attempts
-    socket.on("session", (sessionData)=>{
-        socket.auth = { sessionId: sessionData?.sessionId, userId }
-
-        //  store it in the localStorage 
+  useEffect(() => {
+    const setUpSocketServerConnection = async()=>{
+      const socket = await getSocketInstance();
+      // attach the session id to the next reconnection attempts
+      socket.on("session", (sessionData) => {
+        socket.auth = { sessionId: sessionData?.sessionId, userId };
+        
+        //  store it in the localStorage
         localStorage.setItem("sessionId", sessionData.sessionId);
         // save the Id of the user
         // @ts-ignore
         socket.userId = userId;
         // @ts-ignore
-        console.log("saved userId ", socket.userId)
-   })
+        console.log("saved userId ", socket.userId);
+      });
+    }
+      setUpSocketServerConnection()
+    // clean up the effects
+  }, []);
 
-   // clean up the effects
- 
-  }, [])
-
-  useEffect(()=>{
+  useEffect(() => {
     // attach the session id to the next reconnection attempts
-    socket.on("diconnect", ()=>{
+    const setUpSocketServerConnection = async()=>{
+      const socket = await getSocketInstance();
+      socket.on("diconnect", () => {
         toast("Disconnected");
-   })
-   // clean up the effects
-  }, [])
+      });
+    }
+
+    setUpSocketServerConnection()
+    // clean up the effects
+  }, []);
 
   // CLEANUP ALL EFFECTS IN THIS COMPONENT
-  useEffect(()=>{
-    socket.on("connect_error", ()=>{
-      console.log("Could not connect to chat server");
+  useEffect(() => {
+    const setUpSocketServerConnection = async()=>{
+      const socket = await getSocketInstance();
+      socket.on("connect_error", () => {
+        console.log("Could not connect to chat server");
 
       // set is connected to messages server to false
-      isConnectedToMsgServerRef.current = false
-   })
+      isConnectedToMsgServerRef.current = false;
+    });
 
-   socket.on("connect", ()=>{
-    if(socket.recovered){
-      // @ts-ignore
-      console.log("recovered messagesssssssssss")
-    }
-  })
+    socket.on("connect", () => {
+      if (socket.recovered) {
+        // @ts-ignore
+        console.log("recovered messagesssssssssss");
+      }
+    });
 
-  socket.on("connection-recovered", (last20Msgs:any)=>{
-    console.log("last 20 msgs are", last20Msgs)
-  })
+    socket.on("connection-recovered", (last20Msgs: any) => {
+      console.log("last 20 msgs are", last20Msgs);
+    });
 
-   // clean up the effects
-   return ()=>{
-     socket.off("connect_error")
-   }
-  }, [])
+    // clean up the effects
+    return () => {
+      socket.off("connect_error");
+    };
+  }
+
+    setUpSocketServerConnection()
+  }, []);
 
   return (
     <section className="bg-homegray w-full h-full">

@@ -51,8 +51,8 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
 
   return (
     <div className="flex justify-center w-[90%]">
-      <Card className="flex -px-2 py-0 flex-col items-center">
-        <CardHeader className="pb-2.5">
+      <Card className="flex -px-2 py-0 flex-col items-center w-full">
+        <CardHeader className="pb-2.5 w-full">
           <CardTitle className="">{props.title}</CardTitle>
           <CardDescription className="text-sm">
             {props.subtitle}
@@ -69,7 +69,7 @@ const TestimonialCard: FC<TestimonialCardProps> = (props) => {
             }
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="w-full">
           {
             props?.response && props&&
           <div className="scroll h-[57px] box-border border-l-[1px] border-black px-1.5 text-[13px] w-[95%] -mt-2 text-black/75">

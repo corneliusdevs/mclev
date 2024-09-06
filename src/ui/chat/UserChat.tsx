@@ -14,9 +14,11 @@ import {
 } from "react";
 import { generateUserChatState } from "@/helpers/generateUserChatState";
 import { createPortal } from "react-dom";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
-
-
+import {
+  getSocketInstance,
+  isSocketConnected,
+} from "@/lib/socket.io/connectToMsgServerAsync";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 
 // THIS COMPONENT IS RENDERED IN A PORTAL LOCATED IN THE APP LAYOUT FILE
 interface UserChatProps {
@@ -35,12 +37,12 @@ const UserChat = ({
   const [isChatUnavailable, setIsChatUnavailable] = useState<boolean>(false);
 
   const [userId, setUserId] = useState<string>("");
-  const [isConnected, setIsConnected ] = useState<boolean>(false)
+  const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const {
     data,
     isLoading: isFetchingChats,
-    error,
+    error: getAllUserChatsError,
   } = trpc.userChats.getAllUserChats.useQuery();
 
   const {
@@ -56,7 +58,7 @@ const UserChat = ({
 
   useEffect(() => {
     // MAKE SURE TO HANDLE ERROR STATE
-    if (error) {
+    if (getAllUserChatsError) {
       setIsloading(false);
     }
 
@@ -82,11 +84,11 @@ const UserChat = ({
           const generatedUserChats = generateUserChatState(data.chats);
           setAllChats(generatedUserChats);
           setIsloading(false);
-          setUserId((currentVal)=>{
-            if(currentVal === ""){
-              return data.chats.userId
-            }else{
-              return currentVal
+          setUserId((currentVal) => {
+            if (currentVal === "") {
+              return data.chats.userId;
+            } else {
+              return currentVal;
             }
           });
         }
@@ -98,39 +100,49 @@ const UserChat = ({
     console.log("user isddddddddddd", userId);
   }, [isFetchingChats, isGeneratingUserId]);
 
-  useEffect(()=>{
-    // attach the session id to the next reconnection attempts
-    socket.on("diconnect", ()=>{
-      setIsConnected(false)
-   })
-   // clean up the effects
-  }, [])
+  useEffect(() => {
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+    };
 
-  useEffect(()=>{
-    socket.on("connect_error", ()=>{
-      console.log("Could not connect to chat server");
-      setIsConnected(false)
+    setUpSocketServerConnection();
 
-      // set is connected to messages server to false
-   })
+    const checkSocketConnection = () => {
+      const isConnected = isSocketConnected();
+      setIsConnected(isConnected);
+    };
 
-   socket.on("connect", ()=>{
-    setIsConnected(true)
-    if(socket.recovered){
-console.log("recovered messagesssssssssss")
-    }
-  })
+    const interval = setInterval(checkSocketConnection, 7000);
 
-  socket.on("connection-recovered", (last20Msgs:any)=>{
-    setIsConnected(true);
-    console.log("last 20 msgs are", last20Msgs)
-  })
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
-   // clean up the effects
-   return ()=>{
-     socket.off("connect_error")
-   }
-  }, [])
+  useEffect(() => {
+    const setUpSocketServerConnection = async () => {
+      const socket = await getSocketInstance();
+      socket.on("connect_error", () => {
+        console.log("Could not connect to chat server");
+        // setIsConnected(false);
+
+        // set is connected to messages server to false
+      });
+
+      // socket.on("connect", () => {
+      //   setIsConnected(true);
+      //   if (socket.recovered) {
+      //     console.log("recovered messagesssssssssss");
+      //   }
+      // });
+
+      // socket.on("connection-recovered", (last20Msgs: any) => {
+      //   setIsConnected(true);
+      //   console.log("last 20 msgs are", last20Msgs);
+      // });
+    };
+    setUpSocketServerConnection();
+  }, []);
 
   const determineChatStore = (): ClientSideChatType[] => {
     if (updatedChats.length === 0) {
@@ -183,9 +195,7 @@ console.log("recovered messagesssssssssss")
               </div>
             </div>
           )}
-          {((!isFetchingChats && error) ||
-            (!isGeneratingUserId && genUserIdErr) ||
-            isChatUnavailable) && (
+          {getAllUserChatsError && !isLoading && (
             <div className="w-full h-[50vh] flex justify-center items-center">
               <div className="flex flex-col">
                 <div className="flex justify-center text-gray-500 transform rotateYOnHover">
@@ -200,7 +210,7 @@ console.log("recovered messagesssssssssss")
           {
             // allChats[0].userId
           }
-          {!error && !isLoading && userId !== "" && (
+          {!getAllUserChatsError && !isLoading && userId !== "" && (
             <UserChatDialog
               chats={determineChatStore()}
               userId={userId}
@@ -213,7 +223,8 @@ console.log("recovered messagesssssssssss")
               allMessagesRef={messagesRef}
             />
           )}
-          {error && !isLoading && userId === "" && (
+          {/* {((!getAllUserChatsError && isChatUnavailable && !isLoading) ||
+            userId === "") && (
             <div className="w-full h-[50vh] flex justify-center items-center">
               <div className="flex flex-col">
                 <div className="flex justify-center text-gray-500 transform rotateYOnHover">
@@ -224,10 +235,10 @@ console.log("recovered messagesssssssssss")
                 </p>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
-    </section>, 
+    </section>,
     // used the non-null assertion here
     document.getElementById("userchat-portal-root")!
   );

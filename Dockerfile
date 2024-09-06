@@ -20,7 +20,7 @@ COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/package-lock.json /app/package-lock.json
 
 # Install production dependencies
-RUN npm ci --only=production
+RUN npm install --only=production
 
 # Expose the port
 EXPOSE 3000

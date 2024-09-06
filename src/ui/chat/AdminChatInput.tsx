@@ -3,9 +3,10 @@ import { Send } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { trpc } from "@/trpc-client/client";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 import { AdminChats, AllAdminChats } from "@/components/admin-dashboard/types";
 import updateAllAdminChatsStoreHelper from "@/helpers/admin/updateAdminChatStore";
+import { getSocketInstance } from "@/lib/socket.io/connectToMsgServerAsync";
 
 interface AdminChatInputProps {
   updateAllChatsStore: Dispatch<SetStateAction<AllAdminChats[]>>;
@@ -59,13 +60,18 @@ const AdminChatInput: FC<AdminChatInputProps> = ({
     });
 
     if (emit) {
-      console.log("emmitting... adminChat input");
-      socket.emit("send-to-client", {
-        message: message,
-        userId: userId,
-      });
+      const setUpSocketServerConnection = async()=>{
+        const socket = await getSocketInstance();
+        console.log("emmitting... adminChat input");
+        socket.emit("send-to-client", {
+          message: message,
+          userId: userId,
+        });
+      }
+      setUpSocketServerConnection()
     }
 
+      
     setEmit(false);
   }, [emit]);
 

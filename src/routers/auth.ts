@@ -10,7 +10,7 @@ import { publicProcedure, router } from "@/trpc-server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { TRPCError } from "@trpc/server";
 import * as z from "zod";
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // note, all these return values are returned as part of the data object so, you will most likely handle error in the onSuccess handler part of the mutate function of trpc
 

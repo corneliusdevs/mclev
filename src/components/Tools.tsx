@@ -1,5 +1,6 @@
 "use client";
-import { socket } from "@/lib/socket.io/connectToMsgServer";
+import { getSocketInstance } from "@/lib/socket.io/connectToMsgServerAsync";
+// import { socket } from "@/lib/socket.io/connectToMsgServer";
 import ChatTool from "@/ui/chat/ChatTool";
 import UserChat from "@/ui/chat/UserChat";
 import { ClientSideChatType } from "@/ui/chat/UserChatDialog";
@@ -22,17 +23,22 @@ const Tools: FC = (): React.ReactNode => {
  })
 
   useEffect(() => {
-    socket.on("send-message", (payload: (ClientSideChatType | null)[]) => {
-      if(payload.length){ 
-        let newMessage = payload[payload?.length - 1]?.message 
-      if (newMessage  && !isChatDialogOpen) {
-         setIsNewMessage({
-          isNew: true,
-          message: newMessage
-         })
-      }
-      }
-    });
+    const setUpSocketServerConnection = async()=>{
+      const socket = await getSocketInstance();
+      socket.on("send-message", (payload: (ClientSideChatType | null)[]) => {
+        if(payload.length){ 
+          let newMessage = payload[payload?.length - 1]?.message 
+          if (newMessage  && !isChatDialogOpen) {
+            setIsNewMessage({
+              isNew: true,
+              message: newMessage
+            })
+          }
+        }
+      });
+    }
+
+    setUpSocketServerConnection()
   }, []);
 
   useEffect(() => {
