@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { companyPhoneNumber } from "@/helpers/siteInfo";
+import { whatsappPhoneNumber } from "@/helpers/siteInfo";
 import { Phone, X } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 
 const PhoneTool = () => {
@@ -27,10 +26,10 @@ const PhoneTool = () => {
           <div className="mt-1 w-full">
             <Button variant={"ghost"} className="underline py-0 px-2 text-[16px] hover:bg-secondarycol hover:text-white" 
              onClick={()=>{
-                window.location.href = `tel:${companyPhoneNumber}`
+                window.location.href = `tel:${whatsappPhoneNumber}`
              }}
             >
-              {companyPhoneNumber}
+              {whatsappPhoneNumber}
             </Button>
           </div>
         </div>

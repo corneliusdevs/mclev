@@ -1,4 +1,5 @@
 export const companyPhoneNumber = "020 3092 4468"
+export const whatsappPhoneNumber = "079 4358 5365"
 export const companyEmail = "mclevcompany@gmail.com"
 export const companyAddress = "38 Marble House, Felspar close. SE18 1LN"
 export const facebookPageUrl = "https://www.facebook.com/mclev.cleanings"

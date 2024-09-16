@@ -140,7 +140,7 @@ const Footer = () => {
               />
 
               {/* TWITTER X ICON */}
-              <TooltipComponent
+              {/* <TooltipComponent
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol transform-[1.2]">
                     <FontAwesomeIcon
@@ -150,7 +150,7 @@ const Footer = () => {
                   </div>
                 }
                 info="twitter"
-              />
+              /> */}
               {/* <TooltipComponent
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
@@ -161,7 +161,7 @@ const Footer = () => {
               /> */}
 
               {/* PINTEREST ICON */}
-              <TooltipComponent
+              {/* <TooltipComponent
                 info="pinterest"
                 childComponent={
                   <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl w-8 h-8 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
@@ -171,7 +171,7 @@ const Footer = () => {
                     />
                   </div>
                 }
-              />
+              /> */}
 
               {/* EMAIL ICON */}
               <TooltipComponent
@@ -194,7 +194,7 @@ const Footer = () => {
       {/* copyright */}
       <div className="bg-white text-black/75 text-center font-smallCustom py-4 flex flex-col justify-center items-center break-words px-2">
         <div>
-          &#169; copyright {new Date().getFullYear()} | mclevcleaning.co.uk |
+          &#169; copyright {new Date().getFullYear()} | <span className="italic font-bold">your domain name</span> |
           All Rights Reserved |{" "}
           <Link href={"/termsandconditions"} className="underline mx-2">
             Terms & Conditions{" "}

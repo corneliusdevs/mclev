@@ -12,135 +12,260 @@ const TermsAndContitionsPage = () => {
             services we provide.
           </p>
           <p>
-            By using our website, you agree to be bound by these Terms and
-            Conditions.
+            By using our website or by using any of our services, you agree to
+            be bound by these Terms and Conditions.
           </p>
         </div>
 
-        {/* SERVICES */}
+        {/* SERVICES SCOPE*/}
         <div className="mb-3">
-          <h2 className="font-bold">2. Services</h2>
+          <h2 className="font-bold">2. Services Scope</h2>
           <ul className="list-disc pl-6">
-            <li>We provide cleaning services to our customers.</li>
             <li>
-              The specific services and pricing are outlined on our website and
-              may be subject to change.
+              McLev Cleaning Company will provide general cleaning services,
+              which include dusting, vacuuming, mopping, surface cleaning, and
+              the tidying of designated areas as per customer instructions.
             </li>
             <li>
+              Our standard services do not include deep or specialty cleaning
+              services such as carpet shampooing, upholstery cleaning, or
+              exterior window cleaning. These services may be available upon
+              request and will incur additional charges if offered.
+            </li>
+            <li>
+              Any areas that require special care or specific instructions must
+              be highlighted to our team prior to the commencement of the
+              service.
+            </li>
+            {/* <li>
               We reserve the right to refuse service to any customer for any
               reason.
+            </li> */}
+          </ul>
+        </div>
+
+        {/* CUSTOMER SUPPLIED CLEANING PRODUCTS AND EQUIPMENT */}
+        <div className="mb-3">
+          <h2 className="font-bold">
+            3. Customer-Supplied Cleaning Products and Equipment
+          </h2>
+          <ul className="pl-6 list-disc">
+            <li>
+              Customers are responsible for providing all necessary cleaning
+              supplies, including but not limited to cleaning agents, cloths,
+              and vacuum cleaners.
+            </li>
+            <li>
+              If any specialized or non-standard cleaning products are required,
+              they must be supplied by the customer. Should McLev Cleaning
+              Company be asked to supply these materials, additional costs may
+              be applied, and prior notice is required.
+            </li>
+            <li>
+              It is the responsibility of the customer to ensure that all
+              provided products are safe for use on the specific surfaces to be
+              cleaned.
+            </li>
+          </ul>
+        </div>
+
+        {/* PRICING AND PAYMENT */}
+        <div className="mb-3">
+          <h2 className="font-bold">4. Pricing and Payment Terms</h2>
+          <ul className="list-disc pl-6">
+            <li>
+              Our cleaning service is charged per hour per cleaner. The total
+              cost of the service will be based on the number of hours worked by
+              the cleaning team.
+            </li>
+            <li>
+              Payment is due on the same day that services are rendered.
+              Accepted forms of payment include cash or bank transfer. Bank
+              transfer details will be provided upon booking confirmation.
+            </li>
+            <li>
+              In the event that payment is not received on the service day,
+              McLev Cleaning Company reserves the right to suspend future
+              services until payment is made in full.
             </li>
           </ul>
         </div>
 
         {/* SCHEDULING AND CANCELLATION */}
         <div className="mb-3">
-          <h2 className="font-bold">3. Scheduling and Cancellation</h2>
+          <h2 className="font-bold">5. Scheduling and Cancellations</h2>
           <ul className="list-disc pl-6">
             <li>
-              You can schedule cleaning services through our website or by
-              contacting our customer service.
+              All appointments must be confirmed at least 24 hours in advance.
             </li>
             <li>
-              We require at least 24 hours&#39; notice for any cancellations or
-              rescheduling requests.
+              Cancellations or rescheduling of services with less than 24 hours'
+              notice will incur a £15 cancellation fee. This fee compensates our
+              team for time reserved and any associated scheduling impacts.
             </li>
             <li>
-              Failure to provide adequate notice may result in a cancellation
-              fee.
+              In the event of a no-show where access to the property is not
+              granted at the scheduled time, the cancellation fee will also
+              apply.
             </li>
           </ul>
         </div>
 
-        {/* PAYMENT */}
+        {/* ACCESS TO PREMISES */}
         <div className="mb-3">
-          <h2 className="font-bold">4. Payment</h2>
-          <ul className="pl-6 list-disc">
-            <li>
-              You agree to pay the fees for the services you request, as
-              outlined on our website or in your service agreement.
-            </li>
-            <li>
-              We accept various payment methods, including credit/debit cards
-              and online payment platforms.
-            </li>
-            <li>
-              Payments are due at the time of service or upon receipt of an
-              invoice.
-            </li>
-          </ul>
-        </div>
-
-        {/* LIABILITY */}
-        <div className="mb-3">
-          <h2 className="font-bold">5. Liability</h2>
+          <h2 className="font-bold">6. Access to Premises</h2>
           <ul className="list-disc pl-6">
             <li>
-              We will make every effort to provide high-quality cleaning
-              services, but we cannot guarantee the results.
+              The customer is responsible for providing access to the premises
+              during the scheduled cleaning times. This may include providing
+              necessary security codes, keys, or the presence of someone to
+              allow entry.
             </li>
             <li>
-              We are not liable for any damage or loss caused by our cleaning
-              services, unless it is due to our negligence or willful
-              misconduct.
+              McLev Cleaning Company will treat all security codes and entry
+              details with strict confidentiality and use them solely for the
+              purpose of accessing the property during the agreed times.
             </li>
             <li>
-              You are responsible for securing or removing any valuable items or
-              sensitive information before our cleaning services are provided.
+              In cases where access is not provided within 15 minutes of the
+              scheduled start time, the booking may be considered cancelled, and
+              the £15 cancellation fee will apply.
             </li>
           </ul>
         </div>
 
-        {/* INTELLECTUAL PROPERTY */}
+        {/* CUSTOMER RESPONSIBILITIES */}
         <div className="mb-3">
-          <h2 className="font-bold">6. Intellectual Property</h2>
+          <h2 className="font-bold">7. Customer Responsibilities</h2>
           <ul className="list-disc pl-6">
             <li>
-              Our website and all its content, including text, graphics, logos,
-              and images, are the property of our company and are protected by
-              copyright and other intellectual property laws.
+              The customer agrees to provide clear instructions for any specific
+              areas or items that require extra attention or areas to avoid
+              during the cleaning service.
             </li>
             <li>
-              You may not reproduce, modify, or distribute any content from our
-              website without our prior written permission.
+              Customers must ensure that personal items or valuables are safely
+              stored prior to the arrival of the cleaning team.
+            </li>
+            <li>
+              It is the customer’s responsibility to provide accurate and
+              up-to-date contact information, including any changes in address
+              or phone numbers.
             </li>
           </ul>
         </div>
 
-        {/* TERMINATION */}
+        {/* DAMAGES AND LIABILITY */}
         <div className="mb-3">
-          <h2 className="font-bold">7. Termination</h2>
-          <ul className="list-disc pl-6">
-            <li>
-              We reserve the right to terminate or suspend your access to our
-              website or services at any time, for any reason, without notice.
-            </li>
-            <li>
-              You may also terminate your use of our website or services at any
-              time, but you will remain responsible for any outstanding payments
-              or obligations.
-            </li>
-          </ul>
+          <h2 className="font-bold">8. Damages and Liability</h2>
+          <li>
+            McLev Cleaning Company will take all reasonable precautions and care
+            during the cleaning process. However, we will not be held liable for
+            any pre-existing damage to the property or items within the
+            property.
+          </li>
+          <li>
+            Should any damage occur due to our services, customers must notify
+            us within 72 hours of the cleaning service. We will investigate and,
+            if found responsible, discuss an appropriate resolution.
+          </li>
+          <li>
+            We are not liable for damages caused by the improper use of cleaning
+            supplies or equipment provided by the customer.
+          </li>
         </div>
 
-        {/* CHANGES TO TERMS AND CONDITIONS */}
+        {/* FEEDBACK AND COMPLIANTS */}
         <div className="mb-3">
-          <h2 className="font-bold">8. Changes to Terms and Conditions</h2>
-          <p>
-            We may update these Terms and Conditions from time to time. Any
-            changes will be posted on this page, and the revised version will be
-            effective immediately upon posting.
-          </p>
+          <h2 className="font-bold">9. Feedback and Complaints</h2>
+          <li>
+            We value customer feedback and encourage clients to share any
+            concerns or compliments through our designated feedback channels,
+            either via email or phone.
+          </li>
+          <li>
+            McLev Cleaning Company is committed to resolving any complaints in a
+            prompt and professional manner. If a customer is dissatisfied with
+            any aspect of our service, we request that feedback is provided
+            within 48 hours of the service so that corrective action can be
+            taken.
+          </li>
         </div>
 
-        {/* GOVERNING LAW AND JURISDICTION */}
+        {/* TERMINATION OF SERVICES */}
         <div className="mb-3">
-          <h2 className="font-bold">9. Governing Law and Jurisdiction</h2>
-          <p>
-            These Terms and Conditions are governed by the laws of &#91;insert
-            relevant jurisdiction&#93;, and any disputes arising from them will
-            be resolved in the courts of &#91;insert relevant jurisdiction&#93;.
-          </p>
+          <h2 className="font-bold">10. Termination of Services</h2>
+          <li>
+            Either party may terminate services by providing a 14-day notice
+            period. During this notice period, any scheduled cleaning services
+            will continue as agreed unless otherwise communicated by the
+            customer.
+          </li>
+          <li>
+            In the event of termination, any outstanding payments for completed
+            services must be settled immediately.
+          </li>
+          <li>
+            McLev Cleaning Company reserves the right to terminate services
+            without notice in cases of non-payment, repeated cancellations, or
+            other breaches of these terms.
+          </li>
+        </div>
+
+        {/* CONFIDENTIALITY AND PRIVACY */}
+        <div className="mb-3">
+          <h2 className="font-bold">11. Confidentiality and Privacy</h2>
+          <li>
+            McLev Cleaning Company is committed to maintaining the privacy of
+            our customers. Personal information, such as names, addresses, and
+            contact details, will be treated as confidential and will not be
+            shared with any third parties without the customer’s prior consent.
+          </li>
+          <li>
+            We adhere to all applicable privacy and data protection regulations
+            to ensure the safeguarding of customer information.
+          </li>
+        </div>
+
+        {/* FORCE MAJEURE */}
+        <div className="mb-3">
+          <h2 className="font-bold">12. Force Majeure</h2>
+          <li>
+            Neither party will be held responsible for any delays or
+            non-performance caused by events beyond their reasonable control,
+            including but not limited to acts of God, natural disasters,
+            pandemics, strikes, or government restrictions.
+          </li>
+          <li>
+            In the event that a force majeure event prevents the cleaning
+            service from being carried out, both parties agree to reschedule the
+            service at the earliest mutually convenient date.
+          </li>
+        </div>
+
+        {/* GOVERNING LAW */}
+        <div className="mb-3">
+          <h2 className="font-bold">13. Governing Law</h2>
+          <li>
+            These terms and conditions shall be governed and interpreted in
+            accordance with the laws of the United Kingdom. Any disputes arising
+            from these terms shall be subject to the jurisdiction of the courts
+            in the United Kingdom.
+          </li>
+        </div>
+
+        {/* CONTACT DETAILS */}
+        <div className="mb-3">
+          <h2 className="font-bold">
+            McLev Cleaning Company For further inquiries or to schedule
+            services, please contact us at:
+          </h2>
+          <li>
+            <b>Phone:</b> 02045240108
+          </li>
+          <li>
+            <b>Email:</b> mclevcompany@gmail.com
+          </li>
         </div>
       </div>
     </main>
