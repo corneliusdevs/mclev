@@ -12,7 +12,7 @@ const TermsAndContitionsPage = () => {
             services we provide.
           </p>
           <p>
-            By using our website or by using any of our services, you agree to
+            By using our website or by using any of our services&#44; you agree to
             be bound by these Terms and Conditions.
           </p>
         </div>
@@ -22,13 +22,13 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">2. Services Scope</h2>
           <ul className="list-disc pl-6">
             <li>
-              McLev Cleaning Company will provide general cleaning services,
-              which include dusting, vacuuming, mopping, surface cleaning, and
+              McLev Cleaning Company will provide general cleaning services&#44;
+              which include dusting&#44; vacuuming&#44; mopping&#44; surface cleaning&#44; and
               the tidying of designated areas as per customer instructions.
             </li>
             <li>
               Our standard services do not include deep or specialty cleaning
-              services such as carpet shampooing, upholstery cleaning, or
+              services such as carpet shampooing&#44; upholstery cleaning&#44; or
               exterior window cleaning. These services may be available upon
               request and will incur additional charges if offered.
             </li>
@@ -52,14 +52,14 @@ const TermsAndContitionsPage = () => {
           <ul className="pl-6 list-disc">
             <li>
               Customers are responsible for providing all necessary cleaning
-              supplies, including but not limited to cleaning agents, cloths,
+              supplies&#44; including but not limited to cleaning agents&#44; cloths&#44;
               and vacuum cleaners.
             </li>
             <li>
-              If any specialized or non-standard cleaning products are required,
+              If any specialized or non-standard cleaning products are required&#44;
               they must be supplied by the customer. Should McLev Cleaning
-              Company be asked to supply these materials, additional costs may
-              be applied, and prior notice is required.
+              Company be asked to supply these materials&#44; additional costs may
+              be applied&#44; and prior notice is required.
             </li>
             <li>
               It is the responsibility of the customer to ensure that all
@@ -84,7 +84,7 @@ const TermsAndContitionsPage = () => {
               transfer details will be provided upon booking confirmation.
             </li>
             <li>
-              In the event that payment is not received on the service day,
+              In the event that payment is not received on the service day&#44;
               McLev Cleaning Company reserves the right to suspend future
               services until payment is made in full.
             </li>
@@ -99,13 +99,13 @@ const TermsAndContitionsPage = () => {
               All appointments must be confirmed at least 24 hours in advance.
             </li>
             <li>
-              Cancellations or rescheduling of services with less than 24 hours'
+              Cancellations or rescheduling of services with less than 24 hours&#39;
               notice will incur a £15 cancellation fee. This fee compensates our
               team for time reserved and any associated scheduling impacts.
             </li>
             <li>
               In the event of a no-show where access to the property is not
-              granted at the scheduled time, the cancellation fee will also
+              granted at the scheduled time&#44; the cancellation fee will also
               apply.
             </li>
           </ul>
@@ -118,7 +118,7 @@ const TermsAndContitionsPage = () => {
             <li>
               The customer is responsible for providing access to the premises
               during the scheduled cleaning times. This may include providing
-              necessary security codes, keys, or the presence of someone to
+              necessary security codes&#44; keys&#44; or the presence of someone to
               allow entry.
             </li>
             <li>
@@ -128,7 +128,7 @@ const TermsAndContitionsPage = () => {
             </li>
             <li>
               In cases where access is not provided within 15 minutes of the
-              scheduled start time, the booking may be considered cancelled, and
+              scheduled start time&#44; the booking may be considered cancelled&#44; and
               the £15 cancellation fee will apply.
             </li>
           </ul>
@@ -149,7 +149,7 @@ const TermsAndContitionsPage = () => {
             </li>
             <li>
               It is the customer’s responsibility to provide accurate and
-              up-to-date contact information, including any changes in address
+              up-to-date contact information&#44; including any changes in address
               or phone numbers.
             </li>
           </ul>
@@ -160,14 +160,14 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">8. Damages and Liability</h2>
           <li>
             McLev Cleaning Company will take all reasonable precautions and care
-            during the cleaning process. However, we will not be held liable for
+            during the cleaning process. However&#44; we will not be held liable for
             any pre-existing damage to the property or items within the
             property.
           </li>
           <li>
-            Should any damage occur due to our services, customers must notify
-            us within 72 hours of the cleaning service. We will investigate and,
-            if found responsible, discuss an appropriate resolution.
+            Should any damage occur due to our services&#44; customers must notify
+            us within 72 hours of the cleaning service. We will investigate and&#44;
+            if found responsible&#44; discuss an appropriate resolution.
           </li>
           <li>
             We are not liable for damages caused by the improper use of cleaning
@@ -180,13 +180,13 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">9. Feedback and Complaints</h2>
           <li>
             We value customer feedback and encourage clients to share any
-            concerns or compliments through our designated feedback channels,
+            concerns or compliments through our designated feedback channels&#44;
             either via email or phone.
           </li>
           <li>
             McLev Cleaning Company is committed to resolving any complaints in a
             prompt and professional manner. If a customer is dissatisfied with
-            any aspect of our service, we request that feedback is provided
+            any aspect of our service&#44; we request that feedback is provided
             within 48 hours of the service so that corrective action can be
             taken.
           </li>
@@ -197,17 +197,17 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">10. Termination of Services</h2>
           <li>
             Either party may terminate services by providing a 14-day notice
-            period. During this notice period, any scheduled cleaning services
+            period. During this notice period&#44; any scheduled cleaning services
             will continue as agreed unless otherwise communicated by the
             customer.
           </li>
           <li>
-            In the event of termination, any outstanding payments for completed
+            In the event of termination&#44; any outstanding payments for completed
             services must be settled immediately.
           </li>
           <li>
             McLev Cleaning Company reserves the right to terminate services
-            without notice in cases of non-payment, repeated cancellations, or
+            without notice in cases of non-payment&#44; repeated cancellations&#44; or
             other breaches of these terms.
           </li>
         </div>
@@ -217,8 +217,8 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">11. Confidentiality and Privacy</h2>
           <li>
             McLev Cleaning Company is committed to maintaining the privacy of
-            our customers. Personal information, such as names, addresses, and
-            contact details, will be treated as confidential and will not be
+            our customers. Personal information&#44; such as names&#44; addresses&#44; and
+            contact details&#44; will be treated as confidential and will not be
             shared with any third parties without the customer’s prior consent.
           </li>
           <li>
@@ -232,13 +232,13 @@ const TermsAndContitionsPage = () => {
           <h2 className="font-bold">12. Force Majeure</h2>
           <li>
             Neither party will be held responsible for any delays or
-            non-performance caused by events beyond their reasonable control,
-            including but not limited to acts of God, natural disasters,
-            pandemics, strikes, or government restrictions.
+            non-performance caused by events beyond their reasonable control&#44;
+            including but not limited to acts of God&#44; natural disasters&#44;
+            pandemics&#44; strikes&#44; or government restrictions.
           </li>
           <li>
             In the event that a force majeure event prevents the cleaning
-            service from being carried out, both parties agree to reschedule the
+            service from being carried out&#44; both parties agree to reschedule the
             service at the earliest mutually convenient date.
           </li>
         </div>
@@ -258,7 +258,7 @@ const TermsAndContitionsPage = () => {
         <div className="mb-3">
           <h2 className="font-bold">
             McLev Cleaning Company For further inquiries or to schedule
-            services, please contact us at:
+            services&#44; please contact us at:
           </h2>
           <li>
             <b>Phone:</b> 02045240108
