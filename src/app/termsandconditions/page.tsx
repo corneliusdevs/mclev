@@ -111,6 +111,7 @@ const TermsAndContitionsPage = () => {
           </ul>
         </div>
 
+
         {/* ACCESS TO PREMISES */}
         <div className="mb-3">
           <h2 className="font-bold">6. Access to Premises</h2>

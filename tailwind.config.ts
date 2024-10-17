@@ -41,6 +41,7 @@ const config = {
         "xsm":"300px",
         "smd": "400px",
         "lgmd": "450px",
+        "mdmid": "500px",
         "xlmd": "600px",
       },
       colors: {

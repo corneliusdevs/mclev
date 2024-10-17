@@ -9,12 +9,17 @@ import {
   Youtube,
 } from "lucide-react";
 import React from "react";
-import { faPinterestP, faXTwitter } from "@fortawesome/free-brands-svg-icons";
+import {
+  faPinterestP,
+  faXTwitter,
+  faTiktok,
+} from "@fortawesome/free-brands-svg-icons";
 import {
   companyPhoneNumber,
   companyEmail,
   companyAddress,
   facebookPageUrl,
+  tiktokPageUrl,
 } from "@/helpers/siteInfo";
 import TooltipComponent from "@/components/Tooltip";
 import Link from "next/link";
@@ -139,39 +144,21 @@ const Footer = () => {
                 info="facebook"
               />
 
-              {/* TWITTER X ICON */}
-              {/* <TooltipComponent
+              {/* Tiktok */}
+              <TooltipComponent
                 childComponent={
-                  <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol transform-[1.2]">
-                    <FontAwesomeIcon
-                      icon={faXTwitter}
-                      className="w-[18px] h-[18px]"
-                    />
-                  </div>
+                  <Link href={tiktokPageUrl}>
+                    <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8 hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol transform-[1.2]">
+                      <FontAwesomeIcon
+                        icon={faTiktok}
+                        className="w-[18px] h-[18px]"
+                      />
+                    </div>
+                  </Link>
                 }
-                info="twitter"
-              /> */}
-              {/* <TooltipComponent
-                childComponent={
-                  <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl flex justify-center items-center w-8 h-8  hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
-                    <Youtube className="" size={20} />
-                  </div>
-                }
-                info="youtube"
-              /> */}
+                info="tiktok"
+              />
 
-              {/* PINTEREST ICON */}
-              {/* <TooltipComponent
-                info="pinterest"
-                childComponent={
-                  <div className="bg-white mr-2 p-[2px] rounded-full shadow-xl w-8 h-8 flex justify-center items-center hover:cursor-pointer hover:text-textwhitecol hover:bg-secondarycol">
-                    <FontAwesomeIcon
-                      icon={faPinterestP}
-                      className="w-[18px] h-[18px]"
-                    />
-                  </div>
-                }
-              /> */}
 
               {/* EMAIL ICON */}
               <TooltipComponent
@@ -194,8 +181,9 @@ const Footer = () => {
       {/* copyright */}
       <div className="bg-white text-black/75 text-center font-smallCustom py-4 flex flex-col justify-center items-center break-words px-2">
         <div>
-          &#169; copyright {new Date().getFullYear()} | <span className="italic font-bold">your domain name</span> |
-          All Rights Reserved |{" "}
+          &#169; copyright {new Date().getFullYear()} |{" "}
+          <span className="italic font-bold">your domain name</span> | All
+          Rights Reserved |{" "}
           <Link href={"/termsandconditions"} className="underline mx-2">
             Terms & Conditions{" "}
           </Link>{" "}

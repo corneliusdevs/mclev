@@ -220,29 +220,29 @@ const BookACleaner = () => {
   return (
     <div>
       {/* Current section display */}
-      <div className="p-8 pb-2 text-greenaccentcol">
+      <div className="p-8 pb-2 text-greenaccentcol flex flex-col mdmid:flex-row">
         <div
-          className={`text-[17px] ${
-            currentSection === "service type" ? "opacity-100" : "opacity-30"
+          className={`text-[15px] mdmid:mr-4 ${
+            currentSection === "service type" ? "opacity-100 underline underline-offset-8" : "opacity-30"
           }`}
         >
-          <span className="text-2xl">&#49;</span>Service type
+          Service type
         </div>
         <div
-          className={`text-[17px] ${
-            currentSection === "details" ? "opacity-100" : "opacity-30"
+          className={`text-[15px] mdmid:mr-4 ${
+            currentSection === "details" ? "opacity-100 underline underline-offset-8" : "opacity-30"
           }`}
         >
-          <span className="text-2xl">&#50;</span> Details
+           Details
         </div>
         <div
-          className={`text-[17px] ${
+          className={`text-[15px] mdmid:mr-4 ${
             currentSection === "personal information"
-              ? "opacity-100"
+              ? "opacity-100 underline underline-offset-8"
               : "opacity-30"
-          } pb-1 border-b-[1px] border-greenaccentcol/50`}
+          } pb-1`}
         >
-          <span className="text-2xl">&#51;</span> Personal information
+          Personal information
         </div>
       </div>
 

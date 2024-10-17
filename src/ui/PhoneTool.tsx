@@ -7,13 +7,12 @@ const PhoneTool = () => {
   const [openContactDialog, setOpenContactDialog] = useState<boolean>(false);
   return (
     <div
-      className={`flex justify-center items-center ${
-        openContactDialog
-          ? "w-[150px] p-3 rounded-sm"
-          : "rounded-full hover:scale-[1.15]"
-      } w-14 h-14 bg-secondarycol text-white shadow-md hover:cursor-pointer transition-all z-[100]`}
+      className={`flex justify-center items-center rounded-full hover:scale-[1.15] w-14 h-14 bg-secondarycol text-white shadow-md hover:cursor-pointer transition-all z-[100]`}
+      onClick={() => {
+        window.location.href = `tel:${whatsappPhoneNumber}`;
+      }}
     >
-      {openContactDialog ? (
+      {/* {openContactDialog ? (
         <div className="relative">
           <div
             className="absolute right-[-2px] top-[-3px] text-white flex justify-end"
@@ -42,7 +41,13 @@ const PhoneTool = () => {
         >
           <Phone className="transform scale-[1.2]" />
         </div>
-      )}
+      )} */}
+
+      <div
+        className="w-full flex justify-center items-center"
+      >
+        <Phone className="transform scale-[1.2]" />
+      </div>
     </div>
   );
 };
